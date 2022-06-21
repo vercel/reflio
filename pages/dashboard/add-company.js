@@ -22,7 +22,16 @@ export default function AddCompany() {
     if(loading === true){
       return false;
     }
-
+    
+    if(checkValidUrl(websiteUrlInput) === false){
+      setUrlValid(false);
+      return false;
+    }
+    
+    if(checkValidUrl(websiteUrlInput) === true){
+      setUrlValid(true);
+    }
+    
     const formData = new FormData(e.target);
     const data = {};
  
@@ -35,8 +44,7 @@ export default function AddCompany() {
     await newCompany(userDetails, data).then((result) => {
       console.log(result);
       if(result[0]?.company_id){
-        window.location.href = "/dashboard/"+result[0]?.company_id+"";
-
+        router.push(`/dashboard/${result[0]?.company_id}`)
       } else {
         if(result === "duplicate"){
           toast.error('This handle already exists. Please try another.');
@@ -75,7 +83,7 @@ export default function AddCompany() {
                 <div>
                   <div>
                     <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                      <div className="sm:col-span-12">
+                      <div className="col-span-12">
                         <label htmlFor="company_name" className="text-lg leading-6 font-medium text-gray-900 mb-2">
                           Company Name
                         </label>
@@ -94,7 +102,7 @@ export default function AddCompany() {
                         </div>
                       </div>
 
-                      <div className="sm:col-span-12">
+                      <div className="col-span-12">
                         <label for="company_url" className="text-lg leading-6 font-medium text-gray-900 mb-2">Company Website</label>
                         <div>
                           <div className="mt-1 flex items-center h-14 mb-3">
@@ -111,14 +119,14 @@ export default function AddCompany() {
                               id="company_url"
                               autoComplete="company_url"
                               className="flex-1 block w-full min-w-0 h-full focus:outline-none sm:text-md rounded-lg rounded-tl-none rounded-bl-none border-2 border-l-0 border-gray-300"
-                              onChange={e=>{setUrlValid(checkValidUrl(e.target.value)), urlValid ? setWebsiteUrlInput(e.target.value) : setWebsiteUrlInput(null)}}
+                              onChange={e=>{setWebsiteUrlInput(e.target.value), console.log(checkValidUrl(e.target.value))}}
                             />
                           </div>
                           <p className="text-gray-500">Please only include the base domain of your website (e.g. google.com). You do not need to include https:// or www. We will automatically do this on our end.</p>
                         </div>
                       </div>
 
-                      <div className="sm:col-span-12">
+                      <div className="col-span-12">
                         <label for="company_handle" className="text-lg leading-6 font-medium text-gray-900 mb-2">Company Handle</label>
                         <div>
                           <div className="mt-1 flex items-center h-14 mb-3">
@@ -145,9 +153,9 @@ export default function AddCompany() {
 
                       {
                         !urlValid && urlValid !== null &&
-                        <div className="border-t-4 pt-6 bg-white flex items-center justify-start sm:col-span-12">
+                        <div className="border-t-4 pt-6 bg-white text-center col-span-12">
                           <div className="bg-red-600 text-center p-4 rounded-lg">
-                            <p className="text-white text-sm font-medium">The URL you entered is not valid. Please check it and try again.</p>
+                            <p className="text-white text-sm font-semibold">The URL you entered is not valid. Please check it and try again.</p>
                           </div>
                         </div>
                       }

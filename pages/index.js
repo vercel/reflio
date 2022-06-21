@@ -42,72 +42,76 @@ export default function Index() {
 
   return(
     <>
-      <div id="intro" className="relative py-14 md:py-24 bg-white md:bg-gradient-to-b md:from-white md:via-gray-50 md:to-primary">
-        <div className="wrapper text-center">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-10">
-              <div className="mb-7">
-                <h1 className="inline text-4xl lg:text-5xl font-semibold md:text-transparent md:bg-clip-text md:bg-gradient-to-r from-secondary to-secondary-2 tracking-tight">
-                  Create a referral program for your SaaS <span className="inline md:text-transparent md:bg-clip-text md:bg-gradient-to-r md:from-secondary md:to-primary">in minutes, from $0/month.</span>
-                </h1>
-              </div>
-              <p className="text-xl sm:text-2xl font-light">
-                Reflio puts <span className="font-medium underline">digital privacy first</span> and is <a href="https://github.com/Reflio-com/reflio" className="font-medium underline">proudly open-source.</a> All referrals are processed through <span className="font-medium underline">European-owned infrastructure</span>, and our company is registered in the UK.
-              </p>
-            </div>
-            <div className="mt-10">
-              <div className="space-y-2 sm:flex sm:items-center sm:justify-center sm:space-x-2 sm:space-y-0">
-                <Button
-                  mobileFull
-                  large
-                  primary
-                  onClick={() => setOpen(true)}
-                >
-                  <span>Join Waitlist</span>
-                </Button>
-                <Button
-                  mobileFull
-                  large
-                  secondary
-                  external
-                  href="https://github.com/Reflio-com/reflio"
-                >
-                  <Github className="h-5 w-auto mr-2"/>
-                  <span>Star on GitHub</span>
-                </Button>
-              </div>
-            </div>
-            <div className="mt-10 text-sm flex flex-col lg:flex-row space-y-3 lg:space-y-0 items-center justify-between max-w-lg mx-auto">
-              <div className="flex items-center font-medium">
-                <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
-                <p>Free plan available</p>
-              </div>
-              <div className="flex items-center font-medium">
-                <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
-                <p>Auto cookie consent collection</p>
-              </div>
-              <div className="flex items-center font-medium">
-                <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
-                <p>GDPR compliant</p>
-              </div>
-            </div>
-          </div>
-          <div className="hidden md:block mt-16 -mb-40">
+      <div id="#intro">
+        <div className="relative py-14 md:py-24 bg-white md:bg-gradient-to-b md:from-white md:via-gray-50 md:to-primary">
+          <div className="wrapper text-center">
             <div className="max-w-4xl mx-auto">
-              <div className="px-0 w-full h-auto bg-white rounded-3xl shadow-2xl mx-auto overflow-hidden">
-                <img src="platform-screenshot.webp" alt="Screenshot of Reflio dashboard" className="mt-0 w-full h-auto" />
+              <div className="mb-10">
+                <div className="mb-7">
+                  <h1 className="inline text-4xl lg:text-5xl font-semibold md:text-transparent md:bg-clip-text md:bg-gradient-to-r from-secondary to-secondary-2 tracking-tight">
+                    Create a referral program for your SaaS <span className="inline md:text-transparent md:bg-clip-text md:bg-gradient-to-r md:from-secondary md:to-primary">in minutes, from $0/month.</span>
+                  </h1>
+                </div>
+                <p className="text-xl sm:text-2xl font-light">
+                  Reflio puts <span className="font-medium underline">digital privacy first</span> and is <a href="https://github.com/Reflio-com/reflio" className="font-medium underline">proudly open-source.</a> All referrals are processed through <span className="font-medium underline">European-owned infrastructure</span>, and our company is registered in the UK.
+                </p>
+              </div>
+              <div className="mt-10">
+                <div className="space-y-2 sm:flex sm:items-center sm:justify-center sm:space-x-2 sm:space-y-0">
+                  <Button
+                    mobileFull
+                    large
+                    primary
+                    onClick={() => setOpen(true)}
+                  >
+                    <span>Join Waitlist</span>
+                  </Button>
+                  <Button
+                    mobileFull
+                    large
+                    secondary
+                    external
+                    href="https://github.com/Reflio-com/reflio"
+                  >
+                    <Github className="h-5 w-auto mr-2"/>
+                    <span>Star on GitHub</span>
+                  </Button>
+                </div>
+              </div>
+              <div className="mt-10 text-sm flex flex-col lg:flex-row space-y-3 lg:space-y-0 items-center justify-between max-w-lg mx-auto">
+                <div className="flex items-center font-medium">
+                  <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
+                  <p>Free plan available</p>
+                </div>
+                <div className="flex items-center font-medium">
+                  <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
+                  <p>Auto cookie consent collection</p>
+                </div>
+                <div className="flex items-center font-medium">
+                  <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
+                  <p>GDPR compliant</p>
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:block mt-16 -mb-40">
+              <div className="max-w-4xl mx-auto">
+                <div className="px-0 w-full h-auto bg-white rounded-3xl shadow-2xl mx-auto overflow-hidden">
+                  <img src="platform-screenshot.webp" alt="Screenshot of Reflio dashboard" className="mt-0 w-full h-auto" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="py-14 md:pt-44 md:py-24 bg-gradient-to-b from-gray-200 via-gray-50 to-primary border-t-8 border-gray-300">
-        <div className="wrapper">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold">How we're different to competitors</h2>
-          </div>
-          <div>
-            <Features/>
+      <div id="why-reflio">
+        <div className="py-14 md:pt-44 md:py-24 bg-gradient-to-b from-gray-200 via-gray-50 to-primary border-t-8 border-gray-300">
+          <div className="wrapper">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold">How we're different to competitors</h2>
+            </div>
+            <div>
+              <Features/>
+            </div>
           </div>
         </div>
       </div>
@@ -176,21 +180,22 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div id="pricing" className="py-14 md:py-48 bg-gradient-to-b from-gray-50 via-primary to-gray-200">
-        <div className="wrapper wrapper-sm">
-          <div className="text-center">
-            <div className="order-1 lg:order-0">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-5 font-semibold">Pricing from $0/month</h2>
-              <p className="text-2xl">Reflio starts from just $0/month with a 9% commission per successful referral, with different pricing plans available for larger-scale campaigns.</p>
-              <div className="text-lg font-semibold mt-6 py-2 px-5 bg-secondary rounded-xl inline-flex mx-auto text-white -rotate-2 border-4 border-secondary-2 border-dashed">We will be releasing our full list of pricing plans very soon.</div>
-              <div className="mt-12">
-                <Button
-                  xlarge
-                  primary
-                  onClick={() => setOpen(true)}
-                >
-                  <span>Join Waitlist</span>
-                </Button>
+      <div id="pricing">
+        <div className="py-14 md:py-48 bg-gradient-to-b from-gray-50 via-primary to-gray-200">
+          <div className="wrapper wrapper-sm">
+            <div className="text-center">
+              <div className="order-1 lg:order-0">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-5 font-semibold">Pricing from $0/month</h2>
+                <p className="text-2xl">Reflio starts from just $0/month with a 9% commission per successful referral, with different pricing plans available for larger-scale campaigns.</p>
+                <div className="mt-12">
+                  <Button
+                    xlarge
+                    secondary
+                    href="/pricing"
+                  >
+                    <span>Learn more</span>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -4,21 +4,12 @@ import { useState } from 'react';
 import { postData } from '@/utils/helpers';
 import { getStripe } from '@/utils/stripe-client';
 import { useUser } from '@/utils/useUser';
-import { CalendarIcon, CheckIcon, PlusIcon, UsersIcon, ViewBoardsIcon, ViewListIcon } from '@heroicons/react/outline';
 
 export default function Pricing({ products }) {
   const router = useRouter();
-  const [billingInterval, setBillingInterval] = useState('month');
   const [priceIdLoading, setPriceIdLoading] = useState();
   const { session, userLoaded, subscription } = useUser();
-
-  const checklist = [
-    'Unlimited companies',
-    'Unlimited submissions',
-    'Custom embed styling',
-    'Remove Reflio companying',
-    'Collect user console errors',
-  ]
+  const [activePlan, setActivePlan] = useState(products[0]);
 
   const handleCheckout = async (price) => {
     console.log(price)
@@ -50,82 +41,39 @@ export default function Pricing({ products }) {
 
   if(products?.length){
     return (
-      <div>
-        <div className="relative bg-gradient-to-b from-secondary to-secondary-2">
-          <div>
-            <div className="py-16 px-4 sm:py-24 sm:px-6 lg:bg-none lg:px-0 lg:pl-8 lg:flex lg:items-center lg:justify-center">
-            {products.map((product) => {
-                const price = product.prices.find(
-                  (price) => price.interval === billingInterval
-                );
+      <div className="relative bg-gradient-to-b from-gray-50 to-gray-200 py-12">
+        <div className="wrapper">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-x-5 max-w-3xl mx-auto">
+            <div className="space-y-5">
+              {products.map((product) => {
                 const priceString = new Intl.NumberFormat('en-US', {
                   style: 'currency',
-                  currency: price.currency,
+                  currency: product.prices[0].currency,
                   minimumFractionDigits: 0
-                }).format(price.unit_amount / 100);
+                }).format(product.prices[0].unit_amount / 100);
+
                 return (
-                  <div>
-                    <div className="max-w-xl mx-auto w-full lg:mx-0 text-center">
-                      <h1 className="text-4xl md:text-5xl font-semibold text-white text-center mb-8">
-                        Become a Pro
-                      </h1>
-                      <div className="max-w-md mx-auto mb-8 flex bg-gray-400 rounded-lg overflow-hidden shadow-xl">
-                        <button
-                          onClick={() => setBillingInterval('month')}
-                          type="button"
-                          className={`${billingInterval === 'month' ? 'bg-white' : 'bg-secondary-3 text-white'} w-1/2 p-3 text-md sm:text-md font-medium outline-none focus:outline-none`}
-                        >
-                            Monthly billing
-                        </button>
-                        <button
-                          onClick={() => setBillingInterval('year')}
-                          type="button"
-                          className={`${billingInterval === 'month' ? 'bg-secondary-3 text-white' : 'bg-white'} w-1/2 p-3 text-md sm:text-md font-medium outline-none focus:outline-none`}
-                        >
-                            Yearly billing
-                        </button>
+                  <div onClick={e=>{setActivePlan(product)}} className={`cursor-pointer bg-primary rounded-xl p-5 shadow-lg border-4 ${activePlan?.name === product?.name ? 'border-primary-2' : 'border-transparent'}`}>
+                    <h3 className="text-2xl font-semibold">
+                      <div className="flex items-center justify-between mb-3">
+                        <p>{product?.name}</p>
+                        <p>{priceString}/mo</p>
                       </div>
-                      <div className="text-center mb-8">
-                        <p>
-                          <span className="text-5xl font-extrabold text-white tracking-tight">
-                            {priceString}
-                          </span>
-                          <span className="font-medium text-xl text-white">
-                          {' '}/{billingInterval}
-                          </span>
-                        </p>
-                        {
-                          billingInterval === 'year' &&
-                          <span className="bg-white px-4 py-1 text-sm rounded-lg mt-3 font-semibold inline-block">
-                            Limited time only: SAVE 40%
-                          </span>
-                        }
-                      </div>
-                      <ul role="list" className="rounded overflow-hidden grid gap-px sm:grid-cols-2 mb-14 relative">
-                        {checklist.map((item) => (
-                          <li
-                            key={item}
-                            className="bg-secondary bg-opacity-50 py-4 px-4 flex items-center space-x-3 text-sm text-white"
-                          >
-                            <CheckIcon className="h-6 w-6 text-indigo-300" aria-hidden="true" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <button
-                        disabled={session && !userLoaded}
-                        loading={priceIdLoading === price.id}
-                        onClick={() => handleCheckout(price.id)}
-                        className="pricing-button gradient-bg px-8 py-4 inline-flex mx-auto rounded-lg font-semibold text-white transition-all text-xl md:px-16"
-                      >
-                        {product.name === subscription?.prices?.products.name
-                          ? 'Manage'
-                          : 'Get Started'}
-                      </button>
-                    </div>  
+                    </h3>
                   </div>
                 );
               })}
+            </div>
+            <div className="bg-primary rounded-xl p-5 shadow-lg flex-grow h-full flex flex-col items-center justify-center">
+              <button
+                loading={priceIdLoading === activePlan?.id}
+                onClick={() => handleCheckout(activePlan?.prices[0])}
+                className="pricing-button gradient-bg px-8 py-4 inline-flex mx-auto rounded-lg font-semibold text-white transition-all text-xl md:px-16"
+              >
+                {activePlan?.name === subscription?.prices?.products.name
+                  ? 'Manage'
+                  : 'Get Started'}
+              </button>
             </div>
           </div>
         </div>

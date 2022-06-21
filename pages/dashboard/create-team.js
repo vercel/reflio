@@ -32,7 +32,7 @@ export default function CreateTeam() {
         router.push('/dashboard/add-company');
 
       } else {
-        toast.error('There was an error when creating your company. Please try again later, or contact support.');
+        toast.error('There was an error when creating your team. Please try again later, or contact support.');
       }
 
       setLoading(false);

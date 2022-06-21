@@ -5,7 +5,7 @@ import { getCompanies, useUser } from '@/utils/useUser';
 export const CompanyContext = createContext();
 
 export const CompanyContextProvider = (props) => {
-  const { user, userFinderLoaded, signOut } = useUser();
+  const { user, team, userFinderLoaded, signOut } = useUser();
   const [userCompanyDetails, setUserCompanyDetails] = useState(null);
   const router = useRouter();
   let value;
@@ -19,6 +19,13 @@ export const CompanyContextProvider = (props) => {
       );
     }
   });
+
+  console.log("team:")
+  console.log(team)
+
+  if(team === 'none' && router?.pathname !== '/dashboard/create-team'){
+    router.replace('/dashboard/create-team');
+  }
 
   if(userCompanyDetails !== null && userCompanyDetails?.length === 0 && !router?.asPath?.includes('add-company') && router?.pathname !== '/dashboard/create-team'){
     router.replace('/dashboard/add-company');

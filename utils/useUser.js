@@ -46,7 +46,11 @@ export const UserContextProvider = (props) => {
     if (user) {
       Promise.allSettled([getTeam(), getUserDetails(), getSubscription()]).then(
         (results) => {
-          setTeam(results[0].value.data);
+          if(results[0].value.data !== null){
+            setTeam(results[0].value.data);
+          } else {
+            setTeam('none');
+          }
           setUserDetails(results[1].value.data);
           setSubscription(results[2].value.data);
 
@@ -379,6 +383,7 @@ export const editCurrency = async (companyId, data) => {
       company_currency: data?.company_currency
     })
     .eq('company_id', companyId);
+
   if (error) return "error";
 
   return "success";

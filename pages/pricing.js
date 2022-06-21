@@ -9,7 +9,7 @@ export default function Products() {
 
   const getProducts = async () => {
     setProducts(await getActiveProductsWithPrices());
-  }
+  };
 
   useEffect(() => {
     {
