@@ -184,27 +184,27 @@ a {
 }
 
 .content-block h1 {
-  @apply mt-2 text-3xl font-extrabold tracking-tight sm:text-5xl;
+  @apply mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl;
 }
 
 .content-block h2 {
-  @apply mt-2 text-2xl font-extrabold tracking-tight sm:text-2xl;
+  @apply mt-5 text-2xl font-extrabold tracking-tight sm:text-2xl;
 }
 
 .content-block h3, .content-block h4 {
-  @apply mt-2 text-xl font-extrabold tracking-tight sm:text-xl;
+  @apply mt-3 text-xl font-extrabold tracking-tight sm:text-xl;
 }
 
 .content-block p {
-  @apply mt-3 text-sm md:text-lg mt-3;
+  @apply mt-4 text-sm md:text-lg ;
 }
 
 .content-block ul {
-  @apply pl-5 mb-6
+  @apply pl-8 mb-6 list-disc;
 }
 
 .content-block li {
-  @apply mt-3 font-bold text-sm md:text-lg mt-1;
+  @apply mt-3 text-sm md:text-lg mt-1;
 }
 
 .content-block a {
