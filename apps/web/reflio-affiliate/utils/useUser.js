@@ -222,45 +222,6 @@ export const editCurrency = async (companyId, data) => {
   return "success";
 };
 
-export const getSubmissions = async (userId, companyId, submissionId) => {
-  
-  if(companyId !== null){
-    const { data, error } = await supabase
-    .from('submissions')
-    .select('*')
-    .eq('company_id', companyId)
-    .eq('id', userId)
-    .order('created', { ascending: false })
-  
-    if(error) return error; 
-    return data;
-  }
-
-  if(submissionId !== null){
-    const { data, error } = await supabase
-    .from('submissions')
-    .select('*')
-    .eq('submission_id', submissionId)
-    .single();
-  
-    if(error) return error; 
-    return data;
-  }
-
-  if(submissionId === null && companyId === null){
-    const { data, error } = await supabase
-    .from('submissions')
-    .select('*')
-    .eq('id', userId)
-    .order('created', { ascending: false })
-  
-    if(error) return error; 
-    return data;
-  }
-
-  return null;
-};
-
 export const editCompanyWebsite = async (id, form) => {
   const { error } = await supabase
     .from('companies')

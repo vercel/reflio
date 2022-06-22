@@ -1,8 +1,7 @@
 import { stripe } from '@/utils/stripe';
 import {
   deleteIntegrationFromDB,
-  updateAccountStripeData,
-  checkoutSessionComplete
+  // checkoutSessionComplete
 } from '@/utils/useDatabase';
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -49,12 +48,12 @@ const customerEvents = async (req, res) => {
           case 'checkout.session.expired':
             console.log('Checkout expired webhook fire')
             break;
-          case 'account.updated':
-            await updateAccountStripeData(event?.data?.object, event?.account);
-            break;
-          case 'checkout.session.completed':
-            await checkoutSessionComplete(event?.data?.object, event?.account);
-            break;
+          // case 'account.updated':
+          //   await updateAccountStripeData(event?.data?.object, event?.account);
+          //   break;
+          // case 'checkout.session.completed':
+          //   await checkoutSessionComplete(event?.data?.object, event?.account);
+          //   break;
           case 'account.application.deauthorized':
             if(event.data.object?.name === 'Reflio'){
               await deleteIntegrationFromDB(event?.account);
