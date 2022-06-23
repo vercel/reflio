@@ -1,9 +1,25 @@
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}', './templates/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontWeight: {
+      hairline: 300,
+      'extra-light': 300,
+      thin: 300,
+      light: 300,
+      normal: 300,
+      medium: 400,
+      semibold: 500,
+      bold: 500,
+      extrabold: 500,
+      'extra-bold': 500,
+      black: 500,
+    },
     extend: {
       maxWidth: {
         '8xl': '1920px'
+      },
+      fontFamily: {
+        primary: ["TT Interfaces"]
       },
       colors: {
         primary: 'var(--primary)',

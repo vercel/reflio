@@ -186,7 +186,7 @@ export default function Index() {
             <div className="text-center">
               <div className="order-1 lg:order-0">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-5 font-semibold">Pricing from $0/month</h2>
-                <p className="text-2xl">Reflio starts from just $0/month with a 9% commission per successful referral, with different pricing plans available for larger-scale campaigns.</p>
+                <p className="text-2xl">Reflio starts from just $0/month with a 9% fee per successful referral, with different pricing plans available for larger-scale campaigns.</p>
                 <div className="mt-12">
                   <Button
                     xlarge

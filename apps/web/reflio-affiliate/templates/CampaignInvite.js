@@ -108,7 +108,7 @@ export default function CampaignInvite() {
                           </div>
                         :
                           <div>
-
+                            
                           </div>
                       }
                     </div>

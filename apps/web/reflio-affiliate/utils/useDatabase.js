@@ -168,6 +168,9 @@ export const handleCampaignJoin = async (user, companyId, campaignId) => {
 export const getPublicCampaign = async (handle, campaignId) => {
   let campaignDetails = {};
 
+  console.log(handle)
+  console.log(campaignId)
+
   if(handle){
     let { data } = await supabaseAdmin
     .from('companies')

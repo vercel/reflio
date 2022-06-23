@@ -23,11 +23,16 @@ export default function Products() {
       <SEOMeta 
         title="Pricing"
       />
-      <div>
-        {
-          products !== null &&
-          <Pricing products={products}/>
-        }
+      <div className="relative bg-gradient-to-b from-primary-2 to-primary py-24">
+        <div className="wrapper">
+          <div className="text-center mb-12">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">Pricing</h1>
+          </div>
+          {
+            products !== null &&
+            <Pricing products={products}/>
+          }
+        </div>
       </div>
     </>
   );
