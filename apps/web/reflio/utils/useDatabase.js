@@ -185,9 +185,6 @@ export const getCompanyFromExternal = async (domain) => {
     .eq('company_url', domain)
     .single();
 
-    console.log('error here');
-    console.log(error);
-
     if (error) return "error";
 
   if(data?.domain_verified === false){

@@ -59,7 +59,10 @@ export default function AdminNavItems() {
                         <Image src={'https://s2.googleusercontent.com/s2/favicons?domain='+activeCompany?.company_url+''} objectFit='contain' layout='fill' />
                       }
                     </span>
-                    <span className="block truncate">{activeCompany?.company_name}</span>
+                    <span className="flex items-center truncate">
+                      {activeCompany?.company_name}
+                      <span className={`${activeCompany?.domain_verified === true ? 'bg-green-500' : 'bg-red-500'} w-2 h-2 inline-block rounded-full p-0 ml-2`}></span>
+                    </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <SelectorIcon className="h-5 w-5" aria-hidden="true" />
                     </span>
@@ -96,8 +99,9 @@ export default function AdminNavItems() {
                                   <Image src={company?.display_image} objectFit='contain' layout='fill' />
                                 }
                               </span>
-                              <span className={classNames(selected ? 'font-bold' : 'font-medium', 'block truncate text-m')}>
+                              <span className={classNames(selected ? 'font-bold' : 'font-medium', 'flex items-center truncate')}>
                                 {company?.company_name}
+                                <span className={`${activeCompany?.domain_verified === true ? 'bg-green-500' : 'bg-red-500'} w-2 h-2 inline-block rounded-full p-0 ml-2`}></span>
                               </span>
                             </div>
 

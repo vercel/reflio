@@ -39,8 +39,10 @@ const verifyCompany = async (req, res) => {
   try {
     if(filteredReferer !== null){
 
+      console.log("Filtered Referer: " + filteredReferer)
+
       const projectVerify = await getCompanyFromExternal(filteredReferer);
-      
+
       if(projectVerify === "success"){
         return res.status(200).json({ verified: true }); 
       }

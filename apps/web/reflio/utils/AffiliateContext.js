@@ -45,6 +45,10 @@ export const AffiliateContextProvider = (props) => {
     setMergedAffiliateDetails(clonedAffiliateDetails);
   }
 
+  if(userAffiliateDetails !== null && userAffiliateDetails?.length === 0 && mergedAffiliateDetails === null){
+    setMergedAffiliateDetails([]);
+  }
+
   value = {
     userAffiliateDetails,
     mergedAffiliateDetails

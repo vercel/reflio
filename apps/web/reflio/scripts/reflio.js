@@ -428,11 +428,13 @@ function activatePopup(){
 //Tracking script verification from server 
 if(reflioVerifyParam !== null){
   if(reflioVerifyParam === "true"){
-    const verifyDomain = Reflio.checkDomainVerification();
-
-    if(verifyDomain?.verified === true){
-      window.location.href = `${ReflioDomainRoot}/dashboard/${Reflio.details().companyId}/setup/verify`
-    }
+    Reflio.checkDomainVerification().then((response) => {
+      if(response?.verified === true){
+        console.log("Domain was verified:")
+        console.log("Redirect string: ", `${ReflioDomainRoot}/dashboard/${Reflio.details().companyId}/setup/verify`)
+        window.location.href = `${ReflioDomainRoot}/dashboard/${Reflio.details().companyId}/setup/verify`
+      }
+    });
   }
 }
 
