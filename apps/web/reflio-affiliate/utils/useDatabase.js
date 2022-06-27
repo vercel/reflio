@@ -61,6 +61,8 @@ export const getAffiliatePrograms = async (userId) => {
     }));
     return affilateData;
   }
+
+  return [];
 };
 
 //Get user campaigns

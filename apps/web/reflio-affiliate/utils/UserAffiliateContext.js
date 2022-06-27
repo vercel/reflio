@@ -23,12 +23,8 @@ export const UserAffiliateContextProvider = (props) => {
         token: session.access_token
       });
 
-      if(programs.length === 0) {
-        setUserAffiliateDetails('none');
-      }
-
       setUserAffiliateDetails(programs);
-  
+      
     } catch (error) {
       console.log(error)
     }

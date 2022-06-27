@@ -17,7 +17,7 @@ class rfl {
       rootDomain: rootDomain,
       domains: reflioInnerScript.getAttribute("data-domains") ? reflioInnerScript.getAttribute("data-domains") : null,
       hidePopup: reflioInnerScript.getAttribute("hidePopup") ? true : false,
-      consentBypass: reflioInnerScript.getAttribute("consentBypass") ? true : false,
+      privacyCompliance: reflioInnerScript.getAttribute("privacyCompliance") ? true : false,
     })
   }
   async checkDomainVerification(){
@@ -77,11 +77,7 @@ class rfl {
     return "cookie_deleted";
   }
   consentRequired(){
-    if(Reflio.details().consentBypass === true){
-      return false;
-    }
-
-    if(Intl.DateTimeFormat().resolvedOptions().timeZone && Intl.DateTimeFormat().resolvedOptions().timeZone.indexOf("Europe") >= 0 && Reflio.details().consentBypass === false){
+    if(Intl.DateTimeFormat().resolvedOptions().timeZone && Intl.DateTimeFormat().resolvedOptions().timeZone.indexOf("Europe") >= 0 && Reflio.details().privacyCompliance === true){
       return true;
     }
 
@@ -445,6 +441,9 @@ if(Reflio.consentRequired() === false && Reflio.cookieEligible() === true){
 //Initially activate the function to check if already scrolled past 33% of the page.
 activatePopup();
 
+console.log("privacyCompliance")
+console.log(Reflio.details().privacyCompliance);
+
 //Continually checks if 33% of the page has been scrolled etc.
 window.addEventListener("scroll", function checkScrollPercentage() {
   scrolledPercentage = (((document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100).toFixed(0));
@@ -455,9 +454,6 @@ window.addEventListener("scroll", function checkScrollPercentage() {
   }
 
 }, false);
-
-console.log("consentBypass")
-console.log(Reflio.details().consentBypass);
 
 //If cookie already exists, double check and remove all consent banners.
 if(Reflio.cookieExists() === true){

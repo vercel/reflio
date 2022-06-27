@@ -51,7 +51,7 @@ export default function InnerDashboardPage() {
                           <thead className="bg-gray-200">
                             <tr>
                               <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">
-                                Email
+                                User
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Campaign
@@ -76,7 +76,7 @@ export default function InnerDashboardPage() {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                   <div className="flex items-center">
                                     <div className="ml-4">
-                                      <span>{affiliate?.invited_user_id}</span>
+                                      <span>{affiliate?.invited_user_id ? affiliate?.invited_user_id : affiliate?.invited_email}</span>
                                     </div>
                                   </div>
                                 </td>

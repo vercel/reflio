@@ -378,20 +378,11 @@ export const convertReferral = async (referralId, campaignId, affiliateId, cooki
 
     if(companyData?.data?.stripe_id){  
       const commission = await createCommission(referralData, companyData?.data?.stripe_id, referralData?.data?.referral_id, email);
+      console.log("Commission response:")
+      console.log(commission)
       return commission;
     }
   }
 
   return "error";
-};
-
-//Deletes stripe ID from company account
-export const deleteIntegrationFromDB = async (stripeId) => {
-  const { error } = await supabaseAdmin
-  .from('companies')
-  .update({
-    stripe_id: null
-  })
-  .eq({ stripe_id: stripeId })
-  if (error) return "error";
 };

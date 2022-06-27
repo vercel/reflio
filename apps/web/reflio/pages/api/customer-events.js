@@ -1,8 +1,8 @@
 import { stripe } from '@/utils/stripe';
 import {
   deleteIntegrationFromDB,
-  // checkoutSessionComplete
-} from '@/utils/useDatabase';
+  editCommission
+} from '@/utils/stripe-helpers';
 // Stripe requires the raw body to construct the event.
 export const config = {
   api: {
@@ -23,7 +23,10 @@ async function buffer(readable) {
 const relevantEvents = new Set([
   'account.application.deauthorized',
   'account.updated',
-  'charge.succeeded'
+  'charge.succeeded',
+  'charge.refunded',
+  'charge.refund.updated',
+  'charge.updated'
 ]);
 
 const customerEvents = async (req, res) => {
@@ -40,20 +43,19 @@ const customerEvents = async (req, res) => {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    console.log(event?.data?.object);
-
+    
     if (relevantEvents.has(event.type)) {
       try {
         switch (event.type) {
-          case 'checkout.session.expired':
-            console.log('Checkout expired webhook fire')
+          case 'charge.refunded':
+            await editCommission(event);
             break;
-          // case 'account.updated':
-          //   await updateAccountStripeData(event?.data?.object, event?.account);
-          //   break;
-          // case 'checkout.session.completed':
-          //   await checkoutSessionComplete(event?.data?.object, event?.account);
-          //   break;
+          case 'charge.refund.updated':
+            await editCommission(event);
+            break;
+          case 'charge.updated':
+            await editCommission(event);
+            break;
           case 'account.application.deauthorized':
             if(event.data.object?.name === 'Reflio'){
               await deleteIntegrationFromDB(event?.account);

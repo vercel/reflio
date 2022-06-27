@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-import { useUser } from '@/utils/useUser';
 import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
@@ -7,8 +5,6 @@ import Button from '@/components/ui/Button';
 import LoadingDots from '@/components/ui/LoadingDots';
 
 const CampaignsList = (props) => {
-  const router = useRouter();
-  const { session } = useUser();
   const { userAffiliateDetails } = useUserAffiliate();
 
   return(
@@ -99,7 +95,7 @@ const CampaignsList = (props) => {
             <div>
               <LoadingDots/>
             </div>
-          : userAffiliateDetails === 'none' &&
+          : userAffiliateDetails?.length === 0 &&
             <div>
               <p>You haven't joined any campaigns.</p>
             </div>

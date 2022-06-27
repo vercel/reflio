@@ -39,6 +39,7 @@ const webhookHandler = async (req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
 
+    console.log("Event:")
     console.log(event)
 
     try {
