@@ -12,11 +12,9 @@ export const CompanyContextProvider = (props) => {
 
   useEffect(() => {
     if (userFinderLoaded && getCompanies && user && userCompanyDetails === null) {
-      Promise.allSettled([getCompanies(user?.id)]).then(
-        (results) => {
-          setUserCompanyDetails(Array.isArray(results[0].value) ? results[0].value : [results[0].value])
-        }
-      );
+      getCompanies(user?.id).then(results => {
+          setUserCompanyDetails(Array.isArray(results) ? results : [results])
+      });
     }
   });
 

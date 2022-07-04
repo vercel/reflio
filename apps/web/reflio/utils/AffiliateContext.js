@@ -23,11 +23,9 @@ export const AffiliateContextProvider = (props) => {
 
   useEffect(() => {
     if (userFinderLoaded && getAffiliates && user && userAffiliateDetails === null && activeCompany?.company_id) {
-      Promise.allSettled([getAffiliates(activeCompany?.company_id)]).then(
-        (results) => {
-          setUserAffiliateDetails(Array.isArray(results[0].value) ? results[0].value : [results[0].value])
-        }
-      );
+      getAffiliates(activeCompany?.company_id).then(results => {
+          setUserAffiliateDetails(Array.isArray(results) ? results : [results])
+      });
     }
   });
 

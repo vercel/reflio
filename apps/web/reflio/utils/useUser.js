@@ -147,6 +147,33 @@ export const getAffiliates = async (companyId) => {
   return data;
 };
 
+//Get user referrals
+export const getReferrals = async (companyId, date) => {
+  if(date !== null){
+    const { data, count, error } = await supabase
+    .from('referrals')
+    .select("*", { count: "exact" })
+    .eq('company_id', companyId)
+    .lt('created', [date])
+    .order('created', { ascending: false })
+    .limit(5)
+
+    if(error) return "error"; 
+    return { data, count };
+    
+  } else {
+    const { data, count, error } = await supabase
+    .from('referrals')
+    .select("*", { count: "exact" })
+    .eq('company_id', companyId)
+    .order('created', { ascending: false })
+    .limit(5)
+
+    if(error) return "error"; 
+    return { data, count };
+  }
+};
+
 //Create company
 export const newTeam = async (user, form) => {
   if(!form?.team_name) return "error";

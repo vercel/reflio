@@ -21,31 +21,27 @@ export const CampaignContextProvider = (props) => {
 
   useEffect(() => {
     if (userFinderLoaded && getCampaigns && user && userCampaignDetails === null && activeCompany?.company_id) {
-      Promise.allSettled([getCampaigns(activeCompany?.company_id)]).then(
-        (results) => {
-          setUserCampaignDetails(Array.isArray(results[0].value) ? results[0].value : [results[0].value])
+      getCampaigns(activeCompany?.company_id).then(results => {
+        setUserCampaignDetails(Array.isArray(results) ? results : [results])
 
-          let newActiveCampaign = null;
+        let newActiveCampaign = null;
 
-          if(router?.query?.campaignId && results[0].value?.filter(campaign => campaign?.campaign_id === router?.query?.campaignId)?.length && activeCampaign === 'none' && results[0].value){
-            newActiveCampaign = results[0].value?.filter(campaign => campaign?.campaign_id === router?.query?.campaignId);
-            if( Array.isArray(newActiveCampaign) && newActiveCampaign !== null){
-              newActiveCampaign = newActiveCampaign[0];
-            }
-          }            
-
-          if(newActiveCampaign !== null){
-            setActiveCampaign(newActiveCampaign);
-          } else {
-            setActiveCampaign(null);
+        if(router?.query?.campaignId && results?.filter(campaign => campaign?.campaign_id === router?.query?.campaignId)?.length && activeCampaign === 'none' && results){
+          newActiveCampaign = results?.filter(campaign => campaign?.campaign_id === router?.query?.campaignId);
+          if( Array.isArray(newActiveCampaign) && newActiveCampaign !== null){
+            newActiveCampaign = newActiveCampaign[0];
           }
+        }            
+
+        if(newActiveCampaign !== null){
+          setActiveCampaign(newActiveCampaign);
+        } else {
+          setActiveCampaign(null);
         }
-      );
+      });
     }
   });
-  
-  console.log(activeCampaign);
-  
+    
   value = {
     activeCampaign,
     userCampaignDetails

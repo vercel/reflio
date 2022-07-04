@@ -13,7 +13,8 @@ import {
   TableIcon,
   ClipboardCheckIcon,
   UserGroupIcon,
-  CurrencyDollarIcon
+  CurrencyDollarIcon,
+  SparklesIcon
 } from '@heroicons/react/outline';
 
 export default function AdminNavItems() {
@@ -24,6 +25,7 @@ export default function AdminNavItems() {
   const navigation = [
     { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
     { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
+    { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
     { name: 'Sales', href: `/dashboard/${activeCompany?.company_id}/sales`, icon: CurrencyDollarIcon },
     { name: 'Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: TableIcon },
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
@@ -61,7 +63,6 @@ export default function AdminNavItems() {
                     </span>
                     <span className="flex items-center truncate">
                       {activeCompany?.company_name}
-                      <span className={`${activeCompany?.domain_verified === true ? 'bg-green-500' : 'bg-red-500'} w-2 h-2 inline-block rounded-full p-0 ml-2`}></span>
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <SelectorIcon className="h-5 w-5" aria-hidden="true" />
@@ -101,7 +102,6 @@ export default function AdminNavItems() {
                               </span>
                               <span className={classNames(selected ? 'font-bold' : 'font-medium', 'flex items-center truncate')}>
                                 {company?.company_name}
-                                <span className={`${activeCompany?.domain_verified === true ? 'bg-green-500' : 'bg-red-500'} w-2 h-2 inline-block rounded-full p-0 ml-2`}></span>
                               </span>
                             </div>
 
