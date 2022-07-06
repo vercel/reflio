@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUser, newStripeAccount } from '@/utils/useUser';
 import SetupProgress from '@/components/ui/SetupProgress'; 
@@ -7,17 +7,11 @@ import SEOMeta from '@/components/SEOMeta';
 
 export default function Onboarding() {
   const router = useRouter();
-  const { user, stripeAccounts, userFinderLoaded } = useUser();
+  const { user } = useUser();
   const { activeCompany } = useCompany();
   const [pageLoaded, setPageLoaded] = useState(false);
   const [runningStripeFunction, setRunningStripeFunction] = useState(false);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   const handleAddStripeAccount = async (stripeId) => {
     setRunningStripeFunction(true);

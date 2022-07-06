@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useUser, paypalEmail } from '@/utils/useUser';
 import SEOMeta from '@/components/SEOMeta'; 
 import { checkValidEmail } from '@/utils/helpers';
@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { user, userDetails, userFinderLoaded } = useUser();
+  const { user, userDetails } = useUser();
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [emailInput, setEmailInput] = useState(null);
@@ -24,12 +24,6 @@ export default function SettingsPage() {
       }
     });
   };
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
   
   return (
     <>

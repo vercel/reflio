@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useUser } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import { useAffiliate } from '@/utils/AffiliateContext';
 import LoadingDots from '@/components/ui/LoadingDots';
@@ -13,16 +11,8 @@ import ReactTooltip from 'react-tooltip';
 
 export default function InnerDashboardPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const { mergedAffiliateDetails } = useAffiliate();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user, activeCompany]);
-
 
   return (
     <>

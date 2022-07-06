@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useUser, deleteCompany, disableEmails, editCompanyWebsite, uploadLogoImage, editCompanyHandle } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import SEOMeta from '@/components/SEOMeta'; 
@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 
 export default function companiesettingsPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const [urlLoading, setUrlLoading] = useState(false);
   const [handleLoading, setHandleLoading] = useState(false);
@@ -123,12 +122,6 @@ export default function companiesettingsPage() {
     });
 
   };
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user, activeCompany]);
   
   return (
     <>

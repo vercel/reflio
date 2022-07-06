@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { useUser, editCurrency } from '@/utils/useUser';
+import { useState } from 'react';
+import { editCurrency } from '@/utils/useUser';
 import SetupProgress from '@/components/ui/SetupProgress'; 
 import Button from '@/components/ui/Button'; 
 import { useCompany } from '@/utils/CompanyContext';
@@ -9,7 +9,6 @@ import LoadingDots from '@/components/ui/LoadingDots';
 
 export default function StripeSetupPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const [errorMessage, setErrorMessage] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,12 +42,6 @@ export default function StripeSetupPage() {
     });
 
   };
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   return (
     <>

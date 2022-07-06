@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
 import SetupProgress from '@/components/ui/SetupProgress'; 
 import Button from '@/components/ui/Button'; 
 import SEOMeta from '@/components/SEOMeta'; 
@@ -10,15 +8,8 @@ import { useWindowSize } from 'react-use';
 
 export default function TrackingSetupPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const {width, height} = useWindowSize();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   const embedCode = 
   `<script>(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'reflio');</script>

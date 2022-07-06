@@ -12,14 +12,7 @@ export const AffiliateContextProvider = (props) => {
   const { userCampaignDetails } = useCampaign();
   const [userAffiliateDetails, setUserAffiliateDetails] = useState(null);
   const [mergedAffiliateDetails, setMergedAffiliateDetails] = useState(null);
-  const router = useRouter();
   let value;
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   useEffect(() => {
     if (userFinderLoaded && getAffiliates && user && userAffiliateDetails === null && activeCompany?.company_id) {

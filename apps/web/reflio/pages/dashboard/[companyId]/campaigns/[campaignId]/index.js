@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
 import LoadingDots from '@/components/ui/LoadingDots';
@@ -15,15 +13,8 @@ import { priceString } from '@/utils/helpers';
 
 export default function SingleCampaignPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
-  const { activeCampaign, userCampaignLoaded } = useCampaign();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user, activeCompany]);
+  const { activeCampaign } = useCampaign();
 
   if(activeCampaign === null){
     router.replace(`/dashboard/${router?.query?.companyId}/campaigns`)

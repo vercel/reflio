@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useUser, changeReferralCode } from '@/utils/useUser';
 import SEOMeta from '@/components/SEOMeta'; 
 import Button from '@/components/ui/Button'; 
@@ -8,7 +8,7 @@ import LoadingDots from '@/components/ui/LoadingDots';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
+  const { user } = useUser();
   const { userAffiliateDetails } = useUserAffiliate();
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -47,12 +47,6 @@ export default function SettingsPage() {
     });
 
   };
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
   
   if(affiliateFiltered === null && userAffiliateDetails !== null && userAffiliateDetails?.length > 0){
     if(userAffiliateDetails?.filter(campaign=>campaign?.affiliate_id === router.query.affiliateId)?.length){
@@ -61,8 +55,6 @@ export default function SettingsPage() {
       router.replace('/dashboard/campaigns')
     }
   }
-
-  console.log(affiliateFiltered)
 
   return (
     <>

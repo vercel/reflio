@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/ui/Navbar';
+import { useUser } from '@/utils/useUser';
 
-export default function Layout({ children, meta: pageMeta }) {
+export default function Layout({ children }) {
+  const { user, userFinderLoaded } = useUser();
   const Toaster = dynamic(() =>
     import("react-hot-toast").then((module) => module.Toaster)
   );
@@ -32,6 +35,14 @@ export default function Layout({ children, meta: pageMeta }) {
     defaultPage = false;
     dashboardPage = true;
     simplePage = false;
+  }
+
+  if(dashboardPage === true){
+    useEffect(() => {
+      if(userFinderLoaded){
+        if (!user) router.replace('/signin');
+      }
+    }, [userFinderLoaded, user]);
   }
 
   return (

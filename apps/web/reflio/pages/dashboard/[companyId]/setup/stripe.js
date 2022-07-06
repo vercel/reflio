@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
 import SetupProgress from '@/components/ui/SetupProgress'; 
 import Button from '@/components/ui/Button'; 
 import StripeConnect from '@/components/icons/StripeConnect'; 
@@ -9,15 +7,8 @@ import SEOMeta from '@/components/SEOMeta';
 
 export default function StripeSetupPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
 
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
-  
   return (
     <>
       <SEOMeta title="Connect Stripe Account"/>

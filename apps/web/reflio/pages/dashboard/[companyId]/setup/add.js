@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
 import SetupProgress from '@/components/ui/SetupProgress'; 
 import { CopyBlock, monokaiSublime } from "react-code-blocks";
 import Button from '@/components/ui/Button'; 
@@ -8,13 +6,6 @@ import SEOMeta from '@/components/SEOMeta';
 
 export default function TrackingSetupPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   const embedCode = 
   `<script async src='https://reflio.com/js/reflio.js' data-reflio='${router?.query?.companyId}'></script>`;

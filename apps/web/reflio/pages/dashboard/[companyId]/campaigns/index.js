@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
 import LoadingDots from '@/components/ui/LoadingDots';
@@ -15,15 +13,8 @@ import { priceString } from '@/utils/helpers';
 
 export default function CampaignsPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user, activeCompany]);
 
   const generateInviteUrl = (activeCampaign, companyHandle, campaignId) => {
     if(activeCampaign === true){

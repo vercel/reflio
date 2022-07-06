@@ -6,18 +6,12 @@ import { useCompany } from '@/utils/CompanyContext';
 export const CampaignContext = createContext();
 
 export const CampaignContextProvider = (props) => {
-  const { user, userFinderLoaded, signOut } = useUser();
+  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const [userCampaignDetails, setUserCampaignDetails] = useState(null);
   const [activeCampaign, setActiveCampaign] = useState('none');
   const router = useRouter();
   let value;
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   useEffect(() => {
     if (userFinderLoaded && getCampaigns && user && userCampaignDetails === null && activeCompany?.company_id) {

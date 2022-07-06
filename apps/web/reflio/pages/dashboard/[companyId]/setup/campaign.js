@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
 import SetupProgress from '@/components/ui/SetupProgress'; 
 import SEOMeta from '@/components/SEOMeta'; 
 import Button from '@/components/ui/Button'; 
@@ -11,15 +9,8 @@ import { priceString } from '@/utils/helpers';
 
 export default function AddCompany() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useUser } from '@/utils/useUser';
 import Button from '@/components/ui/Button'; 
 import { useCompany } from '@/utils/CompanyContext';
@@ -13,7 +13,7 @@ import {
 
 export default function AffiliateInvitePage() {
   const router = useRouter();
-  const { user, userFinderLoaded, session } = useUser();
+  const { session } = useUser();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
   const [errorMessage, setErrorMessage] = useState(false);
@@ -67,12 +67,6 @@ export default function AffiliateInvitePage() {
     }
 
   };
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
 
   return (
     <>

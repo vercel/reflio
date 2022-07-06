@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useUser } from '@/utils/useUser';
 
-export default function Layout({ children, meta: pageMeta }) {
+export default function Layout({ children }) {
+  const { user, userFinderLoaded } = useUser();
   const Toaster = dynamic(() =>
     import("react-hot-toast").then((module) => module.Toaster)
   );
@@ -9,23 +12,51 @@ export default function Layout({ children, meta: pageMeta }) {
   const AdminMobileNav = dynamic(() => import('@/components/ui/AdminNavbar/AdminMobileNav'));
   const AdminDesktopNav = dynamic(() => import('@/components/ui/AdminNavbar/AdminDesktopNav'));
   const router = useRouter();
-  const meta = {
-    title: 'Reflio: Create a referral program without breaking the bank.',
-    description: 'Create a referral program without breaking the bank.',
-    cardImage: '/og.png',
-    ...pageMeta
-  };
+  let defaultPage = true;
+  let dashboardPage = false;
+  let simplePage = false;
+
+  if(router.pathname.indexOf('/dashboard') === -1 && router.pathname.indexOf('/dashboard/add-company') === -1 && router.pathname.indexOf('/dashboard/create-team') === -1){
+    defaultPage = true;
+    dashboardPage = false;
+    simplePage = false;
+  }
+
+  if(router.pathname === '/dashboard/add-company' || router.pathname === '/dashboard/create-team'){
+    defaultPage = false;
+    dashboardPage = false;
+    simplePage = true;
+  }
+
+  if(router.pathname.indexOf('/dashboard') > -1 && simplePage !== true){
+    defaultPage = false;
+    dashboardPage = true;
+    simplePage = false;
+  }
+
+  if(dashboardPage === true){
+    useEffect(() => {
+      if(userFinderLoaded){
+        if (!user) router.replace('/signin');
+      }
+    }, [userFinderLoaded, user]);
+  }
 
   return (
     <>
       <>
         <Toaster
-          position="top-center"
+          position="bottom-center"
           reverseOrder={true}
           gutter={20}
           toastOptions={{
-            className: 'custom-toast-container',
-            duration: 3000,
+            className: '',
+            duration: 5000,
+            style: {
+              background: '#fff',
+              color: '#111827',
+            },
+            // Default options for specific types
             success: {
               theme: {
                 primary: 'green',
@@ -41,11 +72,11 @@ export default function Layout({ children, meta: pageMeta }) {
           }}
         />
         {
-          router.pathname.indexOf('/dashboard') === -1 ?
+          defaultPage === true ?
             <main id="skip">{children}</main>
-          : router.pathname === '/dashboard/add-company' ?
+          : simplePage === true ?
             <main id="skip">{children}</main>
-          :
+          : dashboardPage === true ?
             <div className="h-screen flex overflow-hidden">
               <AdminDesktopNav/>
               <div className="flex-1 overflow-auto focus:outline-none">
@@ -57,9 +88,10 @@ export default function Layout({ children, meta: pageMeta }) {
                 </main>
               </div>
             </div>
+          : <main id="skip">{children}</main>
         }
         {
-          router.pathname.indexOf('/dashboard') === -1 && router.pathname.indexOf('/dashboard/add-company') === -1 && router.pathname.indexOf('/invite') === -1 &&
+          defaultPage === true &&
           <Footer />
         }
       </>

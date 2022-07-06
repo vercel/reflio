@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useUser, getSales } from '@/utils/useUser';
+import { useState } from 'react';
+import { getSales } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import LoadingDots from '@/components/ui/LoadingDots';
 import Button from '@/components/ui/Button'; 
@@ -13,7 +13,6 @@ import ReactTooltip from 'react-tooltip';
 
 export default function SalesPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
   const { activeCompany } = useCompany();
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -48,15 +47,6 @@ export default function SalesPage() {
       })
     }
   }
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user, activeCompany]);
-
-  console.log("Sales::")
-  console.log(sales)
 
   return (
     <>
@@ -101,30 +91,30 @@ export default function SalesPage() {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white text-sm">
-                            {sales?.data?.map((referral) => (
-                              <tr key={sales?.referral_id}>
+                            {sales?.data?.map((sale) => (
+                              <tr key={sale?.referral_id}>
                                 <td className="whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 font-semibold">
-                                  <span>{priceStringDivided(referral?.commission_sale_value, activeCompany?.company_currency)}</span>
+                                  <span>{priceStringDivided(sale?.commission_sale_value, activeCompany?.company_currency)}</span>
                                 </td>
                                 <td className="px-3 py-4 text-sm max-w-xs break-all">
-                                  {referral?.commission_description}
+                                  {sale?.commission_description}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4">
-                                  <span>{referral?.affiliate?.invite_email}</span>
+                                  <span>{sale?.affiliate?.invite_email}</span>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  {referral?.referral_id}
+                                  {sale?.referral_id}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   {
-                                    referral?.campaign?.campaign_name ?
-                                      <a href={`/dashboard/${router?.query?.companyId}/campaigns/${referral?.campaign_id}`} className="font-bold underline">{referral?.campaign?.campaign_name}</a>
+                                    sale?.campaign?.campaign_name ?
+                                      <a href={`/dashboard/${router?.query?.companyId}/campaigns/${sale?.campaign_id}`} className="font-bold underline">{sale?.campaign?.campaign_name}</a>
                                     :
                                       <p className="font-semibold text-gray-600 italic">Campaign no longer available.</p>
                                   }
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  <div data-tip={referral?.created}>{UTCtoString(referral?.created)}</div>
+                                  <div data-tip={sale?.created}>{UTCtoString(sale?.created)}</div>
                                   <ReactTooltip/>
                                 </td>
                               </tr>

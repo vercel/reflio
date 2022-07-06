@@ -1,7 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useUser } from '@/utils/useUser';
-import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
 import CampaignForm from '@/components/ui/Forms/CampaignForm';
 import SEOMeta from '@/components/SEOMeta'; 
@@ -12,15 +9,7 @@ import {
 
 export default function EditCampaignPage() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
-  const { activeCompany } = useCompany();
   const { activeCampaign } = useCampaign();
-
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user, activeCompany]);
 
   return (
     <>

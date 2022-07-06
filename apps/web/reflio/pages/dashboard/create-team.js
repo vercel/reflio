@@ -40,12 +40,6 @@ export default function CreateTeam() {
 
   };
 
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
-
   // if(planDetails === 'free' && userCompanyDetails?.length >= 1){
   //   router.replace('/dashboard/plan');
   // }
