@@ -64,8 +64,8 @@ const CampaignForm = ({ edit, setupMode }) => {
     }
   };
 
-  if(edit && edit?.reward_type !== null && edit?.reward_type !== rewardType){
-    setRewardType(edit?.reward_type);
+  if(edit && edit?.commission_type !== null && edit?.commission_type !== rewardType){
+    setRewardType(edit?.commission_type);
   }
 
   if(edit && edit?.discount_type !== null && edit?.discount_type !== discountType){
@@ -245,7 +245,7 @@ const CampaignForm = ({ edit, setupMode }) => {
                           id="campaign_public"
                           name="campaign_public"
                           type="checkbox"
-                          className="focus:ring-primary h-6 w-6 text-secondary border-2 border-gray-300 rounded-full cursor-pointer"
+                          className="focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-full cursor-pointer"
                           defaultChecked={edit && edit?.campaign_public ? edit?.campaign_public : true}
                         />
                       </div>
@@ -348,7 +348,7 @@ const CampaignForm = ({ edit, setupMode }) => {
                       id="default_campaign"
                       name="default_campaign"
                       type="checkbox"
-                      className="focus:ring-primary h-6 w-6 text-secondary border-2 border-gray-400 rounded-full cursor-pointer"
+                      className="focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-400 rounded-full cursor-pointer"
                       defaultChecked={edit && edit?.default_campaign ? true : false}
                     />
                   </div>

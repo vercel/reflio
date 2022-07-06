@@ -33,13 +33,11 @@ export default function CampaignInvite() {
         },
         token: session.access_token
       });
-
-      console.log(status);
       
       if(status === "success"){
         setLoading(false);
-        router.replace(window.location.href);
         toast.success(`Congratulations! You have joined campaign ${publicCampaignData?.campaign_name}`)
+        router.replace('/dashboard');
       }
 
       if(status === "private"){

@@ -65,15 +65,19 @@ export const createCommission = async(referralData, stripeId, referralId, email)
           paymentIntent?.data[0]?.invoice,
           {stripeAccount: stripeId}
         );
+
+        console.log(invoice);
         
         let invoiceTotal = invoice?.total;
 
         console.log("Trace 7");
 
+        console.log("Payment intent: ", invoice?.payment_intent);
+
         //----CALCULATE REUNDS----
         const refunds = await stripe.refunds.list({
           payment_intent: invoice?.payment_intent,
-          limit: 10,
+          limit: 100,
         }, {
           stripeAccount: stripeId
         });
@@ -103,7 +107,7 @@ export const createCommission = async(referralData, stripeId, referralId, email)
 
         console.log("Trace 10");
         
-        if(invoice?.paid === false){
+        if(invoice?.paid === true){
           invoice?.lines?.data?.map(line => {
             invoiceLineItems?.push(line?.description);
           })

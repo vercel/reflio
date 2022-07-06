@@ -114,7 +114,7 @@ const SignUp = () => {
             <div>
               <button
                 disabled={loading}
-                type="button"
+                type="submit"
                 className="group relative w-full flex justify-center py-3 px-5 border border-transparent text-md font-medium rounded-md text-white bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 "
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">

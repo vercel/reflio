@@ -9,6 +9,7 @@ import SEOMeta from '@/components/SEOMeta';
 import {
   UserGroupIcon
 } from '@heroicons/react/solid';
+import ReactTooltip from 'react-tooltip';
 
 export default function InnerDashboardPage() {
   const router = useRouter();
@@ -56,11 +57,12 @@ export default function InnerDashboardPage() {
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Campaign
                               </th>
-                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                              <th data-tip="Impressions are counted and tracked when a cookie was successfully set on the users device." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Impressions
+                                <ReactTooltip/>
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                Revenue
+                                Revenue Contributed
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Signup Method

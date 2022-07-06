@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/outline';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
+import { priceString } from '@/utils/helpers';
 
 export default function SingleCampaignPage() {
   const router = useRouter();
@@ -70,7 +71,7 @@ export default function SingleCampaignPage() {
                         </Button>
                       </div>
                       <div className="mb-8">
-                        <p className="text-lg font-semibold">{activeCampaign?.commission_type === 'percentage' ? `${activeCampaign?.commission_value}% commission on all paid referrals.` : `${activeCompany?.company_currency}${activeCampaign?.commission_value} commission on all paid referrals.`}</p>
+                        <p className="text-lg font-semibold">{activeCampaign?.commission_type === 'percentage' ? `${activeCampaign?.commission_value}% commission on all paid referrals.` : `${priceString(activeCampaign?.commission_value, activeCompany?.company_currency)} commission on all paid referrals.`}</p>
                       </div>
                       <div>
                         <p className="mb-1">

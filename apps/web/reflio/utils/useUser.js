@@ -152,7 +152,13 @@ export const getReferrals = async (companyId, date) => {
   if(date !== null){
     const { data, count, error } = await supabase
     .from('referrals')
-    .select("*", { count: "exact" })
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (invite_email)
+      `, 
+      { count: "exact" }
+    )
     .eq('company_id', companyId)
     .lt('created', [date])
     .order('created', { ascending: false })
@@ -164,7 +170,52 @@ export const getReferrals = async (companyId, date) => {
   } else {
     const { data, count, error } = await supabase
     .from('referrals')
-    .select("*", { count: "exact" })
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (invite_email)
+      `, 
+      { count: "exact" }
+    )
+    .eq('company_id', companyId)
+    .order('created', { ascending: false })
+    .limit(5)
+
+    if(error) return "error"; 
+    return { data, count };
+  }
+};
+
+//Get user referrals
+export const getSales = async (companyId, date) => {
+  if(date !== null){
+    const { data, count, error } = await supabase
+    .from('commissions')
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (invite_email)
+      `, 
+      { count: "exact" }
+    )
+    .eq('company_id', companyId)
+    .lt('created', [date])
+    .order('created', { ascending: false })
+    .limit(5)
+
+    if(error) return "error"; 
+    return { data, count };
+    
+  } else {
+    const { data, count, error } = await supabase
+    .from('commissions')
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (invite_email)
+      `, 
+      { count: "exact" }
+    )
     .eq('company_id', companyId)
     .order('created', { ascending: false })
     .limit(5)
@@ -178,10 +229,14 @@ export const getReferrals = async (companyId, date) => {
 export const newTeam = async (user, form) => {
   if(!form?.team_name) return "error";
 
-  const { data } = await supabase.from('teams').insert({
+  console.log(user)
+
+  const { data, error } = await supabase.from('teams').insert({
     id: user?.id,
     team_name: form?.team_name
   });
+
+  console.log(error)
 
   if(data && data[0]?.team_id){
     const userUpdate = await supabase
@@ -191,17 +246,9 @@ export const newTeam = async (user, form) => {
       })
       .eq('id', user?.id);
 
-    if(userUpdate?.data && userUpdate?.data !== null){
-      const memberCreate = await supabase.from('members').insert({
-        id: user?.id,
-        team_id: data[0]?.team_id
-      });
-
-      console.log("memberCreate:")
-      console.log(memberCreate)
-    }
-
-    return "success";
+      if(userUpdate?.data && userUpdate?.data !== null){
+        return "success";
+      }
   }
 
   return "error";

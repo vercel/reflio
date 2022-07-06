@@ -12,9 +12,6 @@ const affiliatePrograms = async (req, res) => {
 
         const programs = await getAffiliatePrograms(user?.id);
 
-        console.log("programs api:")
-        console.log(programs)
-
         return res.status(200).json({ programs });
 
       } else {

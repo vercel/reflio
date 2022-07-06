@@ -3,9 +3,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import Button from '@/components/ui/Button'; 
 import LoadingDots from '@/components/ui/LoadingDots';
+import { priceString } from '@/utils/helpers';
 
 const CampaignsList = (props) => {
   const { userAffiliateDetails } = useUserAffiliate();
+
+  console.log(userAffiliateDetails)
 
   return(
     <div className="wrapper">
@@ -53,7 +56,7 @@ const CampaignsList = (props) => {
                                       campaign?.campaign_valid !== false &&
                                       <div>
                                         <p className="text-xl mb-2 font-semibold">{campaign?.campaign_name}</p>
-                                        <p className="text-md">{campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals` : `${campaign?.company_currency}${campaign?.commission_value} commission on all paid referrals`}</p> 
+                                        <p className="text-md">{campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals` : `${priceString(campaign?.commission_value, campaign?.company_currency)} commission on all paid referrals`}</p> 
                                       </div>
                                     }
                                   </>

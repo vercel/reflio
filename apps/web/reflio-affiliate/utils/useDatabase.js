@@ -18,7 +18,7 @@ export const getAffiliatePrograms = async (userId) => {
     await Promise.all(affilateData?.map(async (item) => {
       let { data } = await supabaseAdmin
       .from('companies')
-      .select('company_name, stripe_account_data, company_image, company_url')
+      .select('company_name, stripe_account_data, company_image, company_url, company_currency')
       .eq('company_id', item?.company_id)
       .single()
 
@@ -41,6 +41,12 @@ export const getAffiliatePrograms = async (userId) => {
           item.company_url = data?.company_url;
         } else {
           item.company_url = null;
+        }
+
+        if(data?.company_currency !== null){
+          item.company_currency = data?.company_currency;
+        } else {
+          item.company_currency = null;
         }
       }
     }));
@@ -137,17 +143,16 @@ export const handleAffiliateInvite = async (user, handleType, affiliateId) => {
 export const handleCampaignJoin = async (user, companyId, campaignId) => {
   if(!user || !companyId || !campaignId) return "error";
 
-  console.log('running join')
-
   let { data } = await supabaseAdmin
     .from('campaigns')
-    .select('campaign_public')
+    .select('team_id, campaign_public')
     .eq('campaign_id', campaignId)
     .single()
   
   if(data?.campaign_public === true){
     const { error } = await supabaseAdmin.from('affiliates').insert({
       id: user?.id,
+      team_id: data?.team_id,
       company_id: companyId,
       campaign_id: campaignId,
       invite_email: 'manual',
@@ -156,6 +161,7 @@ export const handleCampaignJoin = async (user, companyId, campaignId) => {
     });
   
     if (error) {
+      console.log(error);
       return "error";
     } else {
       return "success";

@@ -15,27 +15,6 @@ END;
 $$ LANGUAGE plpgsql VOLATILE;
 
 /** 
-* USERS
-* Note: This table contains user data. Users should only be able to view and update their own data.
-*/
-create type user_types as enum ('platform', 'user');
-create table users (
-  -- UUID from auth.users
-  id uuid references auth.users not null primary key,
-  username text unique,
-  full_name text,
-  avatar_url text,
-  email text,
-  user_type user_types,
-  paypal_email text default null,
-  team_id text default null,
-  member_id text default null
-);
-alter table users enable row level security;
-create policy "Can view own user data." on users for select using (auth.uid() = id);
-create policy "Can update own user data." on users for update using (auth.uid() = id);
-
-/** 
 * Teams
 * Note: This table contains user data. Users should only be able to view and update their own data.
 */
@@ -53,7 +32,7 @@ create table teams (
 alter table teams enable row level security;
 create policy "Can view own user data." on teams for select using ((team_id in (select team_id from users where auth.uid() = id)) OR (auth.uid() = id));
 create policy "Can update own user data." on teams for update using ((team_id in (select team_id from users where auth.uid() = id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on teams for insert with check ((team_id in (select team_id from users where auth.uid() = id)) OR (auth.uid() = id));
+create policy "Can insert own user data." on teams for insert with check (auth.uid() = id);
 
 /** 
 * Team Invites
@@ -74,21 +53,25 @@ create policy "Can update own user data." on invites for update using (email in 
 create policy "Can insert own user data." on invites for insert with check (email in (select email from users where auth.email() = email));
 
 /** 
-* Team Members
+* USERS
 * Note: This table contains user data. Users should only be able to view and update their own data.
 */
-create table members (
+create type user_types as enum ('platform', 'user');
+create table users (
   -- UUID from auth.users
-  id uuid references auth.users not null,
-  member_id text primary key unique not null default generate_uid(15) unique,
-  invite_id text default null,
-  team_id text references teams not null,
-  created timestamp with time zone default timezone('utc'::text, now()) not null
+  id uuid references auth.users not null primary key,
+  username text unique,
+  full_name text,
+  avatar_url text,
+  email text,
+  user_type user_types,
+  paypal_email text default null,
+  team_id text references teams default null,
+  invite_id text references invites default null
 );
-alter table members enable row level security;
-create policy "Can view own user data." on members for select using ((member_id in (select member_id from users where users.member_id = member_id)) OR (auth.uid() = id));
-create policy "Can update own user data." on members for update using ((member_id in (select member_id from users where users.member_id = member_id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on members for insert with check ((team_id in (select team_id from users where users.id = id)) OR (id in (select id from invites where auth.uid() = id)));
+alter table users enable row level security;
+create policy "Can view own user data." on users for select using (auth.uid() = id);
+create policy "Can update own user data." on users for update using (auth.uid() = id);
 
 /** 
 * Companies
@@ -132,7 +115,7 @@ create table campaigns (
   campaign_name text,
   commission_type commission_types,
   commission_value integer,
-  company_id text,
+  company_id text references companies,
   cookie_window integer default 60,
   commission_period integer,
   default_campaign boolean default false,
@@ -160,8 +143,8 @@ create table affiliates (
   affiliate_id text primary key unique not null default generate_uid(20) unique,
   invite_email text,
   invited_user_id text,
-  campaign_id text,
-  company_id text,
+  campaign_id text references campaigns,
+  company_id text references companies,
   accepted boolean default false,
   created timestamp with time zone default timezone('utc'::text, now()) not null,
   impressions integer default 0,
@@ -182,10 +165,10 @@ create table referrals (
   id uuid references auth.users not null,
   team_id text references teams not null,
   referral_id text primary key unique not null default generate_uid(20) unique,
-  affiliate_id text,
+  affiliate_id text references affiliates,
   affiliate_code text,
-  campaign_id text,
-  company_id text,
+  campaign_id text references campaigns,
+  company_id text references companies,
   commission_type text,
   commission_value integer,
   cookie_window integer default 60,
@@ -210,10 +193,10 @@ create table commissions (
   id uuid references auth.users not null,
   team_id text references teams not null,
   commission_id text primary key unique not null default generate_uid(20) unique,
-  company_id text,
-  campaign_id text,
-  affiliate_id text,
-  referral_id text,
+  company_id text references companies,
+  campaign_id text references campaigns,
+  affiliate_id text references affiliates,
+  referral_id text references referrals,
   payment_intent_id text,
   commission_sale_value integer default null,
   commission_refund_value integer default null,

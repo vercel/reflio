@@ -22,6 +22,19 @@ export const UTCtoString = (date) => {
   return new Date(date).toISOString().split('T')[0];
 };
 
+export const checkUTCDateExpired = (UTCDate) => {
+  let dateToday = new Date();
+  let dateTodayTimestamp = dateToday.getTime();
+  let UTCDateConverted = new Date(UTCDate);
+  let UTCDateConvertedTimestamp = UTCDateConverted.getTime();
+
+  if(dateTodayTimestamp > UTCDateConvertedTimestamp){
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const capitalizeString = (str) => {
   var firstLetter = str.substr(0, 1);
   return firstLetter.toUpperCase() + str.substr(1);
@@ -36,50 +49,6 @@ export const toDateTime = (secs) => {
 export const classNames = (...classes) => {
   return classes.filter(Boolean).join(' ')
 }
-
-export const lightOrDark = (color) => {
-    // Variables for red, green, blue values
-    var r, g, b, hsp;
-    
-    // Check the format of the color, HEX or RGB?
-    if (color.match(/^rgb/)) {
-
-        // If RGB --> store the red, green, blue values in separate variables
-        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-        
-        r = color[1];
-        g = color[2];
-        b = color[3];
-    } 
-    else {
-        
-        // If hex --> Convert it to RGB: http://gist.github.com/983661
-        color = +("0x" + color.slice(1).replace( 
-        color.length < 5 && /./g, '$&$&'));
-
-        r = color >> 16;
-        g = color >> 8 & 255;
-        b = color & 255;
-    }
-    
-    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
-    hsp = Math.sqrt(
-    0.299 * (r * r) +
-    0.587 * (g * g) +
-    0.114 * (b * b)
-    );
-
-    // Using the HSP value, determine whether the color is light or dark
-    if (hsp>160) {
-
-        return 'light';
-    } 
-    else {
-
-        return 'dark';
-    }
-}
-
 
 export const timeSince = (date) => {
   let seconds = Math.floor((new Date() - new Date(date).getTime()) / 1000);
@@ -149,3 +118,23 @@ export const slugifyString = (text) => {
   .replace(/\-\-+/g, '-')
   .substring(0, 64);
 };
+
+export const priceString = (price, currency) => {
+  if(!price || !currency) return "error";
+
+  let string = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 2
+  }).format(price);
+
+  return string;
+}
+
+export const priceStringDivided = (price, currency) => {
+  if(!price || !currency) return "error";
+
+  let string = priceString(price/100, currency);
+
+  return string;
+}

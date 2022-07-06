@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
 import CampaignForm from '@/components/ui/Forms/CampaignForm'; 
+import { priceString } from '@/utils/helpers';
 
 export default function AddCompany() {
   const router = useRouter();
@@ -48,12 +49,12 @@ export default function AddCompany() {
                   userCampaignDetails[0]?.commission_type === "percentage" ?
                     <p>{userCampaignDetails[0]?.commission_value}%</p>
                   :
-                    <p>{activeCompany?.company_currency}{userCampaignDetails[0]?.commission_value}</p>
+                    <p>{priceString(userCampaignDetails[0]?.commission_value, activeCompany?.company_currency)}</p>
                 }
                 <p>{userCampaignDetails[0]?.commi}</p>
               </div>
               <div className="mb-8">
-                <a className="underline font-semibold" href={`/dashboard/${router?.query?.companyId}/campaigns/${userCampaignDetails[0]?.campaign_id}`}>Edit campaign</a>
+                <a className="underline font-semibold" href={`/dashboard/${router?.query?.companyId}/campaigns/${userCampaignDetails[0]?.campaign_id}/edit`}>Edit campaign</a>
               </div>
               <div className="pt-8 border-t-4">
                 <Button

@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import {
   TemplateIcon
 } from '@heroicons/react/solid';
+import { priceString } from '@/utils/helpers';
 
 export default function CampaignsPage() {
   const router = useRouter();
@@ -81,7 +82,7 @@ export default function CampaignsPage() {
                                     </div>
                                   }
                                   <p className="text-xl mb-2 font-semibold"><a className="underline" href={`/dashboard/${router?.query?.companyId}/campaigns/${campaign?.campaign_id}`}>{campaign?.campaign_name}</a></p>
-                                  <p className="text-md">{campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals` : `${activeCompany?.company_currency}${campaign?.commission_value} commission on all paid referrals`}</p>
+                                  <p className="text-md">{campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals` : `${priceString(campaign?.commission_value, activeCompany?.company_currency)} commission on all paid referrals`}</p>
                                   <div className="mt-3">
                                     <p className="text-gray-500">
                                       <span>New affiliates can join at&nbsp;</span>
