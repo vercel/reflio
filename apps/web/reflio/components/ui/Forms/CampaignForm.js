@@ -272,19 +272,19 @@ const CampaignForm = ({ edit, setupMode }) => {
             <div className="bg-gray-200 border-t-4 px-6 py-10 space-y-8">
               <div className="sm:col-span-12">
                 <div>
-                  <p className="text-xl font-bold mb-1">Give new customers a discount</p>
+                  <p className="text-xl font-bold mb-1">Give new customers a discount (optional)</p>
                   <p className="text-md mb-5">Enter the details of a discount code that was created in your Stripe account. Adding a discount code <span className="font-semibold">greatly increases conversion rates</span> for both referral sales, and EU based users giving cookie consent.</p>
                   <div>
                     <div className="space-y-4">
                       <div className="mt-1 flex rounded-md shadow-sm items-center justify-between">
-                        <label for="discount_type" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount type:</label>
+                        <label htmlFor="discount_type" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount type:</label>
                         <select defaultValue={discountType ? discountType : edit && edit?.discount_type} onChange={e=>{setDiscountType(e.target.value)}} className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 bor border-r-0 rounded-tl-none rounded-bl-none border-gray-300" required="required" name="discount_type" id="discount_type">
                           <option value="percentage">Percentage</option>
                           <option value="fixed">Fixed amount</option>
                         </select>
                       </div>
                       <div className="mt-1 flex rounded-md shadow-sm items-center justify-between">
-                        <label for="discount_code" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount code:</label>
+                        <label htmlFor="discount_code" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount code:</label>
                         <input
                           minLength="1"
                           maxLength="100"
@@ -301,7 +301,7 @@ const CampaignForm = ({ edit, setupMode }) => {
                       {
                         discountType === 'percentage' &&
                         <div className="mt-1 flex rounded-md shadow-sm items-center justify-between">
-                          <label for="discount_value" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount percentage:</label>
+                          <label htmlFor="discount_value" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount percentage:</label>
                           <input
                             minLength="1"
                             maxLength="100"
@@ -320,7 +320,7 @@ const CampaignForm = ({ edit, setupMode }) => {
                       {
                         discountType === 'fixed' &&
                         <div className="mt-1 flex rounded-md shadow-sm items-center justify-between">
-                          <label for="discount_value" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount amount: {activeCompany?.company_currency}</label>
+                          <label htmlFor="discount_value" className="min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none bg-gray-100 rounded-br-none border-gray-300">Discount amount: {activeCompany?.company_currency}</label>
                           <input
                             minLength="1"
                             maxLength="100"
@@ -349,7 +349,7 @@ const CampaignForm = ({ edit, setupMode }) => {
                       name="default_campaign"
                       type="checkbox"
                       className="focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-400 rounded-full cursor-pointer"
-                      defaultChecked={edit && edit?.default_campaign ? true : false}
+                      defaultChecked={setupMode === true ? true : edit && edit?.default_campaign ? true : false}
                     />
                   </div>
                   <div className="ml-3 text-sm">

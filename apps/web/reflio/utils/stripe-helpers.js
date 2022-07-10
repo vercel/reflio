@@ -1,5 +1,6 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
+import { invoicePayment, chargePayment } from './stripe-payment-helpers';
 
 export const createCommission = async(referralData, stripeId, referralId, email) => {
   console.log("Trace 1");
@@ -61,123 +62,13 @@ export const createCommission = async(referralData, stripeId, referralId, email)
       console.log("Trace 6");
 
       if(paymentIntent?.data[0]?.invoice){
-        const invoice = await stripe.invoices.retrieve(
-          paymentIntent?.data[0]?.invoice,
-          {stripeAccount: stripeId}
-        );
+        await invoicePayment(referralData, stripeId, referralId, paymentIntent);
 
-        console.log(invoice);
-        
-        let invoiceTotal = invoice?.total;
+      } else if(paymentIntent?.data[0]?.charges){
+        await chargePayment(referralData, stripeId, referralId, paymentIntent);
 
-        console.log("Trace 7");
-
-        console.log("Payment intent: ", invoice?.payment_intent);
-
-        //----CALCULATE REUNDS----
-        const refunds = await stripe.refunds.list({
-          payment_intent: invoice?.payment_intent,
-          limit: 100,
-        }, {
-          stripeAccount: stripeId
-        });
-
-        console.log("Trace 8");
-
-        if(refunds && refunds?.data?.length > 0){
-          refunds?.data?.map(refund => {
-            if(refund?.amount > 0){
-              invoiceTotal = parseInt(invoiceTotal - refund?.amount);
-            }
-          })
-
-          console.log("Trace 9");
-        }
-        //----END CALCULATE REUNDS----
-
-        let dueDate = new Date();
-        if(referralData?.data?.minimum_days_payout){
-          dueDate.setDate(dueDate.getDate() + referralData?.data?.minimum_days_payout);
-        } else {
-          dueDate.setDate(dueDate.getDate() + 30)
-        }
-        let dueDateIso = dueDate.toISOString();
-        let commissionAmount = invoiceTotal > 0 ? referralData?.data?.commission_type === "fixed" ? referralData?.data?.commission_value : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralData?.data?.commission_value))/100)*100))) : 0;
-        let invoiceLineItems = [];
-
-        console.log("Trace 10");
-        
-        if(invoice?.paid === true){
-          invoice?.lines?.data?.map(line => {
-            invoiceLineItems?.push(line?.description);
-          })
-
-          console.log("Trace 11");
-        }
-
-        let referralUpdate = await supabaseAdmin
-          .from('referrals')
-          .update({
-            referral_converted: true
-          })
-          .eq('referral_id', referralId);
-
-          console.log("Trace 12");
-
-        if(!referralUpdate?.error){
-
-          // newCommissionValues = await supabaseAdmin
-          // .from('commissions')
-          // .update({
-          //   commission_sale_value: invoiceTotal,
-          //   commission_total: commissionAmount,
-          //   commission_description: invoiceLineItems.toString()
-          // })
-          // .eq('commission_id', commissionData?.commission_id);
-
-          console.log("Trace 13");
-
-          let newCommissionValues = await supabaseAdmin.from('commissions').insert({
-            id: referralData?.data?.id,
-            team_id: referralData?.data?.team_id,
-            company_id: referralData?.data?.company_id,
-            campaign_id: referralData?.data?.campaign_id,
-            affiliate_id: referralData?.data?.affiliate_id,
-            referral_id: referralData?.data?.referral_id,
-            payment_intent_id: invoice?.payment_intent,
-            commission_sale_value: invoiceTotal,
-            commission_total: commissionAmount,
-            commission_due_date: dueDateIso,
-            commission_description: invoiceLineItems.toString()
-          });
-
-          console.log("Trace 14");
-
-          console.log(newCommissionValues)
-
-          if(newCommissionValues?.data){
-
-            console.log("Trace 15");
-
-            //Add parameter to Stripe payment intent
-            await stripe.paymentIntents.update(
-              invoice?.payment_intent,
-              {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
-              {stripeAccount: stripeId}
-            );
-
-            //Add parameter to Stripe invoice
-            await stripe.invoices.update(
-              invoice?.id,
-              {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
-              {stripeAccount: stripeId}
-            );
-
-            console.log("Trace 16");
-
-            return newCommissionValues?.data[0]?.commission_id;
-          }
-        }
+      } else {
+        return "commission_payment_calculation_error";
       }
     }
   }

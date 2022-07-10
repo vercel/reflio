@@ -187,7 +187,7 @@ export const getReferrals = async (companyId, date) => {
 };
 
 //Get user referrals
-export const getSales = async (companyId, date) => {
+export const getSales = async (companyId, date, page) => {
   if(date !== null){
     const { data, count, error } = await supabase
     .from('commissions')
@@ -336,6 +336,12 @@ export const newCampaign = async (user, form, companyId) => {
     formFields.team_id = user?.team_id;
   }
 
+  if(formFields.discount_code?.length === 0 || formFields.discount_code === null){
+    formFields.discount_code = null;
+    formFields.discount_type = null;
+    formFields.discount_value = null;
+  }
+
   let { data } = await supabase
     .from('campaigns')
     .select('*')
@@ -358,6 +364,8 @@ export const newCampaign = async (user, form, companyId) => {
   }
 
   const { error } = await supabase.from('campaigns').insert(formFields);
+
+  console.log(error);
 
   if (error) return "error";
 

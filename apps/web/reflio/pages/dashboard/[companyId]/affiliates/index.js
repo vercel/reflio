@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
 import { useAffiliate } from '@/utils/AffiliateContext';
-import LoadingDots from '@/components/ui/LoadingDots';
+import LoadingTile from '@/components/ui/LoadingTile';
 import Button from '@/components/ui/Button'; 
 import SEOMeta from '@/components/SEOMeta'; 
 import {
@@ -49,7 +49,6 @@ export default function InnerDashboardPage() {
                               </th>
                               <th data-tip="Impressions are counted and tracked when a cookie was successfully set on the users device." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Impressions
-                                <ReactTooltip/>
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Revenue Contributed
@@ -98,6 +97,7 @@ export default function InnerDashboardPage() {
                             ))}
                           </tbody>
                         </table>
+                        <ReactTooltip/>
                       </div>
                     </div>
                   </div>
@@ -110,11 +110,11 @@ export default function InnerDashboardPage() {
                   className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <UserGroupIcon className="w-10 h-auto mx-auto text-gray-600"/>
-                  <span className="mt-2 block text-sm font-medium text-gray-600">Invite affiliates</span>
+                  <span className="mt-2 block text-sm font-medium text-gray-600">Invite your first affiliates</span>
                 </a>
               </div>
           :
-            <LoadingDots/>
+            <LoadingTile/>
         }
       </div>
     </>

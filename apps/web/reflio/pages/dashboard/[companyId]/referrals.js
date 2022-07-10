@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { getReferrals } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
-import LoadingDots from '@/components/ui/LoadingDots';
+import LoadingTile from '@/components/ui/LoadingTile';
 import Button from '@/components/ui/Button'; 
 import SEOMeta from '@/components/SEOMeta'; 
 import {
@@ -25,6 +25,10 @@ export default function ReferralsPage() {
 
       if(results === "error"){
         console.warn("There was an error when getting data");
+      }
+
+      if(results?.data?.length === 0){
+        setReferrals({"data": [], "count": 0});
       }
     })
   }
@@ -53,14 +57,13 @@ export default function ReferralsPage() {
       <SEOMeta title="Referrals"/>
       <div className="mb-8">
         <div className="pt-10 wrapper">
-          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals</h1>
+          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
           <p>Referrals are tracked when a cookie has been successfully placed on the users device.</p>
         </div>
       </div>
       <div className="wrapper">
         {
-          activeCompany && referrals ?
-          referrals !== null && referrals?.data?.length > 0 ?
+          referrals && referrals?.data?.length > 0 ?
               <div>
                 <div className="flex flex-col">
                   <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -120,16 +123,15 @@ export default function ReferralsPage() {
                                         {checkUTCDateExpired(referral?.referral_expiry) === true ? 'Expired' : 'Pending'}
                                       </div>
                                   }
-                                  <ReactTooltip />
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   <div data-tip={referral?.created}>{UTCtoString(referral?.created)}</div>
-                                  <ReactTooltip/>
                                 </td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
+                        <ReactTooltip/>
                       </div>
                       <div className="mt-2">
                         <span className="text-xs">{`Showing ${referrals?.data?.length} of ${referrals?.count} total referrals.`}</span>
@@ -152,6 +154,7 @@ export default function ReferralsPage() {
                 </div>
               </div>
             :
+              referrals?.data?.length === 0 ?
               <div>
                 <div
                   className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -161,7 +164,7 @@ export default function ReferralsPage() {
                 </div>
               </div>
           :
-            <LoadingDots/>
+            <LoadingTile/>
         }
       </div>
     </>

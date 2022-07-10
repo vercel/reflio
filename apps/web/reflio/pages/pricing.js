@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import Pricing from '@/components/Pricing';
 import { getActiveProductsWithPrices } from '@/utils/supabase-client';
 import SEOMeta from '@/components/SEOMeta'; 
-import LoadingDots from '@/components/ui/LoadingDots';
+import LoadingTile from '@/components/ui/LoadingTile';
 
 export default function Products() {
 
@@ -24,17 +24,17 @@ export default function Products() {
       <SEOMeta 
         title="Pricing"
       />
-      <div className="relative bg-gradient-to-b from-secondary to-secondary-2 py-24">
+      <div className="relative bg-gradient-to-b from-white to-gray-200 py-24">
         <div className="wrapper">
           <div className="text-center mb-12">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">Pricing</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">Pricing</h1>
           </div>
           {
             products !== null ?
               <Pricing products={products}/>
             :
               <div className="flex items-center justify-center">
-                <LoadingDots/>
+                <LoadingTile/>
               </div>
           }
         </div>

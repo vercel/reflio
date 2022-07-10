@@ -26,8 +26,7 @@ export default function AdminNavItems() {
     { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
     { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
     { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
-    { name: 'Sales', href: `/dashboard/${activeCompany?.company_id}/sales`, icon: CurrencyDollarIcon },
-    { name: 'Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: TableIcon },
+    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: CurrencyDollarIcon },
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
     { name: 'Company Settings', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon },
   ];

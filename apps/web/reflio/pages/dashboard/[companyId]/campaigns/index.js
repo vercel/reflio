@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
-import LoadingDots from '@/components/ui/LoadingDots';
+import LoadingTile from '@/components/ui/LoadingTile';
 import SEOMeta from '@/components/SEOMeta'; 
 import Button from '@/components/ui/Button'; 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -39,6 +39,9 @@ export default function CampaignsPage() {
           </Button>
         </div>
       </div>
+      {/* <div className="mb-12">
+        <LoadingDots/>
+      </div> */}
       <div className="wrapper">
         {
           activeCompany && userCampaignDetails ?
@@ -107,7 +110,7 @@ export default function CampaignsPage() {
                 </a>
               </div>
           :
-            <LoadingDots/>
+            <LoadingTile/>
         }
       </div>
     </>

@@ -1,11 +1,11 @@
 import SEOMeta from '@/components/SEOMeta'; 
 import CommissionsTemplate from '@/components/ui/CommissionsTemplate'; 
 
-export default function CommissionsPage() {
+export default function CommissionsUnpaidPage() {
   return (
     <>
       <SEOMeta title="Sales"/>
-      <CommissionsTemplate page="index"/>
+      <CommissionsTemplate page="unpaid"/>
     </>
   );
 }

@@ -55,6 +55,9 @@ module.exports = {
       },
       letterSpacing: {
         widest: '0.3em'
+      },
+      animation: {
+        'pulse-fast': 'pulse 0.75s linear infinite',
       }
     }
   },

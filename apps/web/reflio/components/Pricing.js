@@ -52,11 +52,17 @@ export default function Pricing({ products }) {
               }).format(product.prices[0].unit_amount / 100);
 
               return (
-                <div onClick={e=>{setActivePlan(product)}} className={`cursor-pointer bg-gradient-to-b from-primary to-primary-2 rounded-xl p-6 shadow-lg border-4 ${activePlan?.name === product?.name ? 'border-white' : 'border-primary-2'}`}>
+                <div onClick={e=>{setActivePlan(product)}} className={`${product?.name === 'Pro' ? 'bg-gradient-to-b from-secondary to-secondary-2 text-white' : 'bg-gradient-to-b from-primary to-primary-2' } cursor-pointer rounded-xl p-6 shadow-lg relative border-4 ${activePlan?.name === product?.name ? 'border-white' : product?.name === 'Pro' ? 'border-secondary-2' : 'border-primary-2'}`}>
                   <h3 className="text-2xl font-semibold">
-                    <div className="flex items-center justify-between mb-3">
-                      <p>{product?.name}</p>
-                      <p>{priceString}/mo</p>
+                    <div className="mb-3">
+                      {
+                        product?.name === 'Pro' &&
+                        <span className="absolute top-3 right-3 bg-secondary-2 text-white py-2 px-5 rounded-xl text-xs mb-1 inline-block">Recommended</span>
+                      }
+                      <div className="pt-8 flex items-center justify-between">
+                        <p>{product?.name}</p>
+                        <p>{priceString}/mo</p>
+                      </div>
                     </div>
                     <p className="text-base font-medium">That they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will.</p>
                   </h3>
@@ -64,7 +70,7 @@ export default function Pricing({ products }) {
               );
             })}
           </div>
-          <div className="bg-gradient-to-b from-primary to-primary-2 rounded-xl p-6 shadow-lg flex-grow h-full flex flex-col items-center justify-center border-4 border-white">
+          <div className={`${activePlan?.name === 'Pro' ? 'bg-gradient-to-b from-secondary to-secondary-2' : 'bg-gradient-to-b from-primary to-primary-2'} rounded-xl p-6 shadow-lg flex-grow h-full flex flex-col items-center justify-center border-4 border-white`}>
             {/* <button
               loading={priceIdLoading === activePlan?.id}
               onClick={() => handleCheckout(activePlan?.prices[0])}
