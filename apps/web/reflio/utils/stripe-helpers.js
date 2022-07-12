@@ -1,6 +1,7 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
 import { invoicePayment, chargePayment } from './stripe-payment-helpers';
+import { monthsBetweenDates } from './helpers';
 
 export const createCommission = async(referralData, stripeId, referralId, email) => {
   console.log("Trace 1");
@@ -56,10 +57,12 @@ export const createCommission = async(referralData, stripeId, referralId, email)
       console.log("Trace 6");
 
       if(paymentIntent?.data[0]?.invoice){
-        await invoicePayment(referralData, stripeId, referralId, paymentIntent);
+        await invoicePayment(referralData, stripeId, referralId, paymentIntent, null);
+        return "success";
 
       } else if(paymentIntent?.data[0]?.charges){
         await chargePayment(referralData, stripeId, referralId, paymentIntent);
+        return "success";
 
       } else {
         return "commission_payment_calculation_error";
@@ -177,6 +180,91 @@ export const editCommission = async(data) => {
 
   return "error";
 };
+
+export const findCommission = async(data) => {
+  let paymentData = data?.data?.object ? data?.data?.object : null;
+  
+  console.log('--Trace 1')
+
+  if(paymentData === null){
+    console.log("--Trace 2")
+    return "error";
+  }
+
+  if(!paymentData?.payment_intent){
+    return "no payment intent";
+  }
+
+  if(!paymentData?.customer){
+    return "no customer";
+  }
+
+  const customer = await stripe.customers.retrieve(
+    paymentData?.customer,
+    {stripeAccount: data?.account}
+  );
+
+  console.log("--Trace 3")
+
+  if(customer?.metadata?.reflio_referral_id){
+    console.log("--Trace 4")
+
+    let referralFromId = await supabaseAdmin
+      .from('referrals')
+      .select('*')
+      .eq('referral_id', customer?.metadata?.reflio_referral_id)
+      .single();
+
+    console.log("--Trace 5")
+
+    if(referralFromId?.data !== null){
+      console.log("--Trace 7")
+
+      let earliestCommission = await supabaseAdmin
+        .from('commissions')
+        .select('created')
+        .eq('referral_id', referralFromId?.data?.referral_id)
+        .order('created', { ascending: true })
+        .limit(1)
+
+        console.log("--Trace 8")
+
+        if(earliestCommission?.data !== null){
+          let commissionFound = earliestCommission?.data[0];
+
+          console.log("commissionFound?.created:")
+          console.log(commissionFound?.created)
+
+          console.log("--Trace 9")
+
+          if(commissionFound?.created){
+            let stripeDateConverted = new Date(paymentData?.created * 1000);
+            let earliestCommissionDate = new Date(commissionFound?.created);
+            let monthsBetween = monthsBetweenDates(stripeDateConverted, earliestCommissionDate);
+
+            console.log("--Trace 10")
+
+            console.log("monthsBetween:")
+            console.log(monthsBetween)
+
+            if(referralFromId?.data?.commission_period > monthsBetween){
+              console.log("--Trace 11")
+              if(paymentData?.invoice){
+                console.log("--Trace 12")
+                await invoicePayment(referralFromId, data?.account, referralFromId?.data?.referral_id, null, paymentData?.invoice);
+                return "success";
+              }
+            }
+          }
+        }
+    }
+  }
+
+  console.log("Returned and errored here");
+
+  return "error";
+
+}
 
 //Deletes stripe ID from company account
 export const deleteIntegrationFromDB = async (stripeId) => {

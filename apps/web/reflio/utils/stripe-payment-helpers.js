@@ -1,11 +1,11 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
 
-export const invoicePayment = async(referralData, stripeId, referralId, paymentIntent) => {
+export const invoicePayment = async(referralData, stripeId, referralId, paymentIntent, invoiceId) => {
   console.log('----INVOICE PAYMENT FUNC ----');
   
   const invoice = await stripe.invoices.retrieve(
-    paymentIntent?.data[0]?.invoice,
+    invoiceId !== null ? invoiceId : paymentIntent?.data[0]?.invoice,
     {stripeAccount: stripeId}
   );
   
@@ -98,12 +98,25 @@ export const invoicePayment = async(referralData, stripeId, referralId, paymentI
         {stripeAccount: stripeId}
       );
 
+      console.log('15-01')
+
       //Add parameter to Stripe invoice
       await stripe.invoices.update(
         invoice?.id,
         {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
         {stripeAccount: stripeId}
       );
+
+      console.log('15-02')
+
+      //Add parameter to Stripe customer
+      await stripe.customers.update(
+        invoice?.customer,
+        {metadata: {reflio_referral_id: referralId}},
+        {stripeAccount: stripeId}
+      );
+
+      console.log('15-03')
 
       console.log("Trace 16");
 
@@ -200,6 +213,13 @@ export const chargePayment = async(referralData, stripeId, referralId, paymentIn
       await stripe.paymentIntents.update(
         paymentIntent?.data[0]?.id,
         {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
+        {stripeAccount: stripeId}
+      );
+
+      //Add parameter to Stripe payment intent
+      await stripe.paymentIntents.update(
+        paymentIntent?.data[0]?.customer,
+        {metadata: {reflio_referral_id: newCommissionValues?.data[0]?.referral_id}},
         {stripeAccount: stripeId}
       );
 

@@ -165,7 +165,7 @@ export const getReferrals = async (companyId, date) => {
     .eq('company_id', companyId)
     .lt('created', [date])
     .order('created', { ascending: false })
-    .limit(5)
+    .limit(30)
 
     if(error) return "error"; 
     return { data, count };
@@ -182,7 +182,7 @@ export const getReferrals = async (companyId, date) => {
     )
     .eq('company_id', companyId)
     .order('created', { ascending: false })
-    .limit(5)
+    .limit(30)
 
     if(error) return "error"; 
     return { data, count };
@@ -204,7 +204,7 @@ export const getSales = async (companyId, date, page) => {
     .eq('company_id', companyId)
     .lt('created', [date])
     .order('created', { ascending: false })
-    .limit(5)
+    .limit(30)
 
     if(error) return "error"; 
     return { data, count };
@@ -221,7 +221,7 @@ export const getSales = async (companyId, date, page) => {
     )
     .eq('company_id', companyId)
     .order('created', { ascending: false })
-    .limit(5)
+    .limit(30)
 
     if(error) return "error"; 
     return { data, count };

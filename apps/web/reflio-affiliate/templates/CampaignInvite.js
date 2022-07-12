@@ -106,7 +106,13 @@ export default function CampaignInvite() {
                           </div>
                         :
                           <div>
-                            
+                            <Button
+                              href={`/signup?campaign_id=${publicCampaignData?.campaign_id}&company_name=${publicCampaignData?.company_name}`}
+                              secondary
+                              large
+                            >
+                              Join Campaign
+                            </Button>
                           </div>
                       }
                     </div>

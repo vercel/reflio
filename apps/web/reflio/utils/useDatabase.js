@@ -179,22 +179,29 @@ export const getAccountEmail = async (id) => {
 }
 
 export const getCompanyFromExternal = async (domain) => {
+  let companyData = null;
+
   let { data, error } = await supabaseAdmin
     .from('companies')
-    .select('company_id, domain_verified, company_url')
+    .select('company_id, domain_verified, company_url, created')
     .eq('company_url', domain)
-    .single();
+    .order('created', { ascending: false })
+    .limit(1)
+
+    if(data?.length){
+      companyData = data[0];
+    }
 
     if (error) return "error";
 
-  if(data?.domain_verified === false){
+  if(companyData?.domain_verified === false){
 
     let { error } = await supabaseAdmin
     .from('companies')
     .update({
       domain_verified: true,
     })
-    .eq('company_id', data?.company_id);
+    .eq('company_id', companyData?.company_id);
 
     console.log('error here 2');
     console.log(error);
@@ -278,7 +285,7 @@ export const createReferral = async (details) => {
     campaignData = data;
     
     let dateToday = new Date();
-    if(data?.cookie_window){
+    if(campaignData?.cookie_window){
       dateToday.setDate(dateToday.getDate() + data?.cookie_window);
     } else {
       dateToday.setDate(dateToday.getDate() + 60)
@@ -287,17 +294,17 @@ export const createReferral = async (details) => {
     dateToday = dateToday.toUTCString();
 
     let referralData = { data, error } = await supabaseAdmin.from('referrals').insert({
-      id: data?.id,
-      team_id: data?.team_id,
+      id: campaignData?.id,
+      team_id: campaignData?.team_id,
       affiliate_id: details?.affiliate_id,
       affiliate_code: details?.affiliate_code,
-      campaign_id: data?.campaign_id,
-      company_id: data?.company_id,
-      commission_type: data?.commission_type,
-      commission_value: data?.commission_value,
-      cookie_window: data?.cookie_window,
-      commission_period: data?.commission_period,
-      minimum_days_payout: data?.minimum_days_payout,
+      campaign_id: campaignData?.campaign_id,
+      company_id: campaignData?.company_id,
+      commission_type: campaignData?.commission_type,
+      commission_value: campaignData?.commission_value,
+      cookie_window: campaignData?.cookie_window,
+      commission_period: campaignData?.commission_period,
+      minimum_days_payout: campaignData?.minimum_days_payout,
       referral_expiry: dateTodayIso
     });
 

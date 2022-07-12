@@ -138,3 +138,9 @@ export const priceStringDivided = (price, currency) => {
 
   return string;
 }
+
+export const monthsBetweenDates = (dt2, dt1) => {
+  let diff =(dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= (60 * 60 * 24 * 7 * 4);
+  return Math.abs(Math.round(diff));
+}
