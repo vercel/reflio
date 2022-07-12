@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router';
-import LoadingDots from '@/components/ui/LoadingDots';
+import LoadingTile from '@/components/ui/LoadingTile';
 import SEOMeta from '@/components/SEOMeta'; 
 
 export default function DashboardPage() {
@@ -7,7 +6,7 @@ export default function DashboardPage() {
     <>
       <SEOMeta title="Dashboard"/>
       <div className="pt-12 wrapper">
-        <LoadingDots/>
+        <LoadingTile/>
       </div>
     </>
   );

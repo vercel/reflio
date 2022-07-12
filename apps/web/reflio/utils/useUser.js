@@ -140,7 +140,10 @@ export const getCampaigns = async (companyId) => {
 export const getAffiliates = async (companyId) => {
   const { data, error } = await supabase
   .from('affiliates')
-  .select('*')
+  .select(`
+    *,
+    details:invited_user_id (email)
+  `)
   .eq('company_id', companyId)
 
   if(error) return error; 

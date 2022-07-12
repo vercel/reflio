@@ -17,7 +17,7 @@ export const AffiliateContextProvider = (props) => {
   useEffect(() => {
     if (userFinderLoaded && getAffiliates && user && userAffiliateDetails === null && activeCompany?.company_id) {
       getAffiliates(activeCompany?.company_id).then(results => {
-          setUserAffiliateDetails(Array.isArray(results) ? results : [results])
+        setUserAffiliateDetails(Array.isArray(results) ? results : [results])
       });
     }
   });

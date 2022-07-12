@@ -142,7 +142,7 @@ create table affiliates (
   team_id text references teams not null,
   affiliate_id text primary key unique not null default generate_uid(20) unique,
   invite_email text,
-  invited_user_id text,
+  invited_user_id uuid references users(id) not null,
   campaign_id text references campaigns,
   company_id text references companies,
   accepted boolean default false,

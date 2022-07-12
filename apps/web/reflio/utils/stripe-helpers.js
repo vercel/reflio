@@ -21,17 +21,11 @@ export const createCommission = async(referralData, stripeId, referralId, email)
 
     console.log("Trace 3");
 
-    // if(!customer?.data[0]?.metadata?.reflio_referral_id){
-    //   //Add parameter to Stripe customer
-    //   await stripe.customers.update(
-    //     customer?.data[0]?.id,
-    //     {metadata: {reflio_referral_id: referralData?.data?.referral_id}},
-    //     {stripeAccount: stripeId}
-    //   );
-    // } else {
-    //   console.log("---Customer already has metadata---")
-    //   console.log(customer?.data[0]?.metadata?.reflio_referral_id)
-    // }
+    await stripe.customers.update(
+      customer?.data[0]?.id,
+      {metadata: {reflio_referral_id: referralData?.data?.referral_id}},
+      {stripeAccount: stripeId}
+    );
 
     if(customer?.data[0]?.email === email){
       const paymentIntent = await stripe.paymentIntents.list({

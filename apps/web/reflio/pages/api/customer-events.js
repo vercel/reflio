@@ -1,7 +1,8 @@
 import { stripe } from '@/utils/stripe';
 import {
   deleteIntegrationFromDB,
-  editCommission
+  editCommission,
+  findCommission
 } from '@/utils/stripe-helpers';
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -55,6 +56,9 @@ const customerEvents = async (req, res) => {
             break;
           case 'charge.updated':
             await editCommission(event);
+            break;
+          case 'charge.succeeded':
+            await findCommission(event);
             break;
           case 'account.application.deauthorized':
             if(event.data.object?.name === 'Reflio'){

@@ -113,6 +113,12 @@ const CommissionsTemplate = ({ page }) => {
                     </Transition>
                   </Menu>
                 </div>
+                {
+                  checkedItems.length > 0 &&
+                  <div className="flex items-center justify-end">
+                    
+                  </div>
+                }
                 <div className="flex flex-col">
                   <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -120,7 +126,18 @@ const CommissionsTemplate = ({ page }) => {
                         <table className="min-w-full divide-y divide-gray-300">
                           <thead className="bg-gray-200">
                             <tr>
-                              <th data-tip="The total amount received, after any deductions for refunds and discounts." scope="col" className="pr-3 text-sm sm:pl-6 px-3 py-3.5 text-left font-semibold">
+                              <th scope="col" className="pr-3 sm:pl-6 px-3 py-3.5 text-left text-sm font-semibold">
+                                <input
+                                  id="campaign_public"
+                                  name="campaign_public"
+                                  type="checkbox"
+                                  className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                  onClick={(e) => {
+                                    setCheckedItems(checkedItems === 'all' ? [] : 'all');
+                                  }} 
+                                />
+                              </th>
+                              <th data-tip="The total amount received, after any deductions for refunds and discounts." scope="col" className="px-3 py-3.5 text-sm text-left font-semibold">
                                 Sale Amount
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
@@ -141,17 +158,33 @@ const CommissionsTemplate = ({ page }) => {
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Status
                               </th>
-                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                              </th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white text-sm">
                             {commissions?.data?.map((sale) => (
                               <tr key={sale?.commission_id}>
-                                <td className="whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 font-semibold">
+                                <td className="whitespace-nowrap pl-4 pr-3  text-sm">
+                                  <div className="flex items-center h-5">
+                                    <input
+                                      disabled={sale?.paid_at !== null || checkUTCDateExpired(sale?.commission_due_date) === false}
+                                      id="campaign_public"
+                                      name="campaign_public"
+                                      type="checkbox"
+                                      className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                      onClick={(e) => {
+                                        setCheckedItems([
+                                          ...checkedItems,
+                                          sale
+                                        ]);
+                                      }} 
+                                      checked={checkedItems === 'all' && true}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm sm:pl-6">
                                   <span>{priceStringDivided(sale?.commission_sale_value, activeCompany?.company_currency)}</span>
                                 </td>
-                                <td className="whitespace-nowrap px-3 py-4 font-semibold">
+                                <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
                                   <span>{priceStringDivided(sale?.commission_total, activeCompany?.company_currency)}</span>
                                 </td>
                                 <td className="px-3 py-4 text-sm max-w-xs break-all">
@@ -169,23 +202,6 @@ const CommissionsTemplate = ({ page }) => {
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   <div data-tip={`${sale?.paid_at !== null ? 'Paid at '+sale?.paid_at+'' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not valid to be paid out yet, due '+sale?.commission_due_date+''}`} className={`${sale?.paid_at !== null ? 'bg-secondary-2 text-white' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-900'} 'bg-gray-400 text-gray-900'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
                                     {sale?.paid_at !== null ? 'Paid' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not payable yet'}
-                                  </div>
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  <div className="flex items-center h-5">
-                                    <input
-                                      disabled={sale?.paid_at !== null || checkUTCDateExpired(sale?.commission_due_date) === false}
-                                      id="campaign_public"
-                                      name="campaign_public"
-                                      type="checkbox"
-                                      className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
-                                      onClick={(e) => {
-                                        setCheckedItems([
-                                          ...checkedItems,
-                                          sale?.commission_id
-                                        ]);
-                                      }} 
-                                    />
                                   </div>
                                 </td>
                               </tr>
