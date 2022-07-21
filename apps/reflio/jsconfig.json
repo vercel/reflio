@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/dist/*": ["../../packages/ui/dist/*"],
+      "@/components/*": ["../../packages/ui/src/*"],
+      "@/templates/*": ["./templates/*"],
+      "@/utils/*": ["../../packages/ui/src/utils/*"],
+      "@/public/js/*": ["public/js/*"]
+    }
+  }
+}

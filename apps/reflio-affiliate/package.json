@@ -1,0 +1,41 @@
+{
+  "name": "reflio-affiliate",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next -p 3001",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.3",
+    "@supabase/supabase-js": "^1.25.1",
+    "add": "^2.0.6",
+    "autoprefixer": "^10.4.2",
+    "babel-plugin-static-fs": "^3.0.0",
+    "dotenv": "^16.0.1",
+    "next": "12",
+    "next-transpile-modules": "^9.0.0",
+    "react": "^18.0.0-rc.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.0.0-rc.0",
+    "react-hot-toast": "^2.1.1",
+    "ui": "*",
+    "yarn": "^1.22.11"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "eslint-config-custom": "*",
+    "postcss": "^8.4.4",
+    "tailwind-config": "*",
+    "tailwindcss": "^3.0.22"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none"
+  }
+}

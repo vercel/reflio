@@ -1,0 +1,244 @@
+@font-face {
+  font-family: 'TT Interfaces';
+  src: url(../fonts/TTInterfaces-Regular.woff2) format('woff2'),
+      url(../fonts/TTInterfaces-Regular.woff) format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'TT Interfaces';
+  src: url(../fonts/TTInterfaces-Medium.woff2) format('woff2'),
+      url(../fonts/TTInterfaces-Medium.woff) format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'TT Interfaces';
+  src: url(../fonts/TTInterfaces-Bold.woff2) format('woff2'),
+      url(../fonts/TTInterfaces-Bold.woff) format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wrapper {
+  @apply mx-auto w-11/12 clear-both max-w-screen-xl;
+}
+
+.wrapper-max {
+  @apply max-w-screen-xl;
+}
+
+.wrapper-sm {
+  @apply max-w-3xl
+}
+
+:root {
+  --primary: #ffaf45;
+  --primary-2: #e99c36;
+  --primary-3: #b66e11;
+  --secondary: #915ff2;
+  --secondary-2: #7a48dd;
+  --secondary-3: #2a1368;
+  --text-primary: #1b1b1b;
+  --text-secondary: #ffffff; 
+
+  --accents-0: #212529;
+  --accents-1: #343a40;
+  --accents-2: #495057;
+  --accents-3: #868e96;
+  --accents-4: #adb5bd;
+  --accents-5: #ced4da;
+  --accents-6: #dee2e6;
+  --accents-7: #e9ecef;
+  --accents-8: #f1f3f5;
+  --accents-9: #f8f9fa;;
+  --header-height: 80px;
+  --vh100-offset: calc(100vh - var(--header-height));
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+a.text-primary:hover {
+  color: var(--primary-2);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+a.text-secondary:hover {
+  color: var(--secondary-2);
+}
+
+a.bg-primary:hover {
+  background-color: var(--primary-2);
+}
+
+.bg-dark {
+  background-color: var(--secondary-3);
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  font-feature-settings: 'case' 1, 'rlig' 1, 'calt' 0;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "TT Interfaces", ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+}
+
+html,
+body {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: antialiased;
+  color: var(--text-primary);
+}
+
+html,
+body {
+  @apply tracking-tight;
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  @apply bg-gray-50;
+}
+
+/* p, a, span {
+  letter-spacing: -0.025em;
+} */
+
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.customGradient {
+  background-image: linear-gradient(to left bottom, #705de4, #6a58d9, #6554cf, #5f4fc4, #5a4bba, #4b50b7, #3d54b2, #3057ac, #1f60a6, #22679d, #336d93, #487188);
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.height-screen-helper {
+  height: var(--vh100-offset);
+}
+
+.content-block {
+  @apply py-8 bg-white;
+}
+
+.content-block h1 {
+  @apply mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl;
+}
+
+.content-block h2 {
+  @apply mt-5 text-2xl font-extrabold tracking-tight sm:text-2xl;
+}
+
+.content-block h3, .content-block h4 {
+  @apply mt-3 text-xl font-extrabold tracking-tight sm:text-xl;
+}
+
+.content-block p {
+  @apply mt-4 text-sm md:text-lg ;
+}
+
+.content-block ul {
+  @apply pl-8 mb-6 list-disc;
+}
+
+.content-block li {
+  @apply mt-3 text-sm md:text-lg mt-1;
+}
+
+.content-block a {
+  @apply mt-3 font-bold text-sm md:text-lg mt-4;
+}
+
+.loom-sdk-record-overlay-shadow-root-id {
+  display: block !important;
+}
+
+.gradient-bg {
+  content: "";
+  background: linear-gradient(60deg,#1d638a,#2d7aa5,#1e648b,#1a6e9e,#1d638a,#1d798a,#1d8a63,#1d8a40);
+  animation: animatedgradient 3s ease infinite alternate;
+  background-size: 300% 300%;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 50% 0;
+  }
+}
+
+.pricing-button {
+  box-shadow: 0 0 250px rgba(255,255,255,0.6);
+}
+
+.fancy-list li:before {
+  content: '✓';
+  margin-right: 6px;
+}

@@ -12,6 +12,9 @@
 /.next/
 /.cache/
 /out/
+.next/**
+dist/**
+build/**
 
 # production
 /build
@@ -33,3 +36,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#Turbo
+.turbo
