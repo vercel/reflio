@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCompany } from '@/utils/CompanyContext';
+import { useCompany } from 'utils/CompanyContext';
 import LoadingDots from '@/components/LoadingDots';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 

@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
-import { useUser, handleActiveCompany } from '../utils/useUser';
+import { useUser, handleActiveCompany } from '../../../../apps/reflio/utils/useUser';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { classNames } from '../utils/helpers';
-import { useCompany } from '../utils/CompanyContext';
+import { classNames } from '../../../../apps/reflio/utils/helpers';
+import { useCompany } from '../../../../apps/reflio/utils/CompanyContext';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import {

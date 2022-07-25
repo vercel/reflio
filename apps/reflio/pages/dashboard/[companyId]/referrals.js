@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { getReferrals } from '@/utils/useUser';
-import { useCompany } from '@/utils/CompanyContext';
+import { getReferrals } from 'utils/useUser';
+import { useCompany } from 'utils/CompanyContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import {
   EmojiSadIcon
 } from '@heroicons/react/solid';
-import { UTCtoString, checkUTCDateExpired, priceString } from '@/utils/helpers';
+import { UTCtoString, checkUTCDateExpired, priceString } from 'utils/helpers';
 import ReactTooltip from 'react-tooltip';
 
 export default function ReferralsPage() {

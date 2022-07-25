@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import CampaignForm from '@/components/Forms/CampaignForm';
+import CampaignForm from 'forms/CampaignForm';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
 import {

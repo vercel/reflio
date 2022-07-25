@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import Pricing from '@/components/Pricing';
-import { getActiveProductsWithPrices } from '@/utils/supabase-client';
+import { getActiveProductsWithPrices } from 'utils/supabase-client';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import LoadingTile from '@/components/LoadingTile';
 

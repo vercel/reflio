@@ -232,6 +232,7 @@ export const getSales = async (companyId, date, page) => {
 export const newTeam = async (user, form) => {
   if(!form?.team_name) return "error";
 
+  console.log("User:")
   console.log(user)
 
   const { data, error } = await supabase.from('teams').insert({
@@ -239,6 +240,10 @@ export const newTeam = async (user, form) => {
     team_name: form?.team_name
   });
 
+  console.log("Data:")
+  console.log(data)
+
+  console.log("Error:")
   console.log(error)
 
   if(data && data[0]?.team_id){

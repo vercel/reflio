@@ -1,9 +1,9 @@
-import { stripe } from '@/utils/stripe';
+import { stripe } from 'utils/stripe';
 import {
   deleteIntegrationFromDB,
   editCommission,
   findCommission
-} from '@/utils/stripe-helpers';
+} from 'utils/stripe-helpers';
 // Stripe requires the raw body to construct the event.
 export const config = {
   api: {

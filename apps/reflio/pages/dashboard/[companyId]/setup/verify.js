@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import SetupProgress from '@/components/SetupProgress'; 
 import Button from '@/components/Button'; 
 import { SEOMeta } from '@/templates/SEOMeta'; 
-import { useCompany } from '@/utils/CompanyContext';
+import { useCompany } from 'utils/CompanyContext';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 

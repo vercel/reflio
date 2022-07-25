@@ -1,6 +1,6 @@
-import { getCompanyFromExternal, verifyReferral, fireRecordImpression, createReferral } from '@/utils/useDatabase';
+import { getCompanyFromExternal, verifyReferral, fireRecordImpression, createReferral } from 'utils/useDatabase';
 import Cors from 'cors';
-import { getURL } from '@/utils/helpers';
+import { getURL } from 'utils/helpers';
 
 // Initializing the cors middleware
 const cors = Cors({

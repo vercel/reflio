@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { editCurrency } from '@/utils/useUser';
+import { editCurrency } from 'utils/useUser';
 import SetupProgress from '@/components/SetupProgress'; 
 import Button from '@/components/Button'; 
-import { useCompany } from '@/utils/CompanyContext';
+import { useCompany } from 'utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import LoadingDots from '@/components/LoadingDots'; 
 

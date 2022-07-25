@@ -7,16 +7,16 @@ import SEOMeta from '../templates/SEOMeta';
 
 export default function MyApp({ Component, pageProps }){
   const UserContextProvider = dynamic(() =>
-    import("@/utils/useUser").then((module) => module.UserContextProvider)
+    import("utils/useUser").then((module) => module.UserContextProvider)
   );
   const CompanyContextProvider = dynamic(() =>
-    import("@/utils/CompanyContext").then((module) => module.CompanyContextProvider)
+    import("utils/CompanyContext").then((module) => module.CompanyContextProvider)
   );
   const CampaignContextProvider = dynamic(() =>
-    import("@/utils/CampaignContext").then((module) => module.CampaignContextProvider)
+    import("utils/CampaignContext").then((module) => module.CampaignContextProvider)
   );
   const AffiliateContextProvider = dynamic(() =>
-    import("@/utils/AffiliateContext").then((module) => module.AffiliateContextProvider)
+    import("utils/AffiliateContext").then((module) => module.AffiliateContextProvider)
   );
   const router = useRouter();
   

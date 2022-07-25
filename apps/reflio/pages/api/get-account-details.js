@@ -1,4 +1,4 @@
-import { stripe } from '@/utils/stripe';
+import { stripe } from 'utils/stripe';
 
 const getAccountDetails = async (req, res) => {
   if (req.method === 'POST') {

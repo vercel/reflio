@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { useCompany } from './utils/CompanyContext';
-import { useCampaign } from './utils/CampaignContext';
+import { useCompany } from '../../../apps/reflio/utils/CompanyContext';
+import { useCampaign } from '../../../apps/reflio/utils/CampaignContext';
 import LoadingDots from '@/components/LoadingDots';
 
 export const SetupProgress = (props) => {

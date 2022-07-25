@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useUser } from '@/utils/useUser';
+import { useUser } from 'utils/useUser';
 import Button from '@/components/Button'; 
-import { useCompany } from '@/utils/CompanyContext';
-import { useCampaign } from '@/utils/CampaignContext';
+import { useCompany } from 'utils/CompanyContext';
+import { useCampaign } from 'utils/CampaignContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
-import { postData } from '@/utils/helpers';
+import { postData } from 'utils/helpers';
 import LoadingDots from '@/components/LoadingDots';
 import {
   ArrowNarrowLeftIcon

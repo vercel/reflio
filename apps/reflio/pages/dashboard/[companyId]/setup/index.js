@@ -1,4 +1,4 @@
-import setupStepCheck from '@/utils/setupStepCheck';
+import setupStepCheck from 'utils/setupStepCheck';
 import LoadingTile from '@/components/LoadingTile'; 
 
 export default function SetupPage() {

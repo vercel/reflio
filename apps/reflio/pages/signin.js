@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import LoadingDots from '@/components/LoadingDots';
-import { useUser } from '@/utils/useUser';
+import { useUser } from 'utils/useUser';
 // import Twitter from '@/components/icons/Twitter';
 import Google from '@/components/icons/Google';
 import { SEOMeta } from '@/templates/SEOMeta'; 

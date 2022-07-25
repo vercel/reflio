@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { useCompany } from '@/utils/CompanyContext';
-import { useCampaign } from '@/utils/CampaignContext';
+import { useCompany } from 'utils/CompanyContext';
+import { useCampaign } from 'utils/CampaignContext';
 import LoadingDots from '@/components/LoadingDots';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/outline';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
-import { priceString } from '@/utils/helpers';
+import { priceString } from 'utils/helpers';
 
 export default function SingleCampaignPage() {
   const router = useRouter();

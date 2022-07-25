@@ -30,8 +30,9 @@ create table teams (
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table teams enable row level security;
-create policy "Can view own user data." on teams for select using ((team_id in (select team_id from users where auth.uid() = id)) OR (auth.uid() = id));
-create policy "Can update own user data." on teams for update using ((team_id in (select team_id from users where auth.uid() = id)) OR (auth.uid() = id));
+create policy "Can view own user data." on teams for select using (team_id in (select team_id from users where auth.uid() = id));
+create policy "Can view own user data 2." on teams for select using (auth.uid() = id);
+create policy "Can update own user data." on teams for update using ((auth.uid() = id) OR (team_id in (select team_id from users where auth.uid() = id)));
 create policy "Can insert own user data." on teams for insert with check (auth.uid() = id);
 
 /** 

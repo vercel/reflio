@@ -1,12 +1,12 @@
 import { Fragment, useState } from 'react';
-import { getSales } from './utils/useUser';
-import { useCompany } from './utils/CompanyContext';
+import { getSales } from '../../../apps/reflio/utils/useUser';
+import { useCompany } from '../../../apps/reflio/utils/CompanyContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
 import {
   EmojiSadIcon
 } from '@heroicons/react/solid';
-import { UTCtoString, priceStringDivided, checkUTCDateExpired, classNames } from './utils/helpers';
+import { UTCtoString, priceStringDivided, checkUTCDateExpired, classNames } from '../../../apps/reflio/utils/helpers';
 import ReactTooltip from 'react-tooltip';
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'

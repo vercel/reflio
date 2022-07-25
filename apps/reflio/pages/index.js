@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-// import { Features } from '@/components/Features';
-// import { Testimonials } from '@/components/Testimonials';
+import { Features } from '@/components/Features';
+import { Testimonials } from '@/components/Testimonials';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { Modal } from '@/components/Modal';
@@ -111,7 +111,7 @@ export default function Index() {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold">How we&apos;re different to competitors</h2>
             </div>
             <div>
-              {/* <Features/> */}
+              <Features/>
             </div>
           </div>
         </div>
@@ -205,7 +205,7 @@ export default function Index() {
       <div className="py-14 md:pt-24 md:pb-36 bg-gradient-to-b from-gray-200 to-gray-50">
         <div className="wrapper">
           <div>
-            {/* <Testimonials/> */}
+            <Testimonials/>
           </div>
         </div>
       </div>

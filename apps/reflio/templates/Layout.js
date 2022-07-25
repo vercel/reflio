@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Navbar } from '@/components/Navbar';
-import { useUser } from '@/utils/useUser';
+import { useUser } from 'utils/useUser';
 
 export default function Layout({ children }) {
   const { user, userFinderLoaded } = useUser();
@@ -43,7 +44,7 @@ export default function Layout({ children }) {
       if(userFinderLoaded){
         if (!user) router.replace('/signin');
       }
-    }, [userFinderLoaded, user, router]);
+    }, [userFinderLoaded, user]);
   }
 
   return (

@@ -3,6 +3,7 @@ module.exports = {
     "../ui/src/**/*.{js,ts,jsx,tsx}",
     "../../apps/reflio/pages/**/*.{js,ts,jsx,tsx}",
     "../../apps/reflio/templates/**/*.{js,ts,jsx,tsx}",
+    "../../apps/reflio/forms/**/*.{js,ts,jsx,tsx}",
     "../../apps/reflio-affiliate/pages/**/*.{js,ts,jsx,tsx}",
     "../../apps/reflio-affiliate/templates/**/*.{js,ts,jsx,tsx}"
   ],

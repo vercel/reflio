@@ -1,4 +1,4 @@
-import { useCompany } from './utils/CompanyContext';
+import { useCompany } from '../../../apps/reflio/utils/CompanyContext';
 
 export const StripeDisconnectNotice = (props) => {
   const { activeCompany } = useCompany();
