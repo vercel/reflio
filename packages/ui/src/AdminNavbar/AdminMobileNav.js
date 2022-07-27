@@ -3,10 +3,10 @@ import {
   MenuAlt1Icon,
   XIcon,
 } from '@heroicons/react/outline';
-import Logo from '@/components/icons/Logo';
+import { Logo } from '@/components/icons/Logo';
 import Link from 'next/link';
 import { Dialog, Transition } from '@headlessui/react';
-import AdminNavItems from './AdminNavItems';
+import { AdminNavItems } from './AdminNavItems';
 
 export const AdminMobileNav = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useUser } from '@/utils/useUser';
 import { LockClosedIcon } from '@heroicons/react/solid';
 // import Twitter from '@/components/icons/Twitter';
-import Google from '@/components/icons/Google';
+import { Google } from '@/components/icons/Google';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 
 const SignUp = () => {

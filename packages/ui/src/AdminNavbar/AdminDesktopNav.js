@@ -1,6 +1,6 @@
-import Logo from '@/components/icons/Logo';
+import { Logo } from '@/components/icons/Logo';
 import Link from 'next/link';
-import AdminNavItems from './AdminNavItems';
+import { AdminNavItems } from './AdminNavItems';
 
 export const AdminDesktopNav = () => {
   return(
