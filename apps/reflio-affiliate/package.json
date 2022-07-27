@@ -26,7 +26,6 @@
     "yarn": "^1.22.11"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.0",
     "eslint-config-custom": "*",
     "postcss": "^8.4.4",
     "tailwind-config": "*",
