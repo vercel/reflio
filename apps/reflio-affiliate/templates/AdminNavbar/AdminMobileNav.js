@@ -1,12 +1,12 @@
+import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import {
   MenuAlt1Icon,
   XIcon,
 } from '@heroicons/react/outline';
-import AffiliateLogo from '@/components/icons/AffiliateLogo';
-import Link from 'next/link';
+import { AffiliateLogo } from '@/components/icons/AffiliateLogo';
 import { Dialog, Transition } from '@headlessui/react';
-import AdminNavItems from '@/templates/AdminNavbar/AdminNavItems';
+import { AdminNavItems } from '@/templates/AdminNavbar/AdminNavItems';
 
 export const AdminMobileNav = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

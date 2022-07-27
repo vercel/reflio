@@ -1,6 +1,6 @@
-import AffiliateLogo from '@/components/icons/AffiliateLogo';
 import Link from 'next/link';
-import AdminNavItems from '@/templates/AdminNavbar/AdminNavItems';
+import { AffiliateLogo } from '@/components/icons/AffiliateLogo';
+import { AdminNavItems } from '@/templates/AdminNavbar/AdminNavItems';
 
 export const AdminDesktopNav = () => {
   return(

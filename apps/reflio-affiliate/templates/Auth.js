@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import LoadingDots from '@/components/LoadingDots';
 import { useUser } from '@/utils/useUser';
-import Twitter from '@/components/icons/Twitter';
-import Google from '@/components/icons/Google';
-import SEOMeta from '@/templates/SEOMeta'; 
+import { Twitter } from '@/components/icons/Twitter';
+import { Google } from '@/components/icons/Google';
+import { SEOMeta } from '@/templates/SEOMeta'; 
 import { Button } from '@/components/Button';
-import AffiliateLogo from '@/components/icons/AffiliateLogo';
+import { AffiliateLogo } from '@/components/icons/AffiliateLogo';
 
 const AuthTemplate = ({ type }) => {
   const [email, setEmail] = useState('');
