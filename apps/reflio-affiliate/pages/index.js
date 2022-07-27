@@ -1,7 +1,9 @@
 import Auth from '@/templates/Auth'; 
 
-export default function IndexPage() {
+export const IndexPage = () => {
   return (
     <Auth type="signin"/>
   );
-}
+};
+
+export default IndexPage;

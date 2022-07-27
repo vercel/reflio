@@ -5,7 +5,7 @@ import SEOMeta from '@/templates/SEOMeta';
 import { checkValidEmail } from '@/utils/helpers';
 import Button from '@/components/Button'; 
 
-export default function SettingsPage() {
+const SettingsPage = () => {
   const router = useRouter();
   const { user, userDetails } = useUser();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -90,4 +90,6 @@ export default function SettingsPage() {
       </div>
     </>
   );
-}
+};
+
+export default SettingsPage;

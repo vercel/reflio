@@ -1,7 +1,7 @@
 import SEOMeta from '@/templates/SEOMeta'; 
 import CampaignsList from '@/components/CampaignsList'; 
 
-export default function CampaignsPage() {
+const CampaignsPage = () => {
   return (
     <>
       <SEOMeta title="Campaigns"/>
@@ -10,4 +10,6 @@ export default function CampaignsPage() {
       </div>
     </>
   );
-}
+};
+
+export default CampaignsPage;

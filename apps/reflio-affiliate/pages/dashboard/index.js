@@ -2,7 +2,7 @@ import SEOMeta from '@/templates/SEOMeta';
 import AffiliateInvites from '@/components/AffiliateInvites'; 
 import CampaignsList from '@/components/CampaignsList'; 
 
-export default function DashboardPage() {
+const DashboardPage = () => {
   return (
     <>
       <SEOMeta title="Affiliate Dashboard"/>
@@ -19,4 +19,6 @@ export default function DashboardPage() {
       </div>
     </>
   );
-}
+};
+
+export default DashboardPage;

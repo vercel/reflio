@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import LoadingDots from '@/components/LoadingDots';
 
-export default function SettingsPage() {
+const AffiliateCodePage = () => {
   const router = useRouter();
   const { user } = useUser();
   const { userAffiliateDetails } = useUserAffiliate();
@@ -113,4 +113,6 @@ export default function SettingsPage() {
       </div>
     </>
   );
-}
+};
+
+export default AffiliateCodePage;

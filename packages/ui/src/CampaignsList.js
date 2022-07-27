@@ -8,8 +8,6 @@ import { priceString } from '@/utils/helpers';
 const CampaignsList = (props) => {
   const { userAffiliateDetails } = useUserAffiliate();
 
-  console.log(userAffiliateDetails)
-
   return(
     <div className="wrapper">
       <div className="mb-5">

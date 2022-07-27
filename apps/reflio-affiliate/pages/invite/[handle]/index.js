@@ -1,7 +1,9 @@
 import CampaignInvite from '@/templates/CampaignInvite';
 
-export default function CampaignInviteIndex() {
+const CampaignInviteIndex = () => {
   return(
     <CampaignInvite/>
   )
-}
+};
+
+export default CampaignInviteIndex;

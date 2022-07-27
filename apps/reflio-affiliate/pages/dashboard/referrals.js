@@ -1,7 +1,7 @@
 import LoadingDots from '@/components/LoadingDots';
 import SEOMeta from '@/templates/SEOMeta'; 
 
-export default function DashboardPage() {
+const ReferralsPage = () => {
   return (
     <>
       <SEOMeta title="Referrals"/>
@@ -10,4 +10,6 @@ export default function DashboardPage() {
       </div>
     </>
   );
-}
+};
+
+export default ReferralsPage;
