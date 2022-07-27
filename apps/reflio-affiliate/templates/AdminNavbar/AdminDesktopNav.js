@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { AffiliateLogo } from '@/components/icons/AffiliateLogo';
+import { AffiliateLogo } from '@/components/Icons/AffiliateLogo';
 import { AdminNavItems } from '@/templates/AdminNavbar/AdminNavItems';
 
 export const AdminDesktopNav = () => {

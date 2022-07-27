@@ -1,5 +1,5 @@
-import { Logo } from '@/components/icons/Logo';
-import { Github } from '@/components/icons/Github'; 
+import { Logo } from '@/components/Icons/Logo';
+import { Github } from '@/components/Icons/Github'; 
 
 export const Footer = () => {
   return (

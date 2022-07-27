@@ -1,4 +1,4 @@
-import { Logo } from './icons/Logo';
+import { Logo } from './Icons/Logo';
 import Link from 'next/link';
 import { useUser } from '@/utils/useUser';
 

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { Logo } from './icons/Logo';
+import { Logo } from './Icons/Logo';
 import { useUser } from '@/utils/useUser';
 import Link from 'next/link';
 import { Button } from './Button'; 
-import { Github } from './icons/Github'; 
+import { Github } from './Icons/Github'; 
 
 export const Navbar = () => {
 

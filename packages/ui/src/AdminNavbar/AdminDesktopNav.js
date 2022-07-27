@@ -1,4 +1,4 @@
-import { Logo } from '@/components/icons/Logo';
+import { Logo } from '@/components/Icons/Logo';
 import Link from 'next/link';
 import { AdminNavItems } from './AdminNavItems';
 

@@ -4,7 +4,7 @@ import {
   MenuAlt1Icon,
   XIcon,
 } from '@heroicons/react/outline';
-import { AffiliateLogo } from '@/components/icons/AffiliateLogo';
+import { AffiliateLogo } from '@/components/Icons/AffiliateLogo';
 import { Dialog, Transition } from '@headlessui/react';
 import { AdminNavItems } from '@/templates/AdminNavbar/AdminNavItems';
 

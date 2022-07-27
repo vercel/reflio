@@ -7,7 +7,7 @@ import { Testimonials } from '@/components/Testimonials';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { Modal } from '@/components/Modal';
-import { Github } from '@/components/icons/Github'; 
+import { Github } from '@/components/Icons/Github'; 
 
 export default function Index() {
   const [open, setOpen] = useState(false);
