@@ -23,9 +23,7 @@
     "react-dom": "^18.0.0-rc.0",
     "react-hot-toast": "^2.1.1",
     "ui": "*",
-    "yarn": "^1.22.11"
-  },
-  "devDependencies": {
+    "yarn": "^1.22.11",
     "eslint-config-custom": "*",
     "postcss": "^8.4.4",
     "tailwind-config": "*",

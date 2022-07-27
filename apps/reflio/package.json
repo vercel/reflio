@@ -43,13 +43,13 @@
     "swr": "0.4.0",
     "uglifyjs": "^2.4.11",
     "ui": "*",
-    "yarn": "^1.22.11"
-  },
-  "devDependencies": {
+    "yarn": "^1.22.11",
     "eslint-config-custom": "*",
     "postcss": "^8.4.4",
     "tailwind-config": "*",
     "tailwindcss": "^3.0.22"
+  },
+  "devDependencies": {
   },
   "prettier": {
     "arrowParens": "always",
