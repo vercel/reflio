@@ -1,4 +1,4 @@
-import SEOMeta from '../templates/SEOMeta'; 
+import SEOMeta from '@/templates/SEOMeta'; 
 import AffiliateInvites from '@/components/AffiliateInvites'; 
 import CampaignsList from '@/components/CampaignsList'; 
 

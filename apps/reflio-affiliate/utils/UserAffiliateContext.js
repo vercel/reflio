@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect, createContext, useContext } from 'react';
-import { useUser } from '../utils/useUser';
-import { postData } from '../utils/helpers';
+import { useUser } from '@/utils/useUser';
+import { postData } from '@/utils/helpers';
 
 export const UserAffiliateContext = createContext();
 

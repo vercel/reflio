@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Logo } from './icons/Logo';
-import { useUser } from '../../../apps/reflio/utils/useUser';
+import { useUser } from '@/utils/useUser';
 import Link from 'next/link';
 import { Button } from './Button'; 
 import { Github } from './icons/Github'; 
@@ -28,7 +28,7 @@ export const Navbar = () => {
                   href="/"
                 >
                   <a>
-                    <Logo className="h-8 lg:h-10 w-auto"/>
+                    <Logo className="h-8 lg:h-12 w-auto"/>
                   </a>
                 </Link>
               </div>

@@ -1,12 +1,12 @@
 import { Fragment, useState } from 'react';
-import { getSales } from '../../../apps/reflio/utils/useUser';
-import { useCompany } from '../../../apps/reflio/utils/CompanyContext';
+import { getSales } from '@/utils/useUser';
+import { useCompany } from '@/utils/CompanyContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
 import {
   EmojiSadIcon
 } from '@heroicons/react/solid';
-import { UTCtoString, priceStringDivided, checkUTCDateExpired, classNames } from '../../../apps/reflio/utils/helpers';
+import { UTCtoString, priceStringDivided, checkUTCDateExpired, classNames } from '@/utils/helpers';
 import ReactTooltip from 'react-tooltip';
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
@@ -16,6 +16,7 @@ export const CommissionsTemplate = ({ page }) => {
   const [commissions, setCommissions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [checkedAll, setCheckedAll] = useState(false);
 
   const sortOptions = [
     { name: 'All Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions` },
@@ -56,7 +57,26 @@ export const CommissionsTemplate = ({ page }) => {
         setLoading(false);
       })
     }
-  }
+  };
+
+  const checkAllItems = () => {
+    if(checkedAll === true){
+      setCheckedItems([]);
+      setCheckedAll(false);
+    } else {
+      let commissionIds = [];
+      let filteredCommissions = commissions?.data?.filter(commission => commission?.paid_at !== null || checkUTCDateExpired(commission?.commission_due_date) === false);
+
+      if(filteredCommissions?.length){
+        filteredCommissions?.map(commission => {
+          commissionIds.push(commission?.commission_id);
+        })
+      }
+
+      setCheckedItems(commissionIds);
+      setCheckedAll(true);
+    }
+  };
 
   return (
     <>
@@ -131,9 +151,9 @@ export const CommissionsTemplate = ({ page }) => {
                                   id="campaign_public"
                                   name="campaign_public"
                                   type="checkbox"
-                                  className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                  className={`appearance-none disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
                                   onClick={(e) => {
-                                    setCheckedItems(checkedItems === 'all' ? [] : 'all');
+                                    checkAllItems()
                                   }} 
                                 />
                               </th>
@@ -170,11 +190,11 @@ export const CommissionsTemplate = ({ page }) => {
                                       id="campaign_public"
                                       name="campaign_public"
                                       type="checkbox"
-                                      className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                      className={`appearance-none disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
                                       onClick={(e) => {
                                         setCheckedItems([
                                           ...checkedItems,
-                                          sale
+                                          sale?.commission_id
                                         ]);
                                       }} 
                                       checked={checkedItems === 'all' && true}

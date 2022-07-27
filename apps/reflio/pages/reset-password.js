@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useUser, resetPassword } from 'utils/useUser';
+import { useUser, resetPassword } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 
 const ForgotPassword = () => {

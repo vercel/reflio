@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { useUser, newCompany } from 'utils/useUser';
+import { useUser, newCompany } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
-import { checkValidUrl, slugifyString } from 'utils/helpers';
+import { checkValidUrl, slugifyString } from '@/utils/helpers';
 import toast from 'react-hot-toast';
 
 export default function AddCompany() {

@@ -1,4 +1,4 @@
-import emailBuilderServer from '../utils/email-builder-server';
+import emailBuilderServer from '@/utils/email-builder-server';
 
 export const sendEmail = async (subject, content, to, type, settings) => {
   const SibApiV3Sdk = require('sib-api-v3-sdk');

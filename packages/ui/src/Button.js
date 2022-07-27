@@ -5,6 +5,8 @@ export const Button = (props) => {
   //Sizing styles
   if(props.small){
     styles = styles + ' px-4 py-2 text-sm md:text-base'
+  } else if(props.xsmall){
+    styles = styles + ' px-4 py-2 text-sm md:text-xs'
   } else if(props.medium){
     styles = styles + ' px-6 py-3 text-sm md:text-lg'
   } else if(props.xlarge){

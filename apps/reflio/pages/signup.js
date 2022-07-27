@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { updateUserName } from 'utils/supabase-client';
-import { useUser } from 'utils/useUser';
+import { useUser } from '@/utils/useUser';
 import { LockClosedIcon } from '@heroicons/react/solid';
 // import Twitter from '@/components/icons/Twitter';
 import Google from '@/components/icons/Google';

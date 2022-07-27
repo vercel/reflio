@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router';
 import { useState, useRef } from 'react';
-import { useUser, deleteCompany, disableEmails, editCompanyWebsite, uploadLogoImage, editCompanyHandle } from 'utils/useUser';
-import { useCompany } from 'utils/CompanyContext';
+import { useUser, deleteCompany, disableEmails, editCompanyWebsite, uploadLogoImage, editCompanyHandle } from '@/utils/useUser';
+import { useCompany } from '@/utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import { Switch } from '@headlessui/react';
-import { classNames, checkValidUrl, slugifyString } from 'utils/helpers';
+import { classNames, checkValidUrl, slugifyString } from '@/utils/helpers';
 import Button from '@/components/Button'; 
 import toast from 'react-hot-toast';
 

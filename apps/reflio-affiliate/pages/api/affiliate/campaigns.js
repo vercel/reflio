@@ -1,5 +1,5 @@
-import { getUser } from '../utils/supabase-admin';
-import { getAffiliatePrograms } from '../utils/useDatabase';
+import { getUser } from '@/utils/supabase-admin';
+import { getAffiliatePrograms } from '@/utils/useDatabase';
 
 const affiliatePrograms = async (req, res) => {
   if (req.method === 'POST') {

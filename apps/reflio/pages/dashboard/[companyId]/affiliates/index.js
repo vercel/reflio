@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { useCompany } from 'utils/CompanyContext';
-import { useAffiliate } from 'utils/AffiliateContext';
+import { useCompany } from '@/utils/CompanyContext';
+import { useAffiliate } from '@/utils/AffiliateContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
 import { SEOMeta } from '@/templates/SEOMeta'; 

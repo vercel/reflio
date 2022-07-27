@@ -20,7 +20,7 @@ export default function setupStepCheck() {
       router.replace(`/dashboard/${router?.query?.companyId}/setup/campaign`);
     }
   
-    if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency !== null && userCampaignDetails !== null && userCampaignDetails?.length > 0){
+    if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency !== null && userCampaignDetails !== null && userCampaignDetails?.length > 0 && activeCompany?.domain_verified !== true){
       router.replace(`/dashboard/${router?.query?.companyId}/setup/add`);
     }
 

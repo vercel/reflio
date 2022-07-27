@@ -2,10 +2,10 @@ import { useRouter } from 'next/router';
 import SetupProgress from '@/components/SetupProgress'; 
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
-import { useCompany } from 'utils/CompanyContext';
-import { useCampaign } from 'utils/CampaignContext';
-import CampaignForm from 'forms/CampaignForm'; 
-import { priceString } from 'utils/helpers';
+import { useCompany } from '@/utils/CompanyContext';
+import { useCampaign } from '@/utils/CampaignContext';
+import CampaignForm from '@/forms/CampaignForm'; 
+import { priceString } from '@/utils/helpers';
 
 export default function AddCompany() {
   const router = useRouter();

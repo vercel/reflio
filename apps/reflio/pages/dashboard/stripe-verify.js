@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useUser, newStripeAccount } from 'utils/useUser';
+import { useUser, newStripeAccount } from '@/utils/useUser';
 import SetupProgress from '@/components/SetupProgress'; 
-import { useCompany } from 'utils/CompanyContext';
+import { useCompany } from '@/utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 
 export default function Onboarding() {

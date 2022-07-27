@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { useCompany } from 'utils/CompanyContext';
-import { useCampaign } from 'utils/CampaignContext';
+import { useCompany } from '@/utils/CompanyContext';
+import { useCampaign } from '@/utils/CampaignContext';
 import LoadingDots from '@/components/LoadingDots';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 

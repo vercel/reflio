@@ -1,6 +1,6 @@
 import { Logo } from './icons/Logo';
 import Link from 'next/link';
-import { useUser } from '../../../apps/reflio/utils/useUser';
+import { useUser } from '@/utils/useUser';
 
 export const SimpleNav = (props) => {
   const { signOut } = useUser();

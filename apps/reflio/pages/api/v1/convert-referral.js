@@ -1,4 +1,4 @@
-import { convertReferral } from 'utils/useDatabase';
+import { convertReferral } from '@/utils/useDatabase';
 import Cors from 'cors';
 
 // Initializing the cors middleware

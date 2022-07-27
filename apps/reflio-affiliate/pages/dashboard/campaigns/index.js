@@ -1,4 +1,4 @@
-import SEOMeta from '@/components/SEOMeta'; 
+import SEOMeta from '@/templates/SEOMeta'; 
 import CampaignsList from '@/components/CampaignsList'; 
 
 export default function CampaignsPage() {

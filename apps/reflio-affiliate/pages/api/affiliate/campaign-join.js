@@ -1,5 +1,5 @@
-import { getUser } from '../utils/supabase-admin';
-import { handleCampaignJoin } from '../utils/useDatabase';
+import { getUser } from '@/utils/supabase-admin';
+import { handleCampaignJoin } from '@/utils/useDatabase';
 
 const campaignJoin = async (req, res) => {
   if (req.method === 'POST') {

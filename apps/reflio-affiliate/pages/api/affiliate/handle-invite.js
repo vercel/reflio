@@ -1,5 +1,5 @@
-import { getUser } from '../utils/supabase-admin';
-import { handleAffiliateInvite } from '../utils/useDatabase';
+import { getUser } from '@/utils/supabase-admin';
+import { handleAffiliateInvite } from '@/utils/useDatabase';
 
 const handleInvite = async (req, res) => {
   if (req.method === 'POST') {

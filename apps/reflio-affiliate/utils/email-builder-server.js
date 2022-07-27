@@ -1,4 +1,4 @@
-import emailBuilderInner from '../utils/email-builder-inner';
+import emailBuilderInner from '@/utils/email-builder-inner';
 
 export default function emailBuilderServer(type, subject, content, settings) {
   let emailType = 'default';

@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --company-name=saas-starter",
     "js": "uglifyjs ./scripts/reflio.js -c --mangle --no-annotations --webkit -o ./public/js/reflio.min.js"
   },
   "dependencies": {
@@ -42,6 +41,7 @@
     "sib-api-v3-sdk": "^8.3.0",
     "stripe": "8.132.0",
     "swr": "0.4.0",
+    "uglifyjs": "^2.4.11",
     "ui": "*",
     "yarn": "^1.22.11"
   },

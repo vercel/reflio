@@ -3,10 +3,10 @@ import {
   MenuAlt1Icon,
   XIcon,
 } from '@heroicons/react/outline';
-import Logo from '@/components/icons/Logo';
+import AffiliateLogo from '@/components/icons/AffiliateLogo';
 import Link from 'next/link';
 import { Dialog, Transition } from '@headlessui/react';
-import AdminNavItems from './AdminNavItems';
+import AdminNavItems from '@/templates/AdminNavbar/AdminNavItems';
 
 export const AdminMobileNav = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -40,7 +40,7 @@ export const AdminMobileNav = () => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-200">
+            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gradient-to-b from-white to-gray-200">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -63,7 +63,7 @@ export const AdminMobileNav = () => {
               <div className="flex-shrink-0 flex items-center px-4">
                 <Link href="/dashboard">
                   <a className="block m-auto">
-                    <Logo className="h-7 w-full"/>
+                    <AffiliateLogo className="h-7 w-full"/>
                   </a>
                 </Link>
               </div>
@@ -76,9 +76,9 @@ export const AdminMobileNav = () => {
         </Dialog>
       </Transition.Root>
 
-      <div className="relative z-10 flex-shrink-0 flex h-16 border-b-2 border-gray-200 lg:border-none lg:hidden">
+      <div className="relative z-10 flex-shrink-0 flex h-16 bg-gradient-to-b from-white to-gray-5 border-b border-gray-200 lg:border-none lg:hidden">
         <button
-          className="px-4 border-r-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+          className="px-4 border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
           onClick={() => setSidebarOpen(true)}
         >
           <span className="sr-only">Open sidebar</span>
@@ -88,7 +88,7 @@ export const AdminMobileNav = () => {
           <div className="flex-shrink-0 flex lg:hidden items-center px-4">
             <Link href="/dashboard">
               <a className="block m-auto">
-                <Logo className="h-8 w-full"/>
+                <AffiliateLogo className="h-7 w-full"/>
               </a>
             </Link>
           </div>

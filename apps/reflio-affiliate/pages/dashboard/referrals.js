@@ -1,5 +1,5 @@
 import LoadingDots from '@/components/LoadingDots';
-import SEOMeta from '@/components/SEOMeta'; 
+import SEOMeta from '@/templates/SEOMeta'; 
 
 export default function DashboardPage() {
   return (

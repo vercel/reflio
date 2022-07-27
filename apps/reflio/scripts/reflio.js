@@ -118,7 +118,7 @@ class rfl {
       }
 
       const trackImpression = await Reflio.impression(reflioReferralParam, Reflio.details().companyId);
-  
+
       //If multiple domains, add referral to other domain
       if(trackImpression?.referral_details && Reflio.details().domains){
         document.querySelectorAll("[href]").forEach(link => {
@@ -139,13 +139,13 @@ class rfl {
             })
           }
         });
-  
-        if(trackImpression?.referral_details){
-          //Set cookie
-          document.cookie = `reflioData=${JSON.stringify(trackImpression?.referral_details)}; expires=${trackImpression?.referral_details?.cookie_date}`;
-        } else {
-          Reflio.consentCleanup();
-        }
+      }
+
+      if(trackImpression?.referral_details){
+        //Set cookie
+        document.cookie = `reflioData=${JSON.stringify(trackImpression?.referral_details)}; expires=${trackImpression?.referral_details?.cookie_date}`;
+      } else {
+        Reflio.consentCleanup();
       }
     }    
   }
@@ -441,7 +441,7 @@ if(Reflio.consentRequired() === false && Reflio.cookieEligible() === true){
 //Initially activate the function to check if already scrolled past 33% of the page.
 activatePopup();
 
-console.log("privacyCompliance")
+console.log("privacyCompliance:")
 console.log(Reflio.details().privacyCompliance);
 
 //Continually checks if 33% of the page has been scrolled etc.

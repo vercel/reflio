@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useUser, paypalEmail } from '../utils/useUser';
-import SEOMeta from '@/components/SEOMeta'; 
-import { checkValidEmail } from '../utils/helpers';
+import { useUser, paypalEmail } from '@/utils/useUser';
+import SEOMeta from '@/templates/SEOMeta'; 
+import { checkValidEmail } from '@/utils/helpers';
 import Button from '@/components/Button'; 
 
 export default function SettingsPage() {
@@ -55,7 +55,7 @@ export default function SettingsPage() {
                     onChange={e=>{setEmailValid(checkValidEmail(e.target.value)), emailValid ? setEmailInput(e.target.value) : setEmailInput(null)}}
                   />
                 </div>
-                <p className="text-gray-500">This is the email that your affiliate payout payments will be sent to. Please make sure that it's the correct email.</p>
+                <p className="text-gray-500">This is the email that your affiliate payout payments will be sent to. Please make sure that it&apos;s the correct email.</p>
               </div>
             </div>
           </div>

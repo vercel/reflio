@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useUser, resetPassword } from '../utils/useUser';
-import SEOMeta from '@/components/SEOMeta'; 
+import { useUser, resetPassword } from '@/utils/useUser';
+import SEOMeta from '@/templates/SEOMeta'; 
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -105,7 +106,7 @@ const ForgotPassword = () => {
                   </div>
 
                   <div className="mt-3 text-center text-sm">
-                    <span className="text-accents-2">Don't have an account?</span>
+                    <span className="text-accents-2">Don&apos;t have an account?</span>
                     {` `}
                     <Link href="/signup">
                       <a className="text-accents-1 font-bold hover:underline cursor-pointer">
@@ -159,7 +160,7 @@ const ForgotPassword = () => {
                   </div>
 
                   <div className="mt-3 text-center text-sm">
-                    <span className="text-accents-2">Don't have an account?</span>
+                    <span className="text-accents-2">Don&apos;t have an account?</span>
                     {` `}
                     <Link href="/signup">
                       <a className="text-accents-1 font-bold hover:underline cursor-pointer">

@@ -1,6 +1,6 @@
-import Logo from '@/components/icons/Logo';
+import AffiliateLogo from '@/components/icons/AffiliateLogo';
 import Link from 'next/link';
-import AdminNavItems from './AdminNavItems';
+import AdminNavItems from '@/templates/AdminNavbar/AdminNavItems';
 
 export const AdminDesktopNav = () => {
   return(
@@ -11,7 +11,7 @@ export const AdminDesktopNav = () => {
             <div className="flex items-center flex-shrink-0 px-4">
               <Link href="/dashboard">
                   <a className="block m-auto">
-                    <Logo className="h-12 w-full"/>
+                    <AffiliateLogo className="h-10 w-full"/>
                   </a>
                 </Link>
             </div>

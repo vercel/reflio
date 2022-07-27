@@ -1,4 +1,4 @@
-import { getPublicCampaign } from '../utils/useDatabase';
+import { getPublicCampaign } from '@/utils/useDatabase';
 
 const publicCampaign = async (req, res) => {
   if (req.method === 'POST') {

@@ -18,9 +18,6 @@ export const CompanyContextProvider = (props) => {
     }
   });
 
-  console.log("team:")
-  console.log(team)
-
   if(team === 'none' && router?.pathname !== '/dashboard/create-team'){
     router.replace('/dashboard/create-team');
   }

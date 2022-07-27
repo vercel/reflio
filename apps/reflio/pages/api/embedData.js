@@ -1,4 +1,4 @@
-import { getCampaignData } from 'utils/useDatabase';
+import { getCampaignData } from '@/utils/useDatabase';
 import Cors from 'cors';
 
 // Initializing the cors middleware

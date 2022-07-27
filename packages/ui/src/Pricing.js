@@ -1,11 +1,11 @@
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { postData } from '../../../apps/reflio/utils/helpers';
-import { getStripe } from '../../../apps/reflio/utils/stripe-client';
-import { useUser } from '../../../apps/reflio/utils/useUser';
+import { postData } from '@/utils/helpers';
+import { getStripe } from '@/utils/stripe-client';
+import { useUser } from '@/utils/useUser';
 
-export const Pricing = (props) => {
+export const Pricing = ({ products }) => {
   const router = useRouter();
   const [priceIdLoading, setPriceIdLoading] = useState();
   const { session, userLoaded, subscription } = useUser();

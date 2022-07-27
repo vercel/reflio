@@ -1,6 +1,6 @@
-import { getUser } from 'utils/supabase-admin';
-import { inviteAffiliate } from 'utils/useDatabase';
-import { sendEmail } from 'utils/sendEmail';
+import { getUser } from '@/utils/supabase-admin';
+import { inviteAffiliate } from '@/utils/useDatabase';
+import { sendEmail } from '@/utils/sendEmail';
 
 // companyId: activeCompany?.company_id,
 // campaignId: data?.campaign_id,

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import SetupProgress from '@/components/SetupProgress'; 
 import Button from '@/components/Button'; 
 import StripeConnect from '@/components/icons/StripeConnect'; 
-import { useCompany } from 'utils/CompanyContext';
+import { useCompany } from '@/utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 
 export default function StripeSetupPage() {

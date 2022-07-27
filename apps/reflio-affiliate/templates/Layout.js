@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -9,8 +11,8 @@ export default function Layout({ children }) {
     import("react-hot-toast").then((module) => module.Toaster)
   );
   const Footer = dynamic(() => import('@/components/Footer'));
-  const AdminMobileNav = dynamic(() => import('@/components/AdminNavbar/AdminMobileNav'));
-  const AdminDesktopNav = dynamic(() => import('@/components/AdminNavbar/AdminDesktopNav'));
+  const AdminMobileNav = dynamic(() => import('@/templates/AdminNavbar/AdminMobileNav'));
+  const AdminDesktopNav = dynamic(() => import('@/templates/AdminNavbar/AdminDesktopNav'));
   const router = useRouter();
   let defaultPage = true;
   let dashboardPage = false;

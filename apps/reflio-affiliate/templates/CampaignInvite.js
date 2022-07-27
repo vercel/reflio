@@ -65,7 +65,7 @@ export default function CampaignInvite() {
         </div>
       }
       <div className="wrapper">
-        <div className="pt-12">
+        <div className="py-12">
           {
             publicCampaignData !== null ?
               <div className="text-center">

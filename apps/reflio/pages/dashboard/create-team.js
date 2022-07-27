@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { useUser, newTeam } from 'utils/useUser';
+import { useUser, newTeam } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
 import toast from 'react-hot-toast';

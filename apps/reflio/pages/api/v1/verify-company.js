@@ -1,4 +1,4 @@
-import { getCompanyFromExternal } from 'utils/useDatabase';
+import { getCompanyFromExternal } from '@/utils/useDatabase';
 import Cors from 'cors';
 
 // Initializing the cors middleware

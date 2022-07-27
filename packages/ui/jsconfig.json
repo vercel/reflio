@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["./src/*"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/utils/*": ["../../apps/reflio/utils/*"]
     }
   }
 }

@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useUser, changeReferralCode } from '../utils/useUser';
-import SEOMeta from '@/components/SEOMeta'; 
+import { useUser, changeReferralCode } from '@/utils/useUser';
+import SEOMeta from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
-import { useUserAffiliate } from '../utils/UserAffiliateContext';
+import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import LoadingDots from '@/components/LoadingDots';
 
 export default function SettingsPage() {
@@ -87,7 +87,7 @@ export default function SettingsPage() {
                         className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-gray-300"
                       />
                     </div>
-                    <p className="text-gray-500">This is your unique code that tracks your referral when linking to a campaign's website. By default, it's a unique 15-digit ID code.</p>
+                    <p className="text-gray-500">This is your unique code that tracks your referral when linking to a campaign&apos;s website. By default, it&apos;s a unique 15-digit ID code.</p>
                   </div>
                 </div>
               </div>
