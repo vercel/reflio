@@ -12,6 +12,7 @@ class MyDocument extends Document {
           <link rel="manifest" href="/site.webmanifest"/>
           <meta name="theme-color" content="#1d368b" />
           <script defer data-domain="reflio.com" src="https://plausible.io/js/plausible.js"></script>
+          <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
         </Head>
         <body className="loading bg-gray-50">
           <Main />

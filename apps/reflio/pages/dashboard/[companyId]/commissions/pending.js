@@ -1,11 +1,11 @@
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import { CommissionsTemplate } from '@/components/CommissionsTemplate'; 
 
-export default function CommissionsUnpaidPage() {
+export default function CommissionsPendingPage() {
   return (
     <>
-      <SEOMeta title="Sales"/>
-      <CommissionsTemplate page="unpaid"/>
+      <SEOMeta title="Pending Commissions"/>
+      <CommissionsTemplate page="pending"/>
     </>
   );
 }

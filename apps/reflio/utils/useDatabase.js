@@ -221,6 +221,8 @@ export const inviteAffiliate = async (user, companyId, campaignId, emailInvites)
     invite_email: emailInvites
   });
 
+  console.log(error);
+
   if (error) {
     return "error";
   } else {

@@ -30,9 +30,37 @@ create table teams (
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table teams enable row level security;
-create policy "Can view own user data." on teams for select using (team_id in (select team_id from users where auth.uid() = id));
-create policy "Can view own user data 2." on teams for select using (auth.uid() = id);
-create policy "Can update own user data." on teams for update using ((auth.uid() = id) OR (team_id in (select team_id from users where auth.uid() = id)));
+
+/** 
+* Members
+* Note: This table contains user data. Users should only be able to view and update their own data.
+*/
+create table members (
+  member_id text primary key unique not null default generate_uid(15) unique,
+  member_team_id text references teams(team_id) not null,
+  member_user_id uuid references auth.users,
+  created timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table members enable row level security;
+
+-- Parameters need to be prefixed because the name clashes with `om`'s columns
+CREATE FUNCTION is_member_of(_member_user_id uuid, _member_team_id text) RETURNS bool AS $$
+SELECT EXISTS (
+  SELECT 1
+  FROM members mem
+  WHERE mem.member_team_id = _member_team_id
+  AND mem.member_user_id = _member_user_id
+);
+$$ LANGUAGE sql SECURITY DEFINER;
+-- Function is owned by postgres which bypasses RLS
+
+create policy "Can view own user data." on members for select using (is_member_of(auth.uid(), member_team_id));
+create policy "Can update own user data." on members for update using (is_member_of(auth.uid(), member_team_id));
+create policy "Can insert own user data." on members for insert with check (is_member_of(auth.uid(), member_team_id));
+
+create policy "Members can view team data." on teams for select using (is_member_of(auth.uid(), team_id));
+create policy "Can view own team data." on teams for select using (auth.uid() = id);
+create policy "Can update own user data." on teams for update using (is_member_of(auth.uid(), team_id));
 create policy "Can insert own user data." on teams for insert with check (auth.uid() = id);
 
 /** 
@@ -67,8 +95,7 @@ create table users (
   email text,
   user_type user_types,
   paypal_email text default null,
-  team_id text references teams default null,
-  invite_id text references invites default null
+  team_id text references teams not null
 );
 alter table users enable row level security;
 create policy "Can view own user data." on users for select using (auth.uid() = id);
@@ -97,10 +124,10 @@ create table companies (
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table companies enable row level security;
-create policy "Can view own user data." on companies for select using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can update own user data." on companies for update using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on companies for insert with check ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can delete own user data." on companies for delete using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
+create policy "Can view own user data." on companies for select using (is_member_of(auth.uid(), team_id));
+create policy "Can update own user data." on companies for update using (is_member_of(auth.uid(), team_id));
+create policy "Can insert own user data." on companies for insert with check (is_member_of(auth.uid(), team_id));
+create policy "Can delete own user data." on companies for delete using (is_member_of(auth.uid(), team_id));
 
 /** 
 * Campaigns
@@ -128,10 +155,10 @@ create table campaigns (
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table campaigns enable row level security;
-create policy "Can view own user data." on campaigns for select using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can update own user data." on campaigns for update using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on campaigns for insert with check ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can delete own user data." on campaigns for delete using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
+create policy "Can view own user data." on campaigns for select using (is_member_of(auth.uid(), team_id));
+create policy "Can update own user data." on campaigns for update using (is_member_of(auth.uid(), team_id));
+create policy "Can insert own user data." on campaigns for insert with check (is_member_of(auth.uid(), team_id));
+create policy "Can delete own user data." on campaigns for delete using (is_member_of(auth.uid(), team_id));
 
 /**
 * Affiliates
@@ -143,7 +170,7 @@ create table affiliates (
   team_id text references teams not null,
   affiliate_id text primary key unique not null default generate_uid(20) unique,
   invite_email text,
-  invited_user_id uuid references users(id) not null,
+  invited_user_id uuid references users(id) default null,
   campaign_id text references campaigns,
   company_id text references companies,
   accepted boolean default false,
@@ -152,10 +179,10 @@ create table affiliates (
   referral_code text default null
 );
 alter table affiliates enable row level security;
-create policy "Can view own user data." on affiliates for select using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can update own user data." on affiliates for update using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on affiliates for insert with check ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can delete own user data." on affiliates for delete using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
+create policy "Can view own user data." on affiliates for select using (is_member_of(auth.uid(), team_id));
+create policy "Can update own user data." on affiliates for update using (is_member_of(auth.uid(), team_id));
+create policy "Can insert own user data." on affiliates for insert with check (is_member_of(auth.uid(), team_id));
+create policy "Can delete own user data." on affiliates for delete using (is_member_of(auth.uid(), team_id));
 
 /**
 * Referrals
@@ -180,10 +207,10 @@ create table referrals (
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table referrals enable row level security;
-create policy "Can view own user data." on referrals for select using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can update own user data." on referrals for update using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on referrals for insert with check ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can delete own user data." on referrals for delete using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
+create policy "Can view own user data." on referrals for select using (is_member_of(auth.uid(), team_id));
+create policy "Can update own user data." on referrals for update using (is_member_of(auth.uid(), team_id));
+create policy "Can insert own user data." on referrals for insert with check (is_member_of(auth.uid(), team_id));
+create policy "Can delete own user data." on referrals for delete using (is_member_of(auth.uid(), team_id));
 
 /**
 * Commissions
@@ -208,10 +235,10 @@ create table commissions (
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table commissions enable row level security;
-create policy "Can view own user data." on commissions for select using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can update own user data." on commissions for update using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can insert own user data." on commissions for insert with check ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
-create policy "Can delete own user data." on commissions for delete using ((team_id in (select team_id from users where users.id = id)) OR (auth.uid() = id));
+create policy "Can view own user data." on commissions for select using (is_member_of(auth.uid(), team_id));
+create policy "Can update own user data." on commissions for update using (is_member_of(auth.uid(), team_id));
+create policy "Can insert own user data." on commissions for insert with check (is_member_of(auth.uid(), team_id));
+create policy "Can delete own user data." on commissions for delete using (is_member_of(auth.uid(), team_id));
 
 /**
 * This trigger automatically creates a user entry when a new user signs up via Supabase Auth.
@@ -227,6 +254,21 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+/**
+* This trigger automatically creates a user entry when a new user signs up via Supabase Auth.
+*/ 
+create function public.handle_new_team() 
+returns trigger as $$
+begin
+  insert into public.members (member_user_id, member_team_id)
+  values (new.id, new.team_id);
+  return new;
+end;
+$$ language plpgsql security definer;
+create trigger on_team_created
+  after insert on public.teams
+  for each row execute procedure public.handle_new_team();
 
 /**
 * CUSTOMERS
@@ -334,7 +376,7 @@ create table subscriptions (
   trial_end timestamp with time zone default timezone('utc'::text, now())
 );
 alter table subscriptions enable row level security;
-create policy "Can only view own subs data." on subscriptions for select using ((team_id in (select team_id from users where users.id = user_id)) OR (auth.uid() = user_id));
+create policy "Can only view own subs data." on subscriptions for select using (is_member_of(auth.uid(), team_id));
 
 /**
  * REALTIME SUBSCRIPTIONS

@@ -8,8 +8,9 @@ import {
 } from '@heroicons/react/solid';
 import { UTCtoString, priceStringDivided, checkUTCDateExpired, classNames } from '@/utils/helpers';
 import ReactTooltip from 'react-tooltip';
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/solid'
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon, ExclamationIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 
 export const CommissionsTemplate = ({ page }) => {
   const { activeCompany } = useCompany();
@@ -17,10 +18,12 @@ export const CommissionsTemplate = ({ page }) => {
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [checkedAll, setCheckedAll] = useState(false);
+  const router = useRouter();
 
   const sortOptions = [
     { name: 'All Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions` },
-    { name: 'Unpaid', href: `/dashboard/${activeCompany?.company_id}/commissions/unpaid` },
+    { name: 'Due', href: `/dashboard/${activeCompany?.company_id}/commissions/due` },
+    { name: 'Pending', href: `/dashboard/${activeCompany?.company_id}/commissions/pending` },
     { name: 'Paid', href: `/dashboard/${activeCompany?.company_id}/commissions/paid` },
   ];
  
@@ -65,7 +68,7 @@ export const CommissionsTemplate = ({ page }) => {
       setCheckedAll(false);
     } else {
       let commissionIds = [];
-      let filteredCommissions = commissions?.data?.filter(commission => commission?.paid_at !== null || checkUTCDateExpired(commission?.commission_due_date) === false);
+      let filteredCommissions = commissions?.data?.filter(commission => commission?.paid_at === null && checkUTCDateExpired(commission?.commission_due_date) === true);
 
       if(filteredCommissions?.length){
         filteredCommissions?.map(commission => {
@@ -73,16 +76,22 @@ export const CommissionsTemplate = ({ page }) => {
         })
       }
 
+      console.log(filteredCommissions);
+
+      console.log(commissionIds)
+
       setCheckedItems(commissionIds);
       setCheckedAll(true);
     }
   };
 
+  console.log(commissions)
+
   return (
     <>
       <div className="mb-8">
         <div className="pt-10 wrapper">
-          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">{page === 'index' ? 'All' : page === 'unpaid' ? 'Unpaid' : page === 'paid' && 'Paid'} Sales & Commissions {commissions?.count > 0 && `(${commissions?.count})`}</h1>
+          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">{page === 'index' ? 'All' : page === 'due' ? 'Due' : page === 'pending' ? 'Pending' : page === 'paid' && 'Paid'} Sales & Commissions {commissions?.count > 0 && `(${commissions?.count})`}</h1>
           <p>Commissions are generated when your affiliates send you a paying customer.</p>
         </div>
       </div>
@@ -93,8 +102,8 @@ export const CommissionsTemplate = ({ page }) => {
                 <div className="mb-5">
                   <Menu as="div" className="relative z-10 inline-block text-left">
                     <div>
-                      <Menu.Button className="group inline-flex items-center justify-center text-sm bg-white rounded-xl py-3 px-5 border-4 border-gray-300">
-                        <span>Filter</span>
+                      <Menu.Button className="group inline-flex items-center justify-center text-sm bg-gray-200 rounded-xl py-3 px-5 border-2 border-gray-300">
+                        <span className="font-semibold">Filter</span>
                         <ChevronDownIcon
                           className="flex-shrink-0 ml-1 h-4 w-4"
                           aria-hidden="true"
@@ -134,9 +143,28 @@ export const CommissionsTemplate = ({ page }) => {
                   </Menu>
                 </div>
                 {
-                  checkedItems.length > 0 &&
-                  <div className="flex items-center justify-end">
-                    
+                  page === 'due' &&
+                  <div className="flex items-center justify-start mb-4">
+                    <Button
+                      onClick={e=>{checkedItems.length === 0 ? '' : ''}}
+                      small
+                      secondary
+                    >
+                      Mark {checkedItems.length === 0 ? 'all' : checkedItems.length} {checkedItems?.length > 1 ? 'commissions' : checkedItems?.length === 0 ? 'commissions' : 'commission'} as paid
+                    </Button>
+                  </div>
+                }
+                {
+                  page !== "paid" && page !== "due" && commissions?.data?.filter(commission => commission?.paid_at === null && checkUTCDateExpired(commission?.commission_due_date) === true)?.length > 0 &&
+                  <div className="mb-6">
+                    <a href={`/dashboard/${router?.query?.companyId}/commissions/due`} className="inline-block bg-red-500 hover:bg-red-600 border-l-4 border-red-600 p-4 rounded-xl">
+                      <div className="flex items-center">
+                        <ExclamationIcon className="h-6 w-auto text-white" aria-hidden="true" />
+                        <span className="font-semibold text-base text-white ml-2 mb-1">
+                          You have {commissions?.data?.filter(commission => commission?.paid_at === null && checkUTCDateExpired(commission?.commission_due_date) === true)?.length} sales with due commissions
+                        </span>
+                      </div>
+                    </a>
                   </div>
                 }
                 <div className="flex flex-col">
@@ -146,84 +174,129 @@ export const CommissionsTemplate = ({ page }) => {
                         <table className="min-w-full divide-y divide-gray-300">
                           <thead className="bg-gray-200">
                             <tr>
-                              <th scope="col" className="pr-3 sm:pl-6 px-3 py-3.5 text-left text-sm font-semibold">
-                                <input
-                                  id="campaign_public"
-                                  name="campaign_public"
-                                  type="checkbox"
-                                  className={`appearance-none disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
-                                  onClick={(e) => {
-                                    checkAllItems()
-                                  }} 
-                                />
-                              </th>
-                              <th data-tip="The total amount received, after any deductions for refunds and discounts." scope="col" className="px-3 py-3.5 text-sm text-left font-semibold">
-                                Sale Amount
-                              </th>
+                              {
+                                page === 'due' &&
+                                <th scope="col" className="pr-3 sm:pl-6 px-3 py-3.5 text-left text-sm font-semibold">
+                                  <input
+                                    id="campaign_public"
+                                    name="campaign_public"
+                                    type="checkbox"
+                                    className={`bg-white focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                    onClick={(e) => {
+                                      checkAllItems()
+                                    }} 
+                                  />
+                                </th>
+                              }
+                              {
+                                page !== 'due' &&
+                                <th data-tip="The total amount received, after any deductions for refunds and discounts." scope="col" className="px-3 py-3.5 text-sm text-left font-semibold">
+                                  Sale Amount
+                                </th>
+                              }
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                Commission Value
+                                {page !== 'due' ? 'Commission Value' : 'Total Due'}
                               </th>
-                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                Products
-                              </th>
-                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                Referrer
-                              </th>
+                              {
+                                page !== 'due' &&
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                  Products
+                                </th>
+                              }
+                              {
+                                page !== 'due' && page !== 'paid' &&
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                  Referrer
+                                </th>
+                              }
+                              {
+                                page !== 'index' && page !== 'pending' &&
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                  PayPal Email
+                                </th>
+                              }
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Referral ID
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Date Created
                               </th>
-                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                Status
-                              </th>
+                              {
+                                page !== 'due' && page !== 'paid' &&
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                  Status
+                                </th>
+                              }
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white text-sm">
                             {commissions?.data?.map((sale) => (
                               <tr key={sale?.commission_id}>
-                                <td className="whitespace-nowrap pl-4 pr-3  text-sm">
-                                  <div className="flex items-center h-5">
-                                    <input
-                                      disabled={sale?.paid_at !== null || checkUTCDateExpired(sale?.commission_due_date) === false}
-                                      id="campaign_public"
-                                      name="campaign_public"
-                                      type="checkbox"
-                                      className={`appearance-none disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
-                                      onClick={(e) => {
-                                        setCheckedItems([
-                                          ...checkedItems,
-                                          sale?.commission_id
-                                        ]);
-                                      }} 
-                                      checked={checkedItems === 'all' && true}
-                                    />
-                                  </div>
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm sm:pl-6">
-                                  <span>{priceStringDivided(sale?.commission_sale_value, activeCompany?.company_currency)}</span>
-                                </td>
+                                {
+                                  page === 'due' &&
+                                  <td className="whitespace-nowrap pl-4 pr-3  text-sm">
+                                    <div className="flex items-center h-5">
+                                      <input
+                                        disabled={sale?.paid_at !== null || checkUTCDateExpired(sale?.commission_due_date) === false}
+                                        id="campaign_public"
+                                        name="campaign_public"
+                                        type="checkbox"
+                                        className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                        onClick={(e) => {
+                                          checkedItems.includes(sale?.commission_id) ?
+                                            setCheckedItems([...checkedItems.filter(item => item !== sale?.commission_id)]) 
+                                          :
+                                            setCheckedItems([
+                                              ...checkedItems,
+                                              sale?.commission_id
+                                            ])
+                                        }} 
+                                        checked={checkedItems.includes(sale?.commission_id) === true}
+                                      />
+                                    </div>
+                                  </td>
+                                }
+                                {
+                                  page !== 'due' &&
+                                  <td className="whitespace-nowrap px-3 py-4 text-sm sm:pl-6">
+                                    <span>{priceStringDivided(sale?.commission_sale_value, activeCompany?.company_currency)}</span>
+                                  </td>
+                                }
                                 <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
                                   <span>{priceStringDivided(sale?.commission_total, activeCompany?.company_currency)}</span>
                                 </td>
-                                <td className="px-3 py-4 text-sm max-w-xs break-all">
-                                  {sale?.commission_description ? sale?.commission_description : 'N/A'}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4">
-                                  <span>{sale?.affiliate?.invite_email}</span>
-                                </td>
+                                {
+                                  page !== 'due' &&
+                                  <td className="px-3 py-4 text-sm max-w-xs break-all">
+                                    {sale?.commission_description ? sale?.commission_description : 'N/A'}
+                                  </td>
+                                }
+                                {
+                                  page !== 'due' && page !== 'paid' &&
+                                  <td className="whitespace-nowrap px-3 py-4">
+                                    <span>{sale?.affiliate?.details?.email}</span>
+                                  </td>
+                                }
+                                {
+                                  page !== 'index' && page !== 'pending' &&
+                                  <td className="whitespace-nowrap px-3 py-4">
+                                    <span>{sale?.affiliate?.details?.paypal_email}</span>
+                                  </td>
+                                }
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   {sale?.referral_id}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   <div data-tip={sale?.created}>{UTCtoString(sale?.created)}</div>
                                 </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  <div data-tip={`${sale?.paid_at !== null ? 'Paid at '+sale?.paid_at+'' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not valid to be paid out yet, due '+sale?.commission_due_date+''}`} className={`${sale?.paid_at !== null ? 'bg-secondary-2 text-white' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-900'} 'bg-gray-400 text-gray-900'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
-                                    {sale?.paid_at !== null ? 'Paid' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not payable yet'}
-                                  </div>
-                                </td>
+                                {
+                                  page !== 'due' && page !== 'paid' &&
+                                  <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                    <div data-tip={`${sale?.paid_at !== null ? 'Paid at '+sale?.paid_at+'' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not valid to be paid out yet, due '+sale?.commission_due_date+''}`} className={`${sale?.paid_at !== null ? 'bg-secondary-2 text-white' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-900'} 'bg-gray-400 text-gray-900'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
+                                      {sale?.paid_at !== null ? 'Paid' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not payable yet'}
+                                    </div>
+                                  </td>
+                                }
                               </tr>
                             ))}
                           </tbody>

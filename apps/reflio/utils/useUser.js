@@ -197,7 +197,8 @@ export const getSales = async (companyId, date, page) => {
     .select(`
         *,
         campaign:campaign_id (campaign_name),
-        affiliate:affiliate_id (invite_email)
+        affiliate_email:affiliate_id (details:invited_user_id(email,paypal_email))
+
       `, 
       { count: "exact" }
     )
@@ -215,7 +216,7 @@ export const getSales = async (companyId, date, page) => {
     .select(`
         *,
         campaign:campaign_id (campaign_name),
-        affiliate:affiliate_id (invite_email)
+        affiliate_email:affiliate_id (details:invited_user_id(email,paypal_email))
       `, 
       { count: "exact" }
     )

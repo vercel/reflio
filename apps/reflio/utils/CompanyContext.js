@@ -13,10 +13,19 @@ export const CompanyContextProvider = (props) => {
   useEffect(() => {
     if (userFinderLoaded && getCompanies && user && userCompanyDetails === null) {
       getCompanies(user?.id).then(results => {
-          setUserCompanyDetails(Array.isArray(results) ? results : [results])
+        setUserCompanyDetails(Array.isArray(results) ? results : [results])
       });
     }
   });
+
+  console.log("team:")
+  console.log(team)
+
+  console.log("user:")
+  console.log(user)
+
+  console.log("userCompanyDetails:")
+  console.log(userCompanyDetails)
 
   if(team === 'none' && router?.pathname !== '/dashboard/create-team'){
     router.replace('/dashboard/create-team');
@@ -33,17 +42,17 @@ export const CompanyContextProvider = (props) => {
       router.replace('/dashboard/'+userCompanyDetails[0].company_id+'')
   }
 
-  if(userCompanyDetails !== null && userCompanyDetails?.length > 0 && router?.asPath?.includes('undefined')){
-    userCompanyDetails?.filter(company=>company?.active_company === true)?.length > 0 ?      
-      router.replace('/dashboard/'+userCompanyDetails?.filter(company=>company?.active_company === true)[0].company_id+'')
-    : 
-      router.replace('/dashboard/'+userCompanyDetails[0].company_id+'')
-  }
+  // if(userCompanyDetails !== null && userCompanyDetails?.length > 0 && router?.asPath?.includes('undefined')){
+  //   userCompanyDetails?.filter(company=>company?.active_company === true)?.length > 0 ?      
+  //     router.replace('/dashboard/'+userCompanyDetails?.filter(company=>company?.active_company === true)[0].company_id+'')
+  //   : 
+  //     router.replace('/dashboard/'+userCompanyDetails[0].company_id+'')
+  // }
 
-  if(userCompanyDetails === null && router?.asPath?.includes('undefined')){
-    signOut();
-    router.replace('/signin');
-  }
+  // if(userCompanyDetails === null && router?.asPath?.includes('undefined')){
+  //   signOut();
+  //   router.replace('/signin');
+  // }
 
   let activeCompany = router?.query?.companyId ? userCompanyDetails?.filter(company => company?.company_id === router?.query?.companyId) : userCompanyDetails?.filter(company => company?.active_company === true)?.length > 0 ? userCompanyDetails?.filter(company => company?.active_company === true) : Array.isArray(userCompanyDetails) ? userCompanyDetails[0] : userCompanyDetails;
   if(Array.isArray(activeCompany)){
