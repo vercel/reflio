@@ -241,7 +241,7 @@ export const CommissionsTemplate = ({ page }) => {
                                         id="campaign_public"
                                         name="campaign_public"
                                         type="checkbox"
-                                        className={`disabled:bg-gray-200 focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
+                                        className={`disabled:bg-gray-200 disabled:cursor-not-allowed focus:ring-primary h-7 w-7 text-secondary border-2 border-gray-300 rounded-lg cursor-pointer`}
                                         onClick={(e) => {
                                           checkedItems.includes(sale?.commission_id) ?
                                             setCheckedItems([...checkedItems.filter(item => item !== sale?.commission_id)]) 
@@ -268,7 +268,7 @@ export const CommissionsTemplate = ({ page }) => {
                                 {
                                   page !== 'due' &&
                                   <td className="px-3 py-4 text-sm max-w-xs break-all">
-                                    {sale?.commission_description ? sale?.commission_description : 'N/A'}
+                                    {sale?.commission_description ?? 'N/A'}
                                   </td>
                                 }
                                 {
@@ -280,7 +280,7 @@ export const CommissionsTemplate = ({ page }) => {
                                 {
                                   page !== 'index' && page !== 'pending' &&
                                   <td className="whitespace-nowrap px-3 py-4">
-                                    <span>{sale?.affiliate?.details?.paypal_email}</span>
+                                    <span>{sale?.affiliate?.details?.paypal_email ?? 'Not set'}</span>
                                   </td>
                                 }
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">

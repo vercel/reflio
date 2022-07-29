@@ -191,42 +191,39 @@ export const getReferrals = async (companyId, date) => {
 
 //Get user referrals
 export const getSales = async (companyId, date, page) => {
+  let query = supabase
+    .from('commissions')
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (details:invited_user_id(email,paypal_email))
+      `, 
+      { count: "exact" }
+    )
+    .eq('company_id', companyId)
+    .order('created', { ascending: false })
+    .limit(30);
+
   if(date !== null){
-    const { data, count, error } = await supabase
-    .from('commissions')
-    .select(`
-        *,
-        campaign:campaign_id (campaign_name),
-        affiliate_email:affiliate_id (details:invited_user_id(email,paypal_email))
-
-      `, 
-      { count: "exact" }
-    )
-    .eq('company_id', companyId)
-    .lt('created', [date])
-    .order('created', { ascending: false })
-    .limit(30)
-
-    if(error) return "error"; 
-    return { data, count };
-    
-  } else {
-    const { data, count, error } = await supabase
-    .from('commissions')
-    .select(`
-        *,
-        campaign:campaign_id (campaign_name),
-        affiliate_email:affiliate_id (details:invited_user_id(email,paypal_email))
-      `, 
-      { count: "exact" }
-    )
-    .eq('company_id', companyId)
-    .order('created', { ascending: false })
-    .limit(30)
-
-    if(error) return "error"; 
-    return { data, count };
+    query.lt('created', [date])
   }
+
+  if(page === "due"){
+    query.lt('commission_due_date', [((new Date()).toISOString())]).is('paid_at', null)
+  }
+
+  if(page === "paid"){
+    query.not('paid_at', 'is', null)
+  }
+
+  if(page === "pending"){
+    query.gt('commission_due_date', [((new Date()).toISOString())]).is('paid_at', null)
+  }
+
+  const { data, count, error } = await query;
+
+  if(error) return "error"; 
+  return { data, count };
 };
 
 //Create company

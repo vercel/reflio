@@ -99,6 +99,7 @@ create table users (
 );
 alter table users enable row level security;
 create policy "Can view own user data." on users for select using (auth.uid() = id);
+create policy "Can view affiliate user data." on users for select using (id in (select invited_user_id from affiliates where invited_user_id = id));
 create policy "Can update own user data." on users for update using (auth.uid() = id);
 
 /** 

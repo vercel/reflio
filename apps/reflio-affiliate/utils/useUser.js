@@ -66,8 +66,8 @@ export const UserContextProvider = (props) => {
     subscription,
     userFinderLoaded,
     planDetails,
-    signIn: (options) => supabase.auth.signIn(options),
-    signUp: (options) => supabase.auth.signUp(options),
+    signIn: (options) => supabase.auth.signIn(options, {redirectTo: `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}`}),
+    signUp: (options) => supabase.auth.signUp(options, {redirectTo: `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}`}),
     forgotPassword: (email) => supabase.auth.api.resetPasswordForEmail(email),
     signOut: () => {
       setUserDetails(null);
