@@ -99,7 +99,7 @@ export default function ReferralsPage() {
                                   <span>{referral?.referral_id}</span>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  <span>{referral?.affiliate?.invite_email}</span>
+                                  <span>{referral?.affiliate?.details?.email}</span>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   {

@@ -152,41 +152,27 @@ export const getAffiliates = async (companyId) => {
 
 //Get user referrals
 export const getReferrals = async (companyId, date) => {
+  let query = supabase
+    .from('referrals')
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (details:invited_user_id(email))
+      `, 
+      { count: "exact" }
+    )
+    .eq('company_id', companyId)
+    .order('created', { ascending: false })
+    .limit(30);
+
   if(date !== null){
-    const { data, count, error } = await supabase
-    .from('referrals')
-    .select(`
-        *,
-        campaign:campaign_id (campaign_name),
-        affiliate:affiliate_id (invite_email)
-      `, 
-      { count: "exact" }
-    )
-    .eq('company_id', companyId)
-    .lt('created', [date])
-    .order('created', { ascending: false })
-    .limit(30)
-
-    if(error) return "error"; 
-    return { data, count };
-    
-  } else {
-    const { data, count, error } = await supabase
-    .from('referrals')
-    .select(`
-        *,
-        campaign:campaign_id (campaign_name),
-        affiliate:affiliate_id (invite_email)
-      `, 
-      { count: "exact" }
-    )
-    .eq('company_id', companyId)
-    .order('created', { ascending: false })
-    .limit(30)
-
-    if(error) return "error"; 
-    return { data, count };
+    query.lt('created', [date])
   }
+
+  const { data, count, error } = await query;
+
+  if(error) return "error"; 
+  return { data, count };
 };
 
 //Get user referrals
