@@ -24,7 +24,7 @@ export default function Layout({ children }) {
     simplePage = false;
   }
 
-  if(router.pathname === '/dashboard/add-company' || router.pathname === '/dashboard/create-team'){
+  if(router.pathname === '/dashboard/add-company' || router.pathname === '/dashboard/create-team' || router.pathname.includes('/invite/')){
     defaultPage = false;
     dashboardPage = false;
     simplePage = true;

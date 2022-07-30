@@ -34,7 +34,7 @@ export const UserContextProvider = (props) => {
     };
   }, []);
   const getTeam = () => supabase.from('teams').select('*').single();
-  const getUserDetails = () => supabase.from('users').select('*').single();
+  const getUserDetails = () => supabase.from('users').select('*').eq('id', user?.id).single();
   const getSubscription = () =>
     supabase
       .from('subscriptions')
@@ -334,6 +334,8 @@ export const newCampaign = async (user, form, companyId) => {
     formFields.discount_value = null;
   }
 
+  console.log(formFields)
+  
   let { data } = await supabase
     .from('campaigns')
     .select('*')

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '../utils/useUser';
 import { useUserAffiliate } from '../utils/UserAffiliateContext';
-import LoadingDots from '@/components/LoadingDots';
+import LoadingTile from '@/components/LoadingTile';
 import {
   ArrowNarrowLeftIcon
 } from '@heroicons/react/outline';
@@ -121,7 +121,7 @@ export default function CampaignInvite() {
               </div>
             : 
               <div>
-                <LoadingDots/>
+                <LoadingTile/>
               </div>
           }
         </div>

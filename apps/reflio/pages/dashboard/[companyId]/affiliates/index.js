@@ -67,7 +67,7 @@ export default function InnerDashboardPage() {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                   <div className="flex items-center">
                                     <div className="ml-4">
-                                      <span>{affiliate?.details?.email ? affiliate?.details?.email : affiliate?.invited_email}</span>
+                                      <span>{affiliate?.details?.email ?? affiliate?.invited_email}</span>
                                     </div>
                                   </div>
                                 </td>

@@ -76,16 +76,14 @@ export const CommissionsTemplate = ({ page }) => {
         })
       }
 
-      console.log(filteredCommissions);
-
-      console.log(commissionIds)
-
       setCheckedItems(commissionIds);
       setCheckedAll(true);
     }
   };
 
-  console.log(commissions)
+  const markAsPaid = async () => {
+    
+  };
 
   return (
     <>
@@ -142,18 +140,21 @@ export const CommissionsTemplate = ({ page }) => {
                     </Transition>
                   </Menu>
                 </div>
-                {
-                  page === 'due' &&
-                  <div className="flex items-center justify-start mb-4">
+                <div className="flex items-center">
+                  {
+                    page === 'due' &&
                     <Button
-                      onClick={e=>{checkedItems.length === 0 ? '' : ''}}
+                      onClick={e=>{markAsPaid()}}
                       small
                       secondary
                     >
                       Mark {checkedItems.length === 0 ? 'all' : checkedItems.length} {checkedItems?.length > 1 ? 'commissions' : checkedItems?.length === 0 ? 'commissions' : 'commission'} as paid
                     </Button>
-                  </div>
-                }
+                  }
+                  {
+                    
+                  }
+                </div>
                 {
                   page !== "paid" && page !== "due" && commissions?.data?.filter(commission => commission?.paid_at === null && checkUTCDateExpired(commission?.commission_due_date) === true)?.length > 0 &&
                   <div className="mb-6">
