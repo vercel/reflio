@@ -22,6 +22,8 @@ export const Button = (props) => {
     styles = styles + ' text-gray-800 bg-gray-300 border-gray-400 hover:bg-gray-400'
   } else if(props.white){
     styles = styles + ' bg-white border-gray-100 hover:bg-gray-100'
+  } else if(props.red){
+    styles = styles + ' text-white bg-red-500 border-red-600 hover:bg-red-600'
   } else {
     styles = styles + ' bg-primary border-primary-2 hover:bg-primary-2'
   }

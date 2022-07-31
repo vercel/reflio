@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { getSales } from '@/utils/useUser';
+import { getSales, payCommissions } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
@@ -11,6 +11,7 @@ import ReactTooltip from 'react-tooltip';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ExclamationIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
 export const CommissionsTemplate = ({ page }) => {
   const { activeCompany } = useCompany();
@@ -18,6 +19,7 @@ export const CommissionsTemplate = ({ page }) => {
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [checkedAll, setCheckedAll] = useState(false);
+  const [payingCommissions, setPayingCommissions] = useState(false);
   const router = useRouter();
 
   const sortOptions = [
@@ -82,7 +84,19 @@ export const CommissionsTemplate = ({ page }) => {
   };
 
   const markAsPaid = async () => {
+    setPayingCommissions(true);
     
+    payCommissions(activeCompany?.company_id, checkedItems, commissions?.data).then(results => {
+      if(results === "success"){
+        toast.success(`Successfully marked ${checkedItems.length ? checkedItems.length : 'all eligible commissions as paid'}`);
+        setCheckedItems([]);
+        setCheckedAll(false);
+        setPayingCommissions(false);
+        router.push(`/dashboard/${activeCompany?.company_id}/commissions/paid`);
+      } else {
+        toast.error('There was an error when marking the commissions as paid.');
+      }
+    });
   };
 
   return (
@@ -94,65 +108,76 @@ export const CommissionsTemplate = ({ page }) => {
         </div>
       </div>
       <div className="wrapper">
+        <div className="mb-5">
+          <Menu as="div" className="relative z-10 inline-block text-left">
+            <div>
+              <Menu.Button className="group inline-flex items-center justify-center text-sm bg-white rounded-xl py-3 px-5 border-2 border-gray-300">
+                <span className="font-semibold">Filter</span>
+                <ChevronDownIcon
+                  className="flex-shrink-0 ml-1 h-4 w-4"
+                  aria-hidden="true"
+                />
+              </Menu.Button>
+            </div>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  {sortOptions.map((option) => (
+                    <Menu.Item key={option}>
+                      {({ active }) => (
+                        <a
+                          href={option.href}
+                          className={classNames(
+                            active ? 'bg-gray-100' : '',
+                            'block px-4 py-3 text-gray-900'
+                          )}
+                        >
+                          {option.name}
+                        </a>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
+      </div>
+      <div className="wrapper">
         {
           commissions && commissions?.data?.length > 0 ?
               <div>
-                <div className="mb-5">
-                  <Menu as="div" className="relative z-10 inline-block text-left">
-                    <div>
-                      <Menu.Button className="group inline-flex items-center justify-center text-sm bg-gray-200 rounded-xl py-3 px-5 border-2 border-gray-300">
-                        <span className="font-semibold">Filter</span>
-                        <ChevronDownIcon
-                          className="flex-shrink-0 ml-1 h-4 w-4"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div className="py-1">
-                          {sortOptions.map((option) => (
-                            <Menu.Item key={option}>
-                              {({ active }) => (
-                                <a
-                                  href={option.href}
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'block px-4 py-3 text-gray-900'
-                                  )}
-                                >
-                                  {option.name}
-                                </a>
-                              )}
-                            </Menu.Item>
-                          ))}
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
-                <div className="flex items-center">
+                <div className={`${page !== 'index' && page !== 'pending' && 'mb-6'} sm:flex sm:items-center`}>
                   {
                     page === 'due' &&
                     <Button
+                      disabled={payingCommissions}
                       onClick={e=>{markAsPaid()}}
                       small
-                      secondary
+                      red
+                      className="mb-3 sm:mr-3 sm:mb-0"
                     >
-                      Mark {checkedItems.length === 0 ? 'all' : checkedItems.length} {checkedItems?.length > 1 ? 'commissions' : checkedItems?.length === 0 ? 'commissions' : 'commission'} as paid
+                      {payingCommissions ? 'Marking' : 'Mark'} {checkedItems.length === 0 ? 'all' : checkedItems.length} {checkedItems?.length > 1 ? 'commissions' : checkedItems?.length === 0 ? 'commissions' : 'commission'} as paid {payingCommissions && '...'}
                     </Button>
                   }
                   {
-                    
+                    page !== 'index' && page !== 'pending' &&
+                    <Button
+                      onClick={e=>{exportCSV()}}
+                      small
+                      gray
+                    >
+                      Export {checkedItems.length === 0 ? 'all' : checkedItems.length} {checkedItems?.length > 1 ? 'commissions' : checkedItems?.length === 0 ? 'commissions' : 'commission'} as PayPal CSV
+                    </Button> 
                   }
                 </div>
                 {
@@ -219,9 +244,16 @@ export const CommissionsTemplate = ({ page }) => {
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Referral ID
                               </th>
+               
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Date Created
                               </th>
+                              {
+                                page === 'paid' &&
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                  Date Paid
+                                </th>
+                              }
                               {
                                 page !== 'due' && page !== 'paid' &&
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
@@ -290,6 +322,12 @@ export const CommissionsTemplate = ({ page }) => {
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   <div data-tip={sale?.created}>{UTCtoString(sale?.created)}</div>
                                 </td>
+                                {
+                                  page === 'paid' && sale?.paid_at &&
+                                  <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                    <div data-tip={sale?.paid_at}>{UTCtoString(sale?.paid_at)}</div>
+                                  </td>
+                                }
                                 {
                                   page !== 'due' && page !== 'paid' &&
                                   <td className="whitespace-nowrap px-3 py-4 text-sm">

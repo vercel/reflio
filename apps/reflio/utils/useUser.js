@@ -212,6 +212,42 @@ export const getSales = async (companyId, date, page) => {
   return { data, count };
 };
 
+export const payCommissions = async (companyId, checkedCommissions, eligibleCommissions) => {
+  if(!companyId || !eligibleCommissions) return "error";
+
+  console.log(checkedCommissions)
+  console.log(eligibleCommissions)
+
+  try {    
+    if(checkedCommissions.length === 0 || checkedCommissions === null){
+      await Promise.all(eligibleCommissions?.map(async (item) => {
+        await supabase
+          .from('commissions')
+          .update({
+            paid_at: ((new Date()).toISOString())
+          })
+          .eq('commission_id', item?.commission_id)
+      }));
+    } else {
+      await Promise.all(checkedCommissions?.map(async (item) => {
+        await supabase
+          .from('commissions')
+          .update({
+            paid_at: ((new Date()).toISOString())
+          })
+          .eq('commission_id', item)
+      }));
+    }
+
+    return "success";
+
+  } catch (error) {
+    console.warn(error);
+    return "error";
+    
+  }
+};
+
 //Create company
 export const newTeam = async (user, form) => {
   if(!form?.team_name) return "error";

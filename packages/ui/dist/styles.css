@@ -1568,6 +1568,11 @@ video {
   border-color: var(--primary);
 }
 
+.border-gray-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity));
+}
+
 .bg-secondary {
   background-color: var(--secondary);
 }
@@ -2783,6 +2788,14 @@ a {
 
   .sm\:mt-16 {
     margin-top: 4rem;
+  }
+
+  .sm\:mr-3 {
+    margin-right: 0.75rem;
+  }
+
+  .sm\:mb-0 {
+    margin-bottom: 0px;
   }
 
   .sm\:block {

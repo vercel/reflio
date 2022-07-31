@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/outline';
 
 export const AdminNavItems = () => {
-  const { signOut, planDetails } = useUser();
+  const { signOut } = useUser();
   const { activeCompany, userCompanyDetails } = useCompany();
   const router = useRouter();
 
@@ -29,6 +29,7 @@ export const AdminNavItems = () => {
     { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: CurrencyDollarIcon },
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
     { name: 'Company Settings', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon },
+    { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon }
   ];
 
   const secondaryNavigation = [
@@ -140,20 +141,6 @@ export const AdminNavItems = () => {
               <span>{item.name}</span>
             </a>
           ))}
-            <a
-              href={`/dashboard/plan`}
-              className={classNames(
-                router?.asPath === `/dashboard/plan` && 'bg-gray-300 border-gray-400 hover-opacity-100',
-                'flex items-center p-2 text-lg font-semibold rounded-md border-2 border-transparent hover:opacity-80'
-              )}
-            >
-              <CreditCardIcon className="mr-4 flex-shrink-0 h-6 w-6" aria-hidden="true" />
-              <span>{planDetails === 'free' ? 'Upgrade' : 'PRO Plan'}</span>
-              {
-                planDetails === 'free' &&
-                <span className="py-1 px-3 text-xs bg-secondary text-white rounded-xl ml-2 uppercase font-semibold">Pro</span>
-              }
-            </a>
         </div>
         <div className="pt-3 mt-auto">
           <div className="px-4 space-y-1">
