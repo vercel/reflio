@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { postData } from '@/utils/helpers';
 import { getStripe } from '@/utils/stripe-client';
 import { useUser } from '@/utils/useUser';
-import { CheckIcon } from '@heroicons/react/solid'
+import { CheckIcon, XIcon } from '@heroicons/react/solid';
+import Button from '@/components/Button'; 
 
 export const Pricing = ({ products }) => {
   const router = useRouter();
@@ -40,6 +41,101 @@ export const Pricing = ({ products }) => {
     }
   };
 
+  const features = {
+    "Indie": [
+      {
+        text: '200 affiliates',
+        type: 'eligible'
+      },
+      {
+        text: '2 companies',
+        type: 'eligible'
+      },
+      {
+        text: '4 campaigns',
+        type: 'eligible'
+      },
+      {
+        text: 'Stripe auto sync',
+        type: 'eligible'
+      },
+      {
+        text: 'PayPal Mass Payouts',
+        type: 'eligible'
+      },
+      {
+        text: 'Live chat & email support',
+        type: 'eligible'
+      },
+      {
+        text: 'Invite team members',
+        type: 'ineligible'
+      }
+    ],
+    "Pro": [
+      {
+        text: '500 affiliates',
+        type: 'eligible'
+      },
+      {
+        text: '5 companies',
+        type: 'eligible'
+      },
+      {
+        text: '10 campaigns',
+        type: 'eligible'
+      },
+      {
+        text: '3 team members',
+        type: 'eligible'
+      },
+      {
+        text: 'Stripe auto sync',
+        type: 'eligible'
+      },
+      {
+        text: 'PayPal Mass Payouts',
+        type: 'eligible'
+      },
+      {
+        text: 'Live chat & email support',
+        type: 'eligible'
+      }
+    ],
+    "Team": [
+      {
+        text: '2000 affiliates',
+        type: 'eligible'
+      },
+      {
+        text: '10 companies',
+        type: 'eligible'
+      },
+      {
+        text: 'Unlimited campaigns',
+        type: 'eligible'
+      },
+      {
+        text: '20 team members',
+        type: 'eligible'
+      },
+      {
+        text: 'Stripe auto sync',
+        type: 'eligible'
+      },
+      {
+        text: 'PayPal Mass Payouts',
+        type: 'eligible'
+      },
+      {
+        text: 'Priority live chat & email support',
+        type: 'eligible'
+      }
+    ]
+  };
+
+  console.log(features);
+
   if(products?.length){
     return (
       <div>
@@ -47,26 +143,36 @@ export const Pricing = ({ products }) => {
           <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-4">
             <div key="free" className="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-white">
               <div className="p-6">
-                <h2 className="text-lg leading-6 font-medium text-gray-900">Free</h2>
-                <p className="mt-4 text-sm text-gray-500">The free version.</p>
+                <h2 className="text-2xl leading-6 font-semibold text-gray-900">Free</h2>
                 <p className="mt-8">
                   <span className="text-4xl font-extrabold text-gray-900">9%</span>
                   <span className="text-base font-medium text-gray-500"> fee per referral</span>
                 </p>
-                <button
-                  type="button"
-                  className="mt-8 block w-full bg-gray-800 border border-gray-800 rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-900"
+                <Button
+                  medium
+                  gray
+                  className="mt-8 w-full"
+                  href="/signup"
                 >
-                  Get started for free
-                </button>
+                  Get Started for Free
+                </Button>
               </div>
               <div className="pt-6 pb-8 px-6">
-                <h3 className="text-xs font-medium text-gray-900 tracking-wide uppercase">What included</h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  <li className="flex space-x-3">
-                    <CheckIcon className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
-                    <span className="text-sm text-gray-500">This is a feature right here</span>
-                  </li>
+                <ul role="list" className="space-y-4">
+                  {
+                    features["Indie"].map((feature, index) => {
+                      return(
+                        <li key={index} className={`${feature.type === 'ineligible' && 'opacity-50'} flex space-x-3`}>
+                          {
+                            feature.type === 'eligible' ?
+                              <CheckIcon className="h-6 w-6 text-green-600"/>
+                            : <XIcon className="h-6 w-6 text-gray-500"/>
+                          }
+                          <span className="text-base text-gray-500">{feature.text}</span>
+                        </li>
+                      )
+                    })
+                  }
                 </ul>
               </div>
             </div>
@@ -80,26 +186,36 @@ export const Pricing = ({ products }) => {
               return (
                 <div key={product?.name} className="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-white">
                   <div className="p-6">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900">{product?.name}</h2>
-                    <p className="mt-4 text-sm text-gray-500">{product?.description}</p>
+                    <h2 className="text-2xl leading-6 font-semibold text-gray-900">{product?.name}</h2>
                     <p className="mt-8">
                       <span className="text-4xl font-extrabold text-gray-900">{priceString}</span>
-                      <span className="text-base font-medium text-gray-500">/mo</span>
+                      <span className="text-base font-medium text-gray-500">/mo - <span className="text-sm text-gray-500">(0% fee)</span></span>
                     </p>
-                    <button
-                      type="button"
-                      className="mt-8 block w-full bg-gray-800 border border-gray-800 rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-900"
+                    <Button
+                      medium
+                      secondary
+                      className="mt-8 w-full"
+                      onClick={() => handleCheckout(product?.prices[0].id)}
                     >
                       Subscribe to {product?.name}
-                    </button>
+                    </Button>
                   </div>
                   <div className="pt-6 pb-8 px-6">
-                    <h3 className="text-xs font-medium text-gray-900 tracking-wide uppercase">What included</h3>
-                    <ul role="list" className="mt-6 space-y-4">
-                      <li className="flex space-x-3">
-                        <CheckIcon className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
-                        <span className="text-sm text-gray-500">This is a feature right here</span>
-                      </li>
+                    <ul role="list" className="space-y-4">
+                      {
+                        features[product?.name].map((feature, index) => {
+                          return(
+                            <li key={index} className={`${feature.type === 'ineligible' && 'opacity-50'} flex space-x-3`}>
+                              {
+                                feature.type === 'eligible' ?
+                                  <CheckIcon className="h-6 w-6 text-green-600"/>
+                                : <XIcon className="h-6 w-6 text-gray-500"/>
+                              }
+                              <span className="text-base text-gray-500">{feature.text}</span>
+                            </li>
+                          )
+                        })
+                      }
                     </ul>
                   </div>
                 </div>
