@@ -32,4 +32,4 @@ We will be releasing our guide on how to contribute to Reflio very soon.
   
 ## License
 
-This repository is licensed under [AGPLv3](https://github.com/Reflio-com/reflio/blob/main/LICENSE). To comply with AGPLv3, if you are cloning the code into a private repository (non-public access), and the code is also being used for commercial reasons, please [acquire a commercial license here](https://reflio.com/commercial).
+This repository is licensed under [AGPLv3](https://github.com/Reflio-com/reflio/blob/main/LICENSE). To comply with AGPLv3, if you plan to distribute the code, please keep the source code public, in a public repository. If you are cloning the code into a private repository (non-public access), and the code is also being used for commercial reasons, please [acquire a commercial license here](https://reflio.com/commercial).
