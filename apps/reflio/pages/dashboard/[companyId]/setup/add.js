@@ -44,7 +44,7 @@ export default function TrackingSetupPage() {
             <p className="text-lg mb-2">To track a referral conversion your website, you need to run the <code className="text-lg tracking-tight font-bold text-pink-500">{`reflio('convert)`}</code> function when you are creating the Stripe customer. This process usually happens on a thank you page, via the Stripe API in your backend or some other callback that occurs after the Stripe checkout has been completed.</p>
             <div className="w-full rounded-xl text-lg overflow-hidden shadow-lg">
               <CopyBlock
-                text={`reflio('convert', { email: 'yourcustomer@email.com' });`}
+                text={`await Reflio.convert('yourcustomer@email.com')`}
                 language='javascript'
                 showLineNumbers={false}
                 theme={monokaiSublime}

@@ -28,7 +28,6 @@ export const createCommission = async(referralData, stripeId, referralId, email)
       });
 
       if(paymentIntent?.data?.length && paymentIntent?.data[0]?.metadata?.reflio_commission_id){
-
         //Check DB and make sure that the commission is still valid and exists.
         let commissionFromId = await supabaseAdmin
           .from('commissions')
