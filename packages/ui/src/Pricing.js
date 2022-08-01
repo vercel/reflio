@@ -39,7 +39,7 @@ export const Pricing = ({ products }) => {
 
   if(products?.length){
     productsSorted = products.sort(function(a, b) {
-      return parseFloat(a.prices[0].unit_amount/100) - parseFloat(a.prices[0].unit_amount/100);
+      return parseFloat(a.prices[0].unit_amount/100) - parseFloat(b.prices[0].unit_amount/100);
     });
   }
 
