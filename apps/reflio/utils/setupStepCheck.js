@@ -2,13 +2,12 @@ import { useRouter } from 'next/router';
 import { useCompany } from './CompanyContext';
 import { useCampaign } from './CampaignContext';
 
-export default function setupStepCheck({ type }) {
+export default function setupStepCheck(type) {
   const router = useRouter();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
 
   if(activeCompany){
-
     if(type === 'light'){
       if(activeCompany?.stripe_account_data === null || activeCompany?.stripe_id === null){
         router.replace(`/dashboard/${router?.query?.companyId}/setup/stripe`);
@@ -17,7 +16,7 @@ export default function setupStepCheck({ type }) {
       if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency === null){
         router.replace(`/dashboard/${router?.query?.companyId}/setup/currency`);
       }
-      
+
     } else {
       if(activeCompany?.stripe_account_data === null || activeCompany?.stripe_id === null){
         router.replace(`/dashboard/${router?.query?.companyId}/setup/stripe`);
