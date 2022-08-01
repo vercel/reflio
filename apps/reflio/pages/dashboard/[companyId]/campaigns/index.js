@@ -10,8 +10,11 @@ import {
   TemplateIcon
 } from '@heroicons/react/solid';
 import { priceString, priceStringDivided } from 'utils/helpers';
+import setupStepCheck from '@/utils/setupStepCheck';
 
 export default function CampaignsPage() {
+  setupStepCheck('light');
+
   const router = useRouter();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
