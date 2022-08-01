@@ -6,10 +6,6 @@ const inviteUser = async (req, res) => {
   if (req.method === 'POST') {
     const token = req.headers.token;
     const { companyId, companyHandle, companyName, campaignId, emailInvites, logoUrl, emailSubject, emailContent } = req.body;
-
-    if(!logoUrl){
-      logoUrl = null;
-    }
     
     try {
       const user = await getUser(token);

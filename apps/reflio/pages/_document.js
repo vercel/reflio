@@ -13,6 +13,11 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#1d368b" />
           <script defer data-domain="reflio.com" src="https://plausible.io/js/plausible.js"></script>
           <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.$crisp=[];window.CRISP_WEBSITE_ID="b408013b-e3ba-4427-8ac8-7ac2f9edccc0";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})()`
+            }}
+          />
         </Head>
         <body className="loading bg-gray-50">
           <Main />

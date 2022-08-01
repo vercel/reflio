@@ -95,11 +95,10 @@ create table users (
   email text,
   user_type user_types,
   paypal_email text default null,
-  team_id text references teams not null
+  team_id text references teams default null
 );
 alter table users enable row level security;
 create policy "Can view own user data." on users for select using (auth.uid() = id);
-create policy "Can view affiliate user data." on users for select using (id in (select invited_user_id from affiliates where invited_user_id = id));
 create policy "Can update own user data." on users for update using (auth.uid() = id);
 
 /** 
@@ -184,6 +183,7 @@ create policy "Can view own user data." on affiliates for select using (is_membe
 create policy "Can update own user data." on affiliates for update using (is_member_of(auth.uid(), team_id));
 create policy "Can insert own user data." on affiliates for insert with check (is_member_of(auth.uid(), team_id));
 create policy "Can delete own user data." on affiliates for delete using (is_member_of(auth.uid(), team_id));
+create policy "Can view affiliate user data." on users for select using (id in (select invited_user_id from affiliates where invited_user_id = id));
 
 /**
 * Referrals

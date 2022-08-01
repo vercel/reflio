@@ -15,8 +15,10 @@ import {
   UserGroupIcon,
   ChartBarIcon,
   SparklesIcon,
-  StatusOnlineIcon
+  StatusOnlineIcon,
+  ChatAltIcon
 } from '@heroicons/react/outline';
+import { QuestionTo } from '@questionto/react';
 
 export const AdminNavItems = () => {
   const { signOut } = useUser();
@@ -96,12 +98,6 @@ export const AdminNavItems = () => {
                           {({ selected, active }) => (
                             <>
                             <div className="flex">
-                              <span className="relative w-5 h-5 rounded-full block mr-2">
-                                {
-                                  company?.display_image &&
-                                  <Image src={company?.display_image} objectFit='contain' layout='fill' />
-                                }
-                              </span>
                               <span className={classNames(selected ? 'font-bold' : 'font-medium', 'flex items-center truncate')}>
                                 {company?.company_name}
                               </span>
@@ -145,6 +141,17 @@ export const AdminNavItems = () => {
           ))}
         </div>
         <div className="pt-3 mt-auto">
+          <div className="px-4">
+            <button
+              onClick={e=>{$crisp.push(['do', 'chat:open'])}}
+              className={classNames(
+                'flex items-center p-2 text-lg font-semibold rounded-md border-2 border-transparent hover:opacity-80'
+              )}
+            >
+              <ChatAltIcon className="mr-2 flex-shrink-0 h-6 w-6" aria-hidden="true" />
+              <span>Live Support</span>
+            </button>
+          </div>
           <div className="px-4 space-y-1">
             {/* {secondaryNavigation.map((item) => (
               <a
@@ -164,7 +171,7 @@ export const AdminNavItems = () => {
             >
               Sign out
             </button>
-            <a className="items-center px-2 py-2 text-md font-semibold rounded-md" href={process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL} target="_blank">Affiliate Dashboard</a>
+            <a className="items-center px-2 py-2 text-md font-semibold rounded-md" href={process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL} target="_blank" rel="noreferrer">Affiliate Dashboard</a>
           </div>
         </div>
       </nav>
