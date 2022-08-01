@@ -4,6 +4,7 @@ import { useUser, newStripeAccount } from '@/utils/useUser';
 import SetupProgress from '@/components/SetupProgress'; 
 import { useCompany } from '@/utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
+import LoadingDots from '@/components/LoadingDots'; 
 
 export default function Onboarding() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function Onboarding() {
 
   const handleAddStripeAccount = async (stripeId) => {
     setRunningStripeFunction(true);
-    
+
     try {      
       const tokenConfirm = await fetch('/api/get-stripe-id', {
         method: 'POST',
@@ -54,25 +55,30 @@ export default function Onboarding() {
   return(
     <>
       <SEOMeta title="Verifying Stripe Account"/>
-      <div className="py-16">
-        <SetupProgress/>
+      <div className="py-12 border-b-4 border-gray-300">
         <div className="wrapper">
-          <div className="max-w-xl mx-auto bg-white rounded-xl p-8 shadow-lg">
-            <h1 className="text-2xl tracking-tight font-extrabold">
-              {
-                error !== null ? 'Error' : 'Verifying stripe account...'
-              }
-            </h1>
-            {
-              error !== null &&
-              <div>
-                <div className="bg-red py-4 px-6 rounded-lg mt-6 text-center">
-                  <p className="text-white">{error}</p>  
-                </div>
-                <a className="mt-6 underline block" href="/add-account">Try again</a>
-              </div>
-            }
+          <SetupProgress/>
+        </div>
+      </div>
+      <div className="pt-12 mb-6">
+        <div className="wrapper">
+          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold">Verifying stripe account...</h1>
+        </div>
+      </div>
+      <div className="wrapper">
+        <div className="rounded-xl bg-white max-w-2xl overflow-hidden shadow-lg border-4 border-gray-300 p-6">
+          <div>
+            <LoadingDots/>
           </div>
+          {
+            error !== null &&
+            <div>
+              <div className="bg-red-500 py-4 px-6 rounded-lg mt-6 text-center">
+                <p className="text-white">{error}</p>  
+              </div>
+              <a className="mt-6 underline block" href="/add-account">Try again</a>
+            </div>
+          }
         </div>
       </div>
     </>
