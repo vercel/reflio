@@ -10,6 +10,7 @@ import PricingFeatures from '@/components/PricingFeatures';
 export const Pricing = ({ products }) => {
   const router = useRouter();
   const { session, planDetails } = useUser();
+  const [priceIdLoading, setPriceIdLoading] = useState(false);
 
   const handleCheckout = async (price) => {    
     setPriceIdLoading(price);
@@ -81,7 +82,7 @@ export const Pricing = ({ products }) => {
                       className="mt-8 w-full"
                       onClick={() => handleCheckout(product?.prices[0].id)}
                     >
-                      {planDetails === product?.name ? 'Current Plan' : `Subscribe to ${product?.name}`}
+                      {planDetails === product?.name ? 'Current Plan' : priceIdLoading === product?.prices[0].id ? 'Loading...' : `Subscribe to ${product?.name}`}
                     </Button>
                   </div>
                   <div className="pt-6 pb-8 px-6">

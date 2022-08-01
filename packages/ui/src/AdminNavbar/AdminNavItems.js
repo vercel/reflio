@@ -97,7 +97,7 @@ export const AdminNavItems = () => {
                           {({ selected, active }) => (
                             <>
                             <div className="flex">
-                              <span className={classNames(selected ? 'font-bold' : 'font-medium', 'flex items-center truncate')}>
+                              <span className={classNames(selected ? 'font-bold' : 'font-medium', 'flex items-center truncate pl-4')}>
                                 {company?.company_name}
                               </span>
                             </div>

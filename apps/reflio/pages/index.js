@@ -63,9 +63,9 @@ export default function Index() {
                     mobileFull
                     large
                     primary
-                    onClick={() => setOpen(true)}
+                    href="/signup"
                   >
-                    <span>Join Waitlist</span>
+                    <span>Get Started for Free</span>
                   </Button>
                   <Button
                     mobileFull
@@ -147,9 +147,9 @@ export default function Index() {
                 <Button
                   xlarge
                   primary
-                  onClick={() => setOpen(true)}
+                  href="/signup"
                 >
-                  <span>Join Waitlist</span>
+                  <span>Get Started for Free</span>
                 </Button>
               </div>
             </div>
@@ -172,9 +172,9 @@ export default function Index() {
                 <Button
                   xlarge
                   primary
-                  onClick={() => setOpen(true)}
+                  href="/signup"
                 >
-                  <span>Join Waitlist</span>
+                  <span>Get Started for Free</span>
                 </Button>
               </div>
             </div>
@@ -217,9 +217,9 @@ export default function Index() {
               <Button
                 xlarge
                 primary
-                onClick={() => setOpen(true)}
+                href="/signup"
               >
-                <span>Join Waitlist</span>
+                <span>Get Started for Free</span>
               </Button>
             </div>
             <div className="mt-5 text-sm flex flex-col lg:flex-row space-y-3 lg:space-y-0 items-center justify-between max-w-lg mx-auto">

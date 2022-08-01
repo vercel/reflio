@@ -1953,6 +1953,10 @@ video {
   padding-bottom: 3rem;
 }
 
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .text-left {
   text-align: left;
 }
