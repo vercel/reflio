@@ -35,7 +35,15 @@ export const Pricing = ({ products }) => {
     }
   };
 
+  let productsSorted = products;
+
   if(products?.length){
+    productsSorted = products.sort(function(a, b) {
+      return parseFloat(a.prices[0].unit_amount) - parseFloat(a.prices[0].unit_amount);
+    });
+  }
+
+  if(productsSorted?.length){
     return (
       <div>
         <div>
@@ -60,7 +68,7 @@ export const Pricing = ({ products }) => {
                 <PricingFeatures productName="Indie"/>
               </div>
             </div>
-            {products.map((product) => {
+            {productsSorted?.map((product) => {
               const priceString = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: product?.prices[0].currency,
