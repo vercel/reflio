@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import {
   TemplateIcon
 } from '@heroicons/react/solid';
-import { priceString } from 'utils/helpers';
+import { priceString, priceStringDivided } from 'utils/helpers';
 
 export default function CampaignsPage() {
   const router = useRouter();
@@ -87,9 +87,9 @@ export default function CampaignsPage() {
                                   </div> 
                                 </td>
                                 <td className="whitespace-nowrap p-4 text-sm text-center">
-                                  <a href="#" className="underline font-semibold">0 affiliates</a>
+                                  <a href="#" className="underline font-semibold">{campaign?.affiliate_count} affiliates</a>
                                 </td>
-                                <td className="whitespace-nowrap p-4 text-sm text-center">$0 USD</td>
+                                <td className="whitespace-nowrap p-4 text-sm text-center">{priceStringDivided(campaign?.commissions_value ?? 0, activeCompany?.company_currency)}</td>
                               </tr>
                             ))}
                           </tbody>

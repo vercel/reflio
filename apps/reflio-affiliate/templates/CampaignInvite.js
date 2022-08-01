@@ -52,6 +52,10 @@ export default function CampaignInvite() {
       toast.error('There was an error when joining the campaign. Please try again later, or contact support.')
     }
   };
+
+  if(router?.asPath.includes('campaignRedirect=true')){
+    localStorage.removeItem('join_campaign_details');
+  }
   
   return(
     <div>
@@ -108,7 +112,7 @@ export default function CampaignInvite() {
                           </div>
                         :
                           <div>
-                            <AuthForm type="signup"/>
+                            <AuthForm affiliate={true} type="signup" campaignId={publicCampaignData?.campaign_id} campaignHandle={router?.query?.handle}/>
                             {/* <Button
                               href={`/signup?campaign_id=${publicCampaignData?.campaign_id}&company_name=${publicCampaignData?.company_name}`}
                               secondary

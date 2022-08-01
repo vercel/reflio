@@ -1,6 +1,6 @@
 import emailBuilderInner from './email-builder-inner';
 
-export default function emailBuilderServer(type, subject, content, settings) {
+export default function emailBuilderServer(type, logoUrl, subject, content, settings, campaignId, companyHandle) {
   let emailType = 'default';
 
   if(type === 'invite'){
@@ -12,5 +12,5 @@ export default function emailBuilderServer(type, subject, content, settings) {
   const jsdom = require("jsdom").JSDOM;
   const parsedDoc = new jsdom(templateEmail);
 
-  return emailBuilderInner(parsedDoc, type, subject, content, settings);
+  return emailBuilderInner(parsedDoc, type, logoUrl, subject, content, settings, campaignId, companyHandle);
 }

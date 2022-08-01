@@ -29,10 +29,6 @@ export default function MyApp({ Component, pageProps }){
     }
   });
 
-  if(typeof window !== 'undefined' && window.location.href.includes('sign') && window.location.href.includes('reflio.com') && !window.location.href.includes('staging')){
-    router.replace('/');
-  }
-
   return (
     <>
       <SEOMeta/>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useUser } from '@/utils/useUser';
@@ -78,7 +79,7 @@ export const UserAffiliateContextProvider = (props) => {
       setPublicCampaignDataLoading(true);
       campaignData(router?.query?.handle);
     }
-  }, []);
+  });
 
   console.log(userAffiliateDetails)
 

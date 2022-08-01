@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
+import { deleteAffiliate } from '@/utils/useUser';
 import { useAffiliate } from '@/utils/AffiliateContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
@@ -7,12 +8,28 @@ import { SEOMeta } from '@/templates/SEOMeta';
 import {
   UserGroupIcon
 } from '@heroicons/react/solid';
+import {
+  TrashIcon
+} from '@heroicons/react/outline';
 import ReactTooltip from 'react-tooltip';
+import { priceStringDivided } from 'utils/helpers';
 
 export default function InnerDashboardPage() {
   const router = useRouter();
   const { activeCompany } = useCompany();
   const { mergedAffiliateDetails } = useAffiliate();
+
+  const handleDelete = async (affiliateId) => {
+    if (window.confirm('Are you sure you want to delete this affiliate? This decision is irreversible')){
+      await deleteAffiliate(affiliateId).then((result) => {
+        if(result === "success"){
+          router.reload();
+        } else {
+          toast.error('There was an error when deleting this affiliate. Please try again later.');
+        }
+      });
+    }
+  };
 
   return (
     <>
@@ -59,6 +76,8 @@ export default function InnerDashboardPage() {
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Status
                               </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                              </th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white">
@@ -67,7 +86,7 @@ export default function InnerDashboardPage() {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                   <div className="flex items-center">
                                     <div className="ml-4">
-                                      <span>{affiliate?.details?.email ?? affiliate?.invited_email}</span>
+                                      <span>{affiliate?.details?.email ?? affiliate?.invite_email}</span>
                                     </div>
                                   </div>
                                 </td>
@@ -83,7 +102,7 @@ export default function InnerDashboardPage() {
                                   <p>{affiliate?.impressions}</p>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  <p>$0</p>
+                                  <p>{priceStringDivided(affiliate?.commissions_value ?? 0, activeCompany?.company_currency)}</p>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   {affiliate?.invite_email === 'manual' ? 'Public signup' : 'Manual invite'}
@@ -92,6 +111,11 @@ export default function InnerDashboardPage() {
                                   <span className={`${affiliate?.accepted === true ? 'bg-secondary text-white' : 'bg-gray-500 text-white'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
                                     {affiliate?.accepted === true ? 'Active' : 'Invited' }
                                   </span>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                  <button onClick={e=>{handleDelete(affiliate?.affiliate_id)}}>
+                                    <TrashIcon className="w-5 h-auto"/>
+                                  </button>
                                 </td>
                               </tr>
                             ))}

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import LoadingDots from '@/components/LoadingDots';
 import { useUser } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
-import { AffiliateLogo } from '@/components/Icons/AffiliateLogo';
 import AuthForm from '@/components/AuthForm';
 
 const AuthTemplate = ({ type }) => {
@@ -23,12 +22,9 @@ const AuthTemplate = ({ type }) => {
     return (
       <>
         <SEOMeta title={authState}/>
-        <div className="py-12">
-          <div className="mb-6">
-            <AffiliateLogo className="w-44 h-auto mx-auto"/>
-          </div>
+        <div className="py-12 px-4">
           <div className="p-10 rounded-xl bg-white border-4 border-gray-300 max-w-lg mx-auto">
-            <AuthForm affiliate={true} type={type}/>
+            <AuthForm affiliate={false} type={type}/>
           </div>
         </div>
       </>

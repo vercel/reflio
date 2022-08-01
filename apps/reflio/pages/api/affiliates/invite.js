@@ -2,17 +2,15 @@ import { getUser } from '@/utils/supabase-admin';
 import { inviteAffiliate } from '@/utils/useDatabase';
 import { sendEmail } from '@/utils/sendEmail';
 
-// companyId: activeCompany?.company_id,
-// campaignId: data?.campaign_id,
-// emailInvites: data?.invite_emails,
-// emailSubject: data?.email_subject ? data?.email_subject : null,
-// emailContent: data?.email_content ? data?.email_content : null
-
 const inviteUser = async (req, res) => {
   if (req.method === 'POST') {
     const token = req.headers.token;
-    const { companyId, companyName, campaignId, emailInvites, emailSubject, emailContent } = req.body;
+    const { companyId, companyHandle, companyName, campaignId, emailInvites, logoUrl, emailSubject, emailContent } = req.body;
 
+    if(!logoUrl){
+      logoUrl = null;
+    }
+    
     try {
       const user = await getUser(token);
       let emailInvitesSplit = null;
@@ -30,14 +28,14 @@ const inviteUser = async (req, res) => {
           const invite = await inviteAffiliate(user, companyId, campaignId, emailInvites);
 
           if(invite === "success"){
-            const email = await sendEmail(emailSubject, emailContent, emailInvites, 'invite', companyName);
+            const email = await sendEmail(logoUrl, emailSubject, emailContent, emailInvites, 'invite', companyName, campaignId, companyHandle);
           }
         } else {
           await Promise.all(emailInvitesSplit?.map(async (inviteEmail) => {
             const invite = await inviteAffiliate(user, companyId, campaignId, inviteEmail);
 
             if(invite === "success"){
-              const email = await sendEmail(emailSubject, emailContent, inviteEmail, 'invite', companyName);
+              const email = await sendEmail(logoUrl, emailSubject, emailContent, inviteEmail, 'invite', companyName, campaignId, companyHandle);
             }
           }));
         }

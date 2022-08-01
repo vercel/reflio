@@ -37,7 +37,7 @@ export default function SingleCampaignPage() {
           </div>
         </div>
         <div>
-          <div className="py-12 mb-12 border-b-4 bg-gray-100">
+          <div className="py-12">
             <div className="wrapper">
               {
                 activeCompany && activeCampaign ?
@@ -85,7 +85,7 @@ export default function SingleCampaignPage() {
               }
             </div>
           </div>
-          <div className="pb-12 mb-12 border-b-4">
+          {/* <div className="pb-12 mb-12 border-b-4">
             <div className="wrapper">
               {
                 <div>
@@ -96,8 +96,8 @@ export default function SingleCampaignPage() {
                 </div>
               }
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <div className="wrapper">
               {
                 <div>
@@ -108,7 +108,7 @@ export default function SingleCampaignPage() {
                 </div>
               }
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

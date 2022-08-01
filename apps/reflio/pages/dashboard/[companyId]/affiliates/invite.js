@@ -42,8 +42,10 @@ export default function AffiliateInvitePage() {
         data: { 
           companyId: router?.query?.companyId,
           companyName: activeCompany?.company_name,
+          companyHandle: activeCompany?.company_handle,
           campaignId: data?.campaign_id,
           emailInvites: data?.invite_emails,
+          logoUrl: activeCompany?.company_image !== null && activeCompany?.company_image?.length > 0 ? process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+activeCompany?.company_image : null,
           emailSubject: data?.email_subject?.length > 0 ? data?.email_subject : null,
           emailContent: data?.email_content?.length > 0 ? data?.email_content : null
         },
@@ -148,10 +150,15 @@ export default function AffiliateInvitePage() {
                       <p className="mb-2">The invite link will automatically be included in the email.</p>
                       <div className="mt-1 flex rounded-md shadow-sm">
                         <textarea
-                          defaultValue={`Hey! I'd like to invite you to join our referral program. Follow the link below to create your account and you'll be earning in no time. If you have any questions, please reply to this email. Kind regards, ${activeCompany?.company_name}`}
+                          defaultValue={`Hey! I'd like to invite you to join our referral program. 
+
+Follow the link below to create your account and you'll be earning in no time. If you have any questions, please reply to this email. 
+
+Kind regards, 
+${activeCompany?.company_name}`}
                           name="email_content"
                           id="email_content"
-                          rows="5"
+                          rows="8"
                           className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-gray-300"
                         ></textarea>
                       </div>

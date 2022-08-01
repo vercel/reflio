@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';

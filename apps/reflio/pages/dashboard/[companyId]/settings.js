@@ -38,7 +38,7 @@ export default function CompanySettingsPage() {
       await uploadLogoImage(router?.query?.companyId, e.target.files[0]).then((result) => {
         console.log("UPlOADED!!!!")
         console.log(result)
-        if(result){
+        if(result !== "error"){
           setLogoError(false);
           router.replace(window.location.href);
         } else {

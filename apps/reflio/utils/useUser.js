@@ -80,7 +80,7 @@ export const UserContextProvider = (props) => {
     subscription,
     userFinderLoaded,
     planDetails,
-    signIn: (options) => supabase.auth.signIn(options, {shouldCreateUser: false, redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`}),
+    signIn: (options) => supabase.auth.signIn(options),
     signUp: (options) => supabase.auth.signUp(options, {redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`}),
     forgotPassword: (email) => supabase.auth.api.resetPasswordForEmail(email),
     signOut: () => {
@@ -132,8 +132,38 @@ export const getCampaigns = async (companyId) => {
   .eq('company_id', companyId)
   .order('created', { ascending: false })
 
+  let campaignsData = data;
+
+  if(data){
+    await Promise.all(data?.map(async (item) => {
+      let affiliateQuery = await supabase
+        .from('affiliates')
+        .select('campaign_id', { count: 'exact' })
+        .eq('campaign_id', item?.campaign_id)
+
+      item['affiliate_users'] = affiliateQuery?.data;
+      item['affiliate_count'] = affiliateQuery?.count;
+
+      let commissionsQuery = await supabase
+        .from('commissions')
+        .select('commission_sale_value')
+        .eq('campaign_id', item?.campaign_id)
+        .lt('commission_due_date', [((new Date()).toISOString())])
+
+      if(commissionsQuery?.data !== null){
+        let commissionValue = 0;
+        commissionsQuery?.data?.map(commission => {
+          if(commission?.commission_sale_value > 0){
+            commissionValue = commissionValue + commission?.commission_sale_value;
+          }
+        })
+        item['commissions_value'] = commissionValue > 0 ? commissionValue : 0;
+      }      
+    }));
+  }
+
   if(error) return error; 
-  return data;
+  return campaignsData;
 };
 
 //Get user campaigns
@@ -146,8 +176,30 @@ export const getAffiliates = async (companyId) => {
   `)
   .eq('company_id', companyId)
 
+  let affiliatesData = data;
+
+  if(data){
+    await Promise.all(data?.map(async (item) => {
+      let commissionsQuery = await supabase
+        .from('commissions')
+        .select('commission_sale_value')
+        .eq('affiliate_id', item?.affiliate_id)
+        .lt('commission_due_date', [((new Date()).toISOString())])
+
+      if(commissionsQuery?.data !== null){
+        let commissionValue = 0;
+        commissionsQuery?.data?.map(commission => {
+          if(commission?.commission_sale_value > 0){
+            commissionValue = commissionValue + commission?.commission_sale_value;
+          }
+        })
+        item['commissions_value'] = commissionValue > 0 ? commissionValue : 0;
+      }      
+    }));
+  }
+
   if(error) return error; 
-  return data;
+  return affiliatesData;
 };
 
 //Get user referrals
@@ -471,6 +523,19 @@ export const newStripeAccount = async (userId, stripeId, companyId) => {
 
 };
 
+export const deleteAffiliate = async (id) => {
+  const { error } = await supabase
+    .from('affiliates')
+    .delete()
+    .match({ affiliate_id: id })
+
+    if (error) {
+      return "error";
+    } else {
+      return "success";
+    }
+};
+
 export const deleteCompany = async (id) => {
   const { error } = await supabase
     .from('companies')
@@ -576,6 +641,7 @@ export const uploadLogoImage = async (companyId, file) => {
     upsert: true
   })
 
+  console.log("error:")
   console.log(error)
 
   if (error) return error;

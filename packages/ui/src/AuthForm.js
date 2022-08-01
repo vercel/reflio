@@ -6,7 +6,7 @@ import { useUser } from '@/utils/useUser';
 // import { Google } from '@/components/Icons/Google';
 import { Button } from '@/components/Button';
 
-export const AuthForm = ({ type }) => {
+export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', content: '' });
@@ -30,7 +30,9 @@ export const AuthForm = ({ type }) => {
     setLoading(true);
     setMessage({});
 
-    const { error } = await signIn({ email });
+    let funcType = signIn({ email }, {shouldCreateUser: type === "signin" ? false : true, redirectTo: `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`})
+
+    const { error } = await funcType;
     if(error){
       setMessage({ type: 'error', content: error.message });
     } else {
@@ -38,6 +40,12 @@ export const AuthForm = ({ type }) => {
         type: 'note',
         content: 'Check your email for the magic link.'
       });
+
+      if(campaignId){
+        if (typeof window !== "undefined") {
+          localStorage.setItem("join_campaign_details", JSON.stringify({"campaign_id": campaignId, "campaign_handle": campaignHandle}));
+        }
+      }
     }
     setLoading(false);
   };

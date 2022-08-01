@@ -120,7 +120,7 @@ export const slugifyString = (text) => {
 };
 
 export const priceString = (price, currency) => {
-  if(!price || !currency) return "error";
+  if(price === null || !currency) return "error";
 
   let string = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -132,7 +132,7 @@ export const priceString = (price, currency) => {
 }
 
 export const priceStringDivided = (price, currency) => {
-  if(!price || !currency) return "error";
+  if(price === null || !currency) return "error";
 
   let string = priceString(price/100, currency);
 

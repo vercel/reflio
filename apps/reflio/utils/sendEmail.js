@@ -1,6 +1,6 @@
 import emailBuilderServer from './email-builder-server';
 
-export const sendEmail = async (subject, content, to, type, settings) => {
+export const sendEmail = async (logoUrl, subject, content, to, type, settings, campaignId, companyHandle) => {
   const SibApiV3Sdk = require('sib-api-v3-sdk');
   let defaultClient = SibApiV3Sdk.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
@@ -8,7 +8,7 @@ export const sendEmail = async (subject, content, to, type, settings) => {
   let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
   let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
-  const emailHtml = emailBuilderServer(type, subject, content, settings);
+  const emailHtml = emailBuilderServer(type, logoUrl, subject, content, settings, campaignId, companyHandle);
   
   sendSmtpEmail.subject = subject;
   sendSmtpEmail.htmlContent = emailHtml;

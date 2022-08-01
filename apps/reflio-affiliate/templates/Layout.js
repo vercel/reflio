@@ -44,6 +44,25 @@ export default function Layout({ children }) {
     }, [userFinderLoaded, user]);
   }
 
+  if(user && !router?.asPath.includes('/invite/')){
+    if (typeof window !== "undefined") {
+      if(localStorage.getItem('join_campaign_details')){
+
+        let details = localStorage.getItem('join_campaign_details');
+
+        try {
+          details = JSON.parse(details);
+        } catch (error) {
+          console.warn(error);
+        }
+
+        if(details){
+          router.replace(`/invite/${details?.campaign_handle}/${details?.campaign_id}?campaignRedirect=true`)
+        }
+      }
+    }
+  }
+
   return (
     <>
       <>

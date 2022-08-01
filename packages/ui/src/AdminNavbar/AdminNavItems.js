@@ -13,8 +13,9 @@ import {
   TableIcon,
   ClipboardCheckIcon,
   UserGroupIcon,
-  CurrencyDollarIcon,
-  SparklesIcon
+  ChartBarIcon,
+  SparklesIcon,
+  StatusOnlineIcon
 } from '@heroicons/react/outline';
 
 export const AdminNavItems = () => {
@@ -24,12 +25,13 @@ export const AdminNavItems = () => {
 
   const navigation = [
     { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
-    { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
+    { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: StatusOnlineIcon },
     { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
-    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: CurrencyDollarIcon },
+    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: ChartBarIcon },
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
     { name: 'Company Settings', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon },
-    { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon }
+    { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon },
+    { name: 'My Team', href: `/dashboard/team`, icon: UserGroupIcon }
   ];
 
   const secondaryNavigation = [
