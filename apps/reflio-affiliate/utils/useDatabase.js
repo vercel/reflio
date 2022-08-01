@@ -161,7 +161,6 @@ export const handleCampaignJoin = async (user, companyId, campaignId) => {
     });
   
     if (error) {
-      console.log(error);
       return "error";
     } else {
       return "success";
@@ -175,9 +174,6 @@ export const handleCampaignJoin = async (user, companyId, campaignId) => {
 //Get public campaigns
 export const getPublicCampaign = async (handle, campaignId) => {
   let campaignDetails = {};
-
-  console.log(handle)
-  console.log(campaignId)
 
   if(handle){
     let { data } = await supabaseAdmin

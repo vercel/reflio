@@ -354,8 +354,6 @@ export const campaignInfo = async (code, companyId) => {
     campaignData.company_currency = companyData?.data?.company_currency;
   }
 
-  console.log(companyData?.data)
-
   return campaignData;
 };
 
@@ -383,12 +381,8 @@ export const convertReferral = async (referralId, campaignId, affiliateId, cooki
       .eq('company_id', referralData?.data?.company_id)
       .single();
 
-    console.log("Stripe ID: ",companyData?.data?.stripe_id)
-
     if(companyData?.data?.stripe_id){  
       const commission = await createCommission(referralData, companyData?.data?.stripe_id, referralData?.data?.referral_id, email);
-      console.log("Commission response:")
-      console.log(commission)
       return commission;
     }
   }

@@ -6,11 +6,9 @@ const getAccountDetails = async (req, res) => {
       const account = await stripe.accounts.retrieve({
         stripeAccount: req.body.accountId
       });
-      console.log('data here 2')
-      console.log(account)
+
       return res.status(200).json({ data: account });
     } catch (err) {
-      console.log('errored here 2')
       // console.log(err);
       res
         .status(500)

@@ -15,10 +15,7 @@ export default function Onboarding() {
 
   const handleAddStripeAccount = async (stripeId) => {
     setRunningStripeFunction(true);
-
-    console.log("function running here!!!!")
-    console.log(stripeId);
-
+    
     try {      
       const tokenConfirm = await fetch('/api/get-stripe-id', {
         method: 'POST',

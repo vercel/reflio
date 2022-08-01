@@ -267,9 +267,6 @@ export const getSales = async (companyId, date, page) => {
 export const payCommissions = async (companyId, checkedCommissions, eligibleCommissions) => {
   if(!companyId || !eligibleCommissions) return "error";
 
-  console.log(checkedCommissions)
-  console.log(eligibleCommissions)
-
   try {    
     if(checkedCommissions.length === 0 || checkedCommissions === null){
       await Promise.all(eligibleCommissions?.map(async (item) => {
@@ -304,19 +301,10 @@ export const payCommissions = async (companyId, checkedCommissions, eligibleComm
 export const newTeam = async (user, form) => {
   if(!form?.team_name) return "error";
 
-  console.log("User:")
-  console.log(user)
-
   const { data, error } = await supabase.from('teams').insert({
     id: user?.id,
     team_name: form?.team_name
   });
-
-  console.log("Data:")
-  console.log(data)
-
-  console.log("Error:")
-  console.log(error)
 
   if(data && data[0]?.team_id){
     const userUpdate = await supabase
@@ -345,8 +333,6 @@ export const newCompany = async (user, form) => {
     company_handle: form?.company_handle,
     domain_verified: false
   });
-
-  console.log(error);
 
   if (error) {
     if(error?.code === "23505"){
@@ -421,8 +407,6 @@ export const newCampaign = async (user, form, companyId) => {
     formFields.discount_type = null;
     formFields.discount_value = null;
   }
-
-  console.log(formFields)
   
   let { data } = await supabase
     .from('campaigns')
@@ -447,8 +431,6 @@ export const newCampaign = async (user, form, companyId) => {
 
   const { error } = await supabase.from('campaigns').insert(formFields);
 
-  console.log(error);
-
   if (error) return "error";
 
   return "success";
@@ -470,8 +452,6 @@ export const editCampaign = async (campaignId, form) => {
       .from('campaigns')
       .update(form)
       .eq('campaign_id', campaignId);
-
-    console.log(error);
   
     if (error) return "error";
   
@@ -482,8 +462,6 @@ export const editCampaign = async (campaignId, form) => {
       .from('campaigns')
       .update(form)
       .eq('campaign_id', campaignId);
-
-      console.log(error);
   
     if (error) return "error";
   
@@ -515,7 +493,6 @@ export const newStripeAccount = async (userId, stripeId, companyId) => {
     }).eq('company_id', companyId);
 
   if (error) {
-    console.log('first error was here')
     return "error";
   } else {
     return "success";
@@ -595,7 +572,6 @@ export const editCompanyHandle = async (id, form) => {
     if (error) {
 
       if(error?.code === "23505"){
-        console.log("was duplicate!!!!!")
         return "duplicate"
       }
       

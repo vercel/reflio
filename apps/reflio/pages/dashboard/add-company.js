@@ -42,7 +42,6 @@ export default function AddCompany() {
     setLoading(true);
 
     await newCompany(userDetails, data).then((result) => {
-      console.log(result);
       if(result[0]?.company_id){
         router.push(`/dashboard/${result[0]?.company_id}`)
       } else {

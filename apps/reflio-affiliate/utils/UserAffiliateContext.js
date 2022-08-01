@@ -81,8 +81,6 @@ export const UserAffiliateContextProvider = (props) => {
     }
   });
 
-  console.log(userAffiliateDetails)
-
   value = {
     userAffiliateDetails,
     userAffiliateInvites,

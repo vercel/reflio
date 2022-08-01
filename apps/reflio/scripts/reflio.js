@@ -441,9 +441,6 @@ if(Reflio.consentRequired() === false && Reflio.cookieEligible() === true){
 //Initially activate the function to check if already scrolled past 33% of the page.
 activatePopup();
 
-console.log("privacyCompliance:")
-console.log(Reflio.details().privacyCompliance);
-
 //Continually checks if 33% of the page has been scrolled etc.
 window.addEventListener("scroll", function checkScrollPercentage() {
   scrolledPercentage = (((document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100).toFixed(0));

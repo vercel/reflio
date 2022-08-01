@@ -36,8 +36,6 @@ export default function CompanySettingsPage() {
   const handleFileUpload = async (e) => {
     if(e.target.files[0].name?.includes("png") && e.target.files[0].size < 2000000){
       await uploadLogoImage(router?.query?.companyId, e.target.files[0]).then((result) => {
-        console.log("UPlOADED!!!!")
-        console.log(result)
         if(result !== "error"){
           setLogoError(false);
           router.replace(window.location.href);

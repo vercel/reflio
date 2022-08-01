@@ -17,16 +17,7 @@ export const CompanyContextProvider = (props) => {
       });
     }
   });
-
-  console.log("team:")
-  console.log(team)
-
-  console.log("user:")
-  console.log(user)
-
-  console.log("userCompanyDetails:")
-  console.log(userCompanyDetails)
-
+  
   if(team === 'none' && router?.pathname !== '/dashboard/create-team'){
     router.replace('/dashboard/create-team');
   }

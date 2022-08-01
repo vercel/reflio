@@ -8,8 +8,6 @@ const publicCampaign = async (req, res) => {
 
         const campaign = await getPublicCampaign(companyHandle, campaignId);
 
-        console.log(campaign);
-
         return res.status(200).json({ campaign });
 
     } catch (err) {

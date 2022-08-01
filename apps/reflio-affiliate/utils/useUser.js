@@ -247,10 +247,6 @@ export const changeReferralCode = async (user, affiliateId, companyId, form) => 
     .eq('referral_code', form?.referral_code)
     .eq('company_id', companyId)
 
-  console.log("---REFERRAL START")
-  console.log(data);
-  console.log("REFERRAL END---")
-
   if(data !== null && data?.length > 0){
     return "match";
   }

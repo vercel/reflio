@@ -21,7 +21,6 @@ export const sendEmail = async (logoUrl, subject, content, to, type, settings, c
   
   apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
     console.log('running email')
-    console.log(data)
     return "success";
   }, function(error) {
     console.log(error);
