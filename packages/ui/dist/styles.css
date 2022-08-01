@@ -2033,6 +2033,10 @@ video {
   text-transform: uppercase;
 }
 
+.lowercase {
+  text-transform: lowercase;
+}
+
 .capitalize {
   text-transform: capitalize;
 }
@@ -3014,6 +3018,18 @@ a {
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
   }
 
+  .md\:from-gray-100 {
+    --tw-gradient-from: #f3f4f6;
+    --tw-gradient-to: rgb(243 244 246 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+
+  .md\:from-gray-200 {
+    --tw-gradient-from: #e5e7eb;
+    --tw-gradient-to: rgb(229 231 235 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+
   .md\:via-gray-50 {
     --tw-gradient-to: rgb(249 250 251 / 0);
     --tw-gradient-stops: var(--tw-gradient-from), #f9fafb, var(--tw-gradient-to);
@@ -3021,6 +3037,22 @@ a {
 
   .md\:to-primary {
     --tw-gradient-to: var(--primary);
+  }
+
+  .md\:to-gray-300 {
+    --tw-gradient-to: #d1d5db;
+  }
+
+  .md\:to-gray-200 {
+    --tw-gradient-to: #e5e7eb;
+  }
+
+  .md\:to-gray-100 {
+    --tw-gradient-to: #f3f4f6;
+  }
+
+  .md\:to-white {
+    --tw-gradient-to: #fff;
   }
 
   .md\:bg-clip-text {
@@ -3192,6 +3224,11 @@ a {
   .lg\:py-32 {
     padding-top: 8rem;
     padding-bottom: 8rem;
+  }
+
+  .lg\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .lg\:text-lg {

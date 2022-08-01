@@ -37,7 +37,7 @@ export default function SingleCampaignPage() {
           </div>
         </div>
         <div>
-          <div className="py-12">
+          <div className="py-12 bg-gray-100 border-b-4">
             <div className="wrapper">
               {
                 activeCompany && activeCampaign ?

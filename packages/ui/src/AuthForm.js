@@ -60,13 +60,14 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
   };
 
   return(
-    <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-12">
 
         {
           !invitePage &&
-          <div>
-            <h1 className="text-center text-3xl font-extrabold text-gray-900 capitalize">{authState}</h1>
+          <div className="text-center">
+            <h1 className="text-center text-3xl font-extrabold text-gray-900 capitalize mb-3">{authState}</h1>
+            <p className="text-sm">Enter your email below and you'll be sent your magic <span className="lowercase">{authState}</span> link.</p>
           </div>
           
         }

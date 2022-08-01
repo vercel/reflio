@@ -18,7 +18,6 @@ import {
   StatusOnlineIcon,
   ChatAltIcon
 } from '@heroicons/react/outline';
-import { QuestionTo } from '@questionto/react';
 
 export const AdminNavItems = () => {
   const { signOut } = useUser();
