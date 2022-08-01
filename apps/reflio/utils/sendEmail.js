@@ -19,7 +19,7 @@ export const sendEmail = async (logoUrl, subject, content, to, type, settings, c
     sendSmtpEmail.params = {"parameter":"AffiliateInvite","subject":"AffiliateInvite"};
   }
   
-  apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
+  await apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
     console.log('running email')
     return "success";
   }, function(error) {
