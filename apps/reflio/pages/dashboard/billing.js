@@ -1,42 +1,15 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useUser, getSubmissions } from '@/utils/useUser';
+import { useState } from 'react';
+import { useUser } from '@/utils/useUser';
 import SEOMeta from '@/templates/SEOMeta'; 
 import { postData } from '@/utils/helpers';
-import { getStripe } from '@/utils/stripe-client';
 import Button from '@/components/Button'; 
+import Card from '@/components/Card'; 
+import PricingFeatures from '@/components/PricingFeatures'; 
 
 export default function BillingPage() {
-  const router = useRouter();
-  const { user, session, userFinderLoaded, planDetails } = useUser();
-  const [priceIdLoading, setPriceIdLoading] = useState(null);
+  const { session, planDetails, subscription } = useUser();
   const [loading, setLoading] = useState(false);
-  const [loadingLtd, setLoadingLtd] = useState(false);
-  const [ltdInput, setLtdInput] = useState(null);
-
-  const handleCheckout = async (price) => {    
-    setLoading(true);
-
-    if (!session) {
-      return router.push('/signin');
-    }
-
-    try {
-      const { sessionId } = await postData({
-        url: '/api/create-checkout-session',
-        data: { price },
-        token: session.access_token
-      });
-
-      const stripe = await getStripe();
-      stripe.redirectToCheckout({ sessionId });
-    } catch (error) {
-      return alert(error.message);
-    } finally {
-      setPriceIdLoading(false);
-    }
-  };
-
+  
   const redirectToCustomerPortal = async () => {
     setLoading(true);
     const { url, error } = await postData({
@@ -48,12 +21,6 @@ export default function BillingPage() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    if(userFinderLoaded){
-      if (!user) router.replace('/signin');
-    }
-  }, [userFinderLoaded, user]);
-
   return (
     <>
       <SEOMeta title="Settings"/>
@@ -63,42 +30,36 @@ export default function BillingPage() {
         </div>
       </div>
       <div className="wrapper">
-        <div>
-          <div className="rounded-xl bg-white max-w-2xl overflow-hidden shadow-lg border-4 border-gray-200">
-            <div className="p-6">
-              <div className="flex items-center mb-2">
-                <h2 className="text-xl leading-6 font-semibold text-gray-900">Current Plan</h2>
-                <span className={`${planDetails === 'free' ? 'bg-gray-500' : 'bg-secondary' } text-white py-1 px-3 text-xs rounded-xl ml-2 uppercase font-semibold`}>{planDetails === 'free' ? 'Free' : planDetails}</span>
-              </div>
-              <p className="text-lg mb-1"><span className="font-semibold">34 of {planDetails === 'free' ? '15' : '∞'}</span> submissions received.</p>
-              <p className="text-lg"><span className="font-semibold">3 of {planDetails === 'free' ? '1' : '∞'}</span> projects created.</p>
-              {
-                planDetails === 'free' &&
-                <p className="text-md bg-gray-100 rounded-xl p-4 mt-3">Upgrade to <span className="font-bold">PRO</span> for <span className="font-semibold">$14/month</span> to unlock unlimited submissions, unlimited projects, automatic console errors & more.</p>
-              }
-            </div>
-            <div className="border-t-4 p-6 bg-white flex items-center justify-start">
-              {
-                planDetails === 'free' ?
-                  <Button
-                    medium
-                    secondary
-                    href="/pricing"
-                  >
-                    Upgrade Plan
-                  </Button>
-                :
-                  <Button
-                    medium
-                    secondary
-                    onClick={e=>{redirectToCustomerPortal()}}
-                  >
-                    Upgrade Plan
-                  </Button>
-              }
-            </div>
+        <Card>
+          <div className="flex items-center mb-4">
+            <h2 className="text-xl leading-6 font-semibold text-gray-900">Current Plan: <span className="capitalize font-medium">{planDetails}</span></h2>
           </div>
-        </div>
+          <div className="bg-gray-100 rounded-xl p-6">
+            <PricingFeatures productName={planDetails === 'free' ? 'Indie' : planDetails}/>
+          </div>
+          <div className="mt-6 pt-6 border-t-4 bg-white sm:flex sm:items-center sm:justify-start">
+            <Button
+              medium
+              mobileFull
+              secondary
+              href="/pricing"
+            >
+              Upgrade Plan
+            </Button>
+            {
+              planDetails !== 'free' &&
+              <Button
+                className="mt-3 ml-0 sm:ml-3 sm:mt-0"
+                mobileFull
+                medium
+                gray
+                onClick={e=>{redirectToCustomerPortal()}}
+              >
+                {loading ? 'Loading...' : 'Manage Plan'}
+              </Button>
+            }
+          </div>
+        </Card>
       </div>
     </>
   );

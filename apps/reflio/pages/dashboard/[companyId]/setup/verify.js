@@ -57,7 +57,7 @@ export default function TrackingSetupPage() {
                   primary
                   href={`/dashboard/${router?.query?.companyId}/campaigns`}
                 >
-                  <span>Complete setup</span>
+                  <span>Go to Campaigns</span>
                 </Button>
               :
                 <Button

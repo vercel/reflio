@@ -1,14 +1,16 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useUser } from '../utils/useUser';
-import { useUserAffiliate } from '../utils/UserAffiliateContext';
+import { useUser } from '@/utils/useUser';
+import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import LoadingTile from '@/components/LoadingTile';
 import {
   ArrowNarrowLeftIcon
 } from '@heroicons/react/outline';
 import Button from '@/components/Button'; 
 import toast from 'react-hot-toast';
-import { postData } from '../utils/helpers';
+import { postData } from '@/utils/helpers';
+import AuthForm from '@/components/AuthForm'; 
 
 export default function CampaignInvite() {
   const router = useRouter();
@@ -83,7 +85,7 @@ export default function CampaignInvite() {
                     <div className="p-8 rounded-xl bg-white shadow-lg border-4 border-gray-200 max-w-2xl mx-auto">
                       {
                         publicCampaignData?.campaign_public === true &&
-                        <p className="text-lg mb-5 text-gray-500">{publicCampaignData?.commission_type === 'percentage' ? `${publicCampaignData?.commission_value}% commission on all paid referrals.` : `${publicCampaignData?.company_currency}${publicCampaignData?.commission_value} commission on all paid referrals.`}</p> 
+                        <p className="text-lg mb-5 text-gray-500">Join <span className="font-semibold text-gray-700">{publicCampaignData?.campaign_name}</span> and get {publicCampaignData?.commission_type === 'percentage' ? `${publicCampaignData?.commission_value}% commission on all paid referrals.` : `${publicCampaignData?.company_currency}${publicCampaignData?.commission_value} commission on all paid referrals.`}</p> 
                       }
                       {
                         user ?
@@ -106,13 +108,14 @@ export default function CampaignInvite() {
                           </div>
                         :
                           <div>
-                            <Button
+                            <AuthForm type="signup"/>
+                            {/* <Button
                               href={`/signup?campaign_id=${publicCampaignData?.campaign_id}&company_name=${publicCampaignData?.company_name}`}
                               secondary
                               large
                             >
                               Join Campaign
-                            </Button>
+                            </Button> */}
                           </div>
                       }
                     </div>

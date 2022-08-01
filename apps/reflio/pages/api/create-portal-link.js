@@ -10,7 +10,7 @@ const createPortalLink = async (req, res) => {
     try {
       const user = await getUser(token);
       const customer = await createOrRetrieveCustomer({
-        uuid: user.id,
+        teamId: user.team_id,
         email: user.email
       });
 

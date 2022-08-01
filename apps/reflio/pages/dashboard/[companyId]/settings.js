@@ -7,6 +7,7 @@ import { SEOMeta } from '@/templates/SEOMeta';
 import { Switch } from '@headlessui/react';
 import { classNames, checkValidUrl, slugifyString } from '@/utils/helpers';
 import Button from '@/components/Button'; 
+import Card from '@/components/Card'; 
 import toast from 'react-hot-toast';
 
 export default function CompanySettingsPage() {
@@ -132,49 +133,47 @@ export default function CompanySettingsPage() {
           <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold">Company Settings</h1>
         </div>
       </div>
-      <div className="wrapper">
-        <div className="bg-white shadow-lg rounded-xl mt-5 max-w-3xl border-4 border-gray-200">
-          <div className="p-6 sm:p-8">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Company logo</h3>
-            <div className="mt-2 max-w-2xl text-gray-500">
-              <p>This will be shown when inviting new affiliates, as well as inside your affiliates dashboard.</p>
-            </div>
-            <div>
-              <div className="mt-3 flex items-center">
-                {
-                  activeCompany?.company_image !== null &&
-                  <img alt="Logo" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+activeCompany?.company_image} className="w-24 h-auto mr-4"/>
-                }
-                <input
-                  onChange={handleFileUpload}
-                  type="file"
-                  accept="image/png"
-                  style={{display: 'none'}}
-                  multiple={false}
-                  ref={fileInput}
-                />
-                <button 
-                  type="button"
-                  className="bg-white py-3 px-5 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
-                  onClick={() => fileInput.current.click()}
-                >
-                  Upload File
-                </button>
-              </div>
-              <p className="mt-2 text-gray-500">
-                Must be a .PNG file and less than 2mb.
-              </p>
-              {
-                logoError &&
-                <div className="mt-4 bg-red p-4 rounded-lg text-md text-white text-center">
-                  There was an error when uploading your file.
-                </div>
-              }
-            </div>
+      <div className="wrapper space-y-6">
+        <Card>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Company logo</h3>
+          <div className="mt-2 max-w-2xl text-gray-500">
+            <p>This will be shown when inviting new affiliates, as well as inside your affiliates dashboard.</p>
           </div>
-        </div>
-        <form action="#" method="POST" onSubmit={handleWebsiteUpdate} className="bg-white shadow-lg rounded-xl mt-5 max-w-3xl border-4 border-gray-200">
-          <div className="p-6 sm:p-8">
+          <div>
+            <div className="mt-3 flex items-center">
+              {
+                activeCompany?.company_image !== null &&
+                <img alt="Logo" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+activeCompany?.company_image} className="w-24 h-auto mr-4"/>
+              }
+              <input
+                onChange={handleFileUpload}
+                type="file"
+                accept="image/png"
+                style={{display: 'none'}}
+                multiple={false}
+                ref={fileInput}
+              />
+              <button 
+                type="button"
+                className="bg-white py-3 px-5 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
+                onClick={() => fileInput.current.click()}
+              >
+                Upload File
+              </button>
+            </div>
+            <p className="mt-2 text-gray-500">
+              Must be a .PNG file and less than 2mb.
+            </p>
+            {
+              logoError &&
+              <div className="mt-4 bg-red p-4 rounded-lg text-md text-white text-center">
+                There was an error when uploading your file.
+              </div>
+            }
+          </div>
+        </Card>
+        <Card>          
+          <form action="#" method="POST" onSubmit={handleWebsiteUpdate}>
             <div>
               <label htmlFor="company_url" className="text-lg leading-6 font-medium text-gray-900 mb-2">Company Website</label>
               <div>
@@ -199,30 +198,30 @@ export default function CompanySettingsPage() {
                 <p className="text-gray-500">Please only include the base domain of your website (e.g. google.com). You do not need to include https:// or www. We will automatically do this on our end.</p>
               </div>
             </div>
-          </div>
-          {
-            websiteUrlInput !== null && websiteUrlInput !== activeCompany?.company_url && urlValid &&
-            <div className="border-t-4 p-6 bg-white flex items-center justify-start">
-              <Button
-                medium
-                primary
-                disabled={urlLoading}
-              >
-                <span>{urlLoading ? 'Saving Changes...' : 'Save Changes'}</span>
-              </Button>
-            </div>
-          }
-          {
-            !urlValid && urlValid !== null &&
-            <div className="border-t-4 p-6 bg-white flex items-center justify-start">
-              <div className="bg-red-600 text-center p-4 rounded-lg">
-                <p className="text-white text-sm font-medium">The URL you entered is not valid. Please check it and try again.</p>
+            {
+              websiteUrlInput !== null && websiteUrlInput !== activeCompany?.company_url && urlValid &&
+              <div className="border-t-4 p-6 bg-white flex items-center justify-start">
+                <Button
+                  medium
+                  primary
+                  disabled={urlLoading}
+                >
+                  <span>{urlLoading ? 'Saving Changes...' : 'Save Changes'}</span>
+                </Button>
               </div>
-            </div>
-          }
-        </form>
-        <form action="#" method="POST" onSubmit={handleCompanyHandleUpdate} className="bg-white shadow-lg rounded-xl mt-5 max-w-3xl border-4 border-gray-200">
-          <div className="p-6 sm:p-8">
+            }
+            {
+              !urlValid && urlValid !== null &&
+              <div className="border-t-4 p-6 bg-white flex items-center justify-start">
+                <div className="bg-red-600 text-center p-4 rounded-lg">
+                  <p className="text-white text-sm font-medium">The URL you entered is not valid. Please check it and try again.</p>
+                </div>
+              </div>
+            }
+          </form>
+        </Card>
+        <Card>
+          <form action="#" method="POST" onSubmit={handleCompanyHandleUpdate}>
             <div>
               <label htmlFor="company_handle" className="text-lg leading-6 font-medium text-gray-900 mb-2">Company Handle</label>
               <div>
@@ -247,72 +246,68 @@ export default function CompanySettingsPage() {
                 <p className="text-gray-500">Your company handle is used for shareable links, including the link that affiliates see to join your campaign.</p>
               </div>
             </div>
-          </div>
-          {
-            companyHandleInput !== null && companyHandleInput !== activeCompany?.company_handle &&
-            <div className="border-t-4 p-6 bg-white flex items-center justify-start">
-              <Button
-                medium
-                primary
-                disabled={handleLoading}
-              >
-                <span>{handleLoading ? 'Saving Changes...' : 'Save Changes'}</span>
-              </Button>
-            </div>
-          }
-          {
-            !urlValid && urlValid !== null &&
-            <div className="border-t-4 p-6 bg-white flex items-center justify-start">
-              <div className="bg-red-600 text-center p-4 rounded-lg">
-                <p className="text-white text-sm font-medium">The URL you entered is not valid. Please check it and try again.</p>
+            {
+              companyHandleInput !== null && companyHandleInput !== activeCompany?.company_handle &&
+              <div className="border-t-4 p-6 bg-white flex items-center justify-start">
+                <Button
+                  medium
+                  primary
+                  disabled={handleLoading}
+                >
+                  <span>{handleLoading ? 'Saving Changes...' : 'Save Changes'}</span>
+                </Button>
               </div>
-            </div>
-          }
-        </form>
-        <div className="bg-white shadow-lg rounded-xl mt-5 max-w-3xl border-4 border-gray-200">
-          <div className="p-6 sm:p-8">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Email notifications</h3>
-            <div className="mt-2 max-w-2xl text-gray-500">
-              <p>When enabled, you will receive email notifications for this company whenever you receive a new sale via commission or affiliate signup.</p>
-            </div>
-            <div className="mt-5">
-              <Switch
-                checked={!activeCompany?.disable_emails}
-                onChange={e=>{handleDisableEmails(activeCompany?.disable_emails ? false  : true)}}
+            }
+            {
+              !urlValid && urlValid !== null &&
+              <div className="border-t-4 p-6 bg-white flex items-center justify-start">
+                <div className="bg-red-600 text-center p-4 rounded-lg">
+                  <p className="text-white text-sm font-medium">The URL you entered is not valid. Please check it and try again.</p>
+                </div>
+              </div>
+            }
+          </form>
+        </Card>
+        <Card>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Email notifications</h3>
+          <div className="mt-2 max-w-2xl text-gray-500">
+            <p>When enabled, you will receive email notifications for this company whenever you receive a new sale via commission or affiliate signup.</p>
+          </div>
+          <div className="mt-5">
+            <Switch
+              checked={!activeCompany?.disable_emails}
+              onChange={e=>{handleDisableEmails(activeCompany?.disable_emails ? false  : true)}}
+              className={classNames(
+                !activeCompany?.disable_emails ? 'bg-green-600' : 'bg-red-600',
+                'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200'
+              )}
+            >
+              <span className="sr-only">Use setting</span>
+              <span
+                aria-hidden="true"
                 className={classNames(
-                  !activeCompany?.disable_emails ? 'bg-green-600' : 'bg-red-600',
-                  'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200'
+                  !activeCompany?.disable_emails ? 'translate-x-5' : 'translate-x-0',
+                  'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                 )}
-              >
-                <span className="sr-only">Use setting</span>
-                <span
-                  aria-hidden="true"
-                  className={classNames(
-                    !activeCompany?.disable_emails ? 'translate-x-5' : 'translate-x-0',
-                    'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-                  )}
-                />
-              </Switch>
-            </div>
+              />
+            </Switch>
           </div>
-        </div>
-        <div className="bg-white shadow-lg rounded-xl mt-6 max-w-3xl border-4 border-gray-200">
-          <div className="p-6 sm:p-8">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Danger zone</h3>
-            <div className="mt-2 max-w-2xl text-gray-500">
-              <p>Once you delete your company, you will lose all data, including all campaigns and affiliates associated with it.</p>
-            </div>
-            <div className="mt-5">
-              <button
-                onClick={e=>{handleDelete()}}
-                type="button"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                Delete company
-              </button>
-            </div>
+        </Card>
+        <Card>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Danger zone</h3>
+          <div className="mt-2 max-w-2xl text-gray-500">
+            <p>Once you delete your company, you will lose all data, including all campaigns and affiliates associated with it.</p>
           </div>
-        </div>
+          <div className="mt-5">
+            <button
+              onClick={e=>{handleDelete()}}
+              type="button"
+              className="inline-flex items-center justify-center px-5 py-3 border border-transparent font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Delete company
+            </button>
+          </div>
+        </Card>
       </div>
     </>
   );

@@ -1,16 +1,20 @@
-import Image from 'next/image';
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 
 export const Testimonials = (props) => {
   return(
     <div id="testimonials">
       <dl className="space-y-10 md:grid md:gap-y-20 md:space-y-0 md:grid-cols-2 md:gap-x-20">
-        <div>
-          <dt>
-            <img className="w-14 md:w-16 h-auto rounded-full mb-3" src="/testimonials/maxwellcdavis.jpeg"/>
-            <p className="text-xl md:text-2xl text-gray-700">Great stuff - a space that needs a cost effective product!</p>
-          </dt>
-          <dd className="mt-4 text-lg md:text-xl font-medium text-gray-500">@maxwellcdavis</dd>
-        </div>
+        {
+          !props.small &&
+          <div>
+            <dt>
+              <img className="w-14 md:w-16 h-auto rounded-full mb-3" src="/testimonials/maxwellcdavis.jpeg"/>
+              <p className="text-xl md:text-2xl text-gray-700">Great stuff - a space that needs a cost effective product!</p>
+            </dt>
+            <dd className="mt-4 text-lg md:text-xl font-medium text-gray-500">@maxwellcdavis</dd>
+          </div>
+        }
         <div>
           <dt>
             <img className="w-14 md:w-16 h-auto rounded-full mb-3" src="/testimonials/foliofed.jpeg"/>
@@ -25,13 +29,16 @@ export const Testimonials = (props) => {
           </dt>
           <dd className="mt-4 text-lg md:text-xl font-medium text-gray-500">@BrianSaetre</dd>
         </div>
-        <div>
-          <dt>
-            <img className="w-14 md:w-16 h-auto rounded-full mb-3" src="/testimonials/_thunk_.jpeg"/>
-            <p className="text-xl md:text-2xl text-gray-700">Richie, I've just seen this thread on Reflio. Great idea and it looks mint!</p>
-          </dt>
-          <dd className="mt-4 text-lg md:text-xl font-medium text-gray-500">@_thunk_</dd>
-        </div>
+        {
+          !props.small &&
+          <div>
+            <dt>
+              <img className="w-14 md:w-16 h-auto rounded-full mb-3" src="/testimonials/_thunk_.jpeg"/>
+              <p className="text-xl md:text-2xl text-gray-700">Richie, I've just seen this thread on Reflio. Great idea and it looks mint!</p>
+            </dt>
+            <dd className="mt-4 text-lg md:text-xl font-medium text-gray-500">@_thunk_</dd>
+          </div>
+        }
       </dl>
     </div>
   )
