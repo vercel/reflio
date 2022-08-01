@@ -13,7 +13,7 @@ export default function TrackingSetupPage() {
 
   const embedCode = 
   `<script>(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'reflio');</script>
- <script async src='https://reflio.com/js/reflio.js' data-reflio='${router?.query?.companyId}'></script>`;
+ <script async src='https://reflio.com/js/reflio.min.js' data-reflio='${router?.query?.companyId}'></script>`;
   
   return (
     <div>

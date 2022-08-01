@@ -48,12 +48,12 @@ export const Navbar = () => {
                 >
                   Pricing
                 </a>
-                {/* <a
+                <a
                   href="https://reflio.com/resources"
                   className={navClass}
                 >
                   Docs & Guides
-                </a> */}
+                </a>
               </nav>
             </div>
 
@@ -74,6 +74,7 @@ export const Navbar = () => {
                 <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="/#why-reflio">Why Reflio</a>
                 <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="/pricing">Pricing</a>
                 <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 font-semibold" href={user ? '/dashboard' : '/signup'}>{user ? 'Dashboard' : 'Get Started for Free' }</a>
+                <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="/resources">Docs & Guides</a>
               </div>
             }
 
