@@ -24,14 +24,16 @@ const inviteUser = async (req, res) => {
           const invite = await inviteAffiliate(user, companyId, campaignId, emailInvites);
 
           if(invite === "success"){
-            const email = await sendEmail(logoUrl, emailSubject, emailContent, emailInvites, 'invite', companyName, campaignId, companyHandle);
+            await sendEmail(logoUrl, emailSubject, emailContent, emailInvites, 'invite', companyName, campaignId, companyHandle);
+            
+            return res.status(200).json({ response: 'success' });
           }
         } else {
           await Promise.all(emailInvitesSplit?.map(async (inviteEmail) => {
             const invite = await inviteAffiliate(user, companyId, campaignId, inviteEmail);
 
             if(invite === "success"){
-              const email = await sendEmail(logoUrl, emailSubject, emailContent, inviteEmail, 'invite', companyName, campaignId, companyHandle);
+              await sendEmail(logoUrl, emailSubject, emailContent, inviteEmail, 'invite', companyName, campaignId, companyHandle);
             }
           }));
         }
