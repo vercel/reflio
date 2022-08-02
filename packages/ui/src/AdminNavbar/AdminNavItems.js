@@ -16,7 +16,8 @@ import {
   ChartBarIcon,
   SparklesIcon,
   StatusOnlineIcon,
-  ChatAltIcon
+  ChatAltIcon,
+  BookOpenIcon
 } from '@heroicons/react/outline';
 
 export const AdminNavItems = () => {
@@ -139,8 +140,19 @@ export const AdminNavItems = () => {
             </a>
           ))}
         </div>
-        <div className="pt-3 mt-auto">
+        <div className="pt-3 mt-auto border-t-4 border-gray-300">
           <div className="px-4">
+            <a
+              href="https://reflio.com/resources"
+              target="_blank"
+              className={classNames(
+                'flex items-center p-2 text-lg font-semibold rounded-md border-2 border-transparent hover:opacity-80'
+              )} 
+              rel="noreferrer"
+            >
+              <BookOpenIcon className="mr-2 flex-shrink-0 h-6 w-6" aria-hidden="true" />
+              <span>Docs & Guides</span>
+            </a>
             <button
               onClick={e=>{$crisp.push(['do', 'chat:open'])}}
               className={classNames(

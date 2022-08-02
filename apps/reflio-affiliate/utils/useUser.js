@@ -30,7 +30,7 @@ export const UserContextProvider = (props) => {
     };
   }, []);
 
-  const getUserDetails = () => supabase.from('users').select('*').single();
+  const getUserDetails = () => supabase.from('users').select('*').eq('id', user?.id).single();
   const getSubscription = () =>
     supabase
       .from('subscriptions')
@@ -99,13 +99,14 @@ export const resetPassword = async (token, password) => {
 };
 
 export const paypalEmail = async (id, email) => {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('users')
     .update({ 
       paypal_email: email,
     })
     .match({ id: id })
-
+    
+    console.log(data);
     console.log(error);
 
     if (error) {

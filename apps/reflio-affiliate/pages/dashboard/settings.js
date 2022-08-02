@@ -14,11 +14,11 @@ const SettingsPage = () => {
   const [emailValid, setEmailValid] = useState(null);
 
   const handlePaypalEmail = async (email) => {    
-    console.log(email);
     await paypalEmail(user?.id, email).then((result) => {
+      console.log(result);
       if(result === "success"){
         setErrorMessage(null);
-        router.replace(window.location.href);
+        router.reload();
       } else {
         setErrorMessage("Unable to change your PayPal email. Please contact support, or try again later.");
       }
