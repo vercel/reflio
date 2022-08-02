@@ -1,4 +1,5 @@
 import { stripe } from '@/utils/stripe';
+import { withSentry } from '@sentry/nextjs';
 
 const getAccountDetails = async (req, res) => {
   if (req.method === 'POST') {
@@ -20,4 +21,4 @@ const getAccountDetails = async (req, res) => {
   }
 };
 
-export default getAccountDetails;
+export default withSentry(getAccountDetails);

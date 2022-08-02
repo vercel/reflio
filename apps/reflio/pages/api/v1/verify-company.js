@@ -1,5 +1,6 @@
 import { getCompanyFromExternal } from '@/utils/useDatabase';
 import Cors from 'cors';
+import { withSentry } from '@sentry/nextjs';
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -58,4 +59,4 @@ const verifyCompany = async (req, res) => {
   }
 };
 
-export default verifyCompany;
+export default withSentry(verifyCompany);

@@ -12,6 +12,7 @@
     "@babel/preset-env": "^7.16.11",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
+    "@sentry/nextjs": "^7.8.1",
     "@stripe/stripe-js": "1.11.0",
     "@supabase/supabase-js": "^1.25.1",
     "add": "^2.0.6",

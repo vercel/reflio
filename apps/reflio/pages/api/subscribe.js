@@ -1,3 +1,5 @@
+import { withSentry } from '@sentry/nextjs';
+
 const emailSubscribe = async (req, res) => {
   if(!req.body.email) return false;
   
@@ -23,4 +25,4 @@ const emailSubscribe = async (req, res) => {
   }
 };
 
-export default emailSubscribe;
+export default withSentry(emailSubscribe);

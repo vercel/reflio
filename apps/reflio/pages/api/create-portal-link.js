@@ -2,6 +2,7 @@ import { stripe } from '@/utils/stripe';
 import { getUser } from '@/utils/supabase-admin';
 import { createOrRetrieveCustomer } from '@/utils/useDatabase';
 import { getURL } from '@/utils/helpers';
+import { withSentry } from '@sentry/nextjs';
 
 const createPortalLink = async (req, res) => {
   if (req.method === 'POST') {
@@ -32,4 +33,4 @@ const createPortalLink = async (req, res) => {
   }
 };
 
-export default createPortalLink;
+export default withSentry(createPortalLink);

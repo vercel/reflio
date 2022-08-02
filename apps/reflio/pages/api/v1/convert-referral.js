@@ -1,5 +1,6 @@
 import { convertReferral } from '@/utils/useDatabase';
 import Cors from 'cors';
+import { withSentry } from '@sentry/nextjs';
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -47,4 +48,4 @@ const referralConvert = async (req, res) => {
   }
 };
 
-export default referralConvert;
+export default withSentry(referralConvert);

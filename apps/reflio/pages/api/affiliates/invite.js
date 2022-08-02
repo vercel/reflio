@@ -1,6 +1,7 @@
 import { getUser } from '@/utils/supabase-admin';
 import { inviteAffiliate } from '@/utils/useDatabase';
 import { sendEmail } from '@/utils/sendEmail';
+import { withSentry } from '@sentry/nextjs';
 
 const inviteUser = async (req, res) => {
   if (req.method === 'POST') {
@@ -69,4 +70,4 @@ const inviteUser = async (req, res) => {
   }
 };
 
-export default inviteUser;
+export default withSentry(inviteUser);

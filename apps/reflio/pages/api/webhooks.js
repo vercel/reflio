@@ -4,6 +4,7 @@ import {
   upsertPriceRecord,
   manageSubscriptionStatusChange
 } from '@/utils/useDatabase';
+import { withSentry } from '@sentry/nextjs';
 
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -101,4 +102,4 @@ const webhookHandler = async (req, res) => {
   }
 };
 
-export default webhookHandler;
+export default withSentry(webhookHandler);

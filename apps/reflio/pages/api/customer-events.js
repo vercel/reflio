@@ -4,6 +4,8 @@ import {
   editCommission,
   findCommission
 } from 'utils/stripe-helpers';
+import { withSentry } from '@sentry/nextjs';
+
 // Stripe requires the raw body to construct the event.
 export const config = {
   api: {
@@ -81,4 +83,4 @@ const customerEvents = async (req, res) => {
   }
 };
 
-export default customerEvents;
+export default withSentry(customerEvents);

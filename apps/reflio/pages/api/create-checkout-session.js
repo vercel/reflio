@@ -2,6 +2,7 @@ import { stripe } from '@/utils/stripe';
 import { getUser } from '@/utils/supabase-admin';
 import { createOrRetrieveCustomer } from '@/utils/useDatabase';
 import { getURL } from '@/utils/helpers';
+import { withSentry } from '@sentry/nextjs';
 
 const createCheckoutSession = async (req, res) => {
   if (req.method === 'POST') {
@@ -49,4 +50,4 @@ const createCheckoutSession = async (req, res) => {
   }
 };
 
-export default createCheckoutSession;
+export default withSentry(createCheckoutSession);

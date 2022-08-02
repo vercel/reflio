@@ -1,6 +1,6 @@
 import { campaignInfo } from 'utils/useDatabase';
 import Cors from 'cors';
-import { getURL } from '@/utils/helpers';
+import { withSentry } from '@sentry/nextjs';
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -59,4 +59,4 @@ const campaignDetails = async (req, res) => {
   }
 };
 
-export default campaignDetails;
+export default withSentry(campaignDetails);
