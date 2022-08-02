@@ -140,3 +140,23 @@ export const checkValidUrl = (str) => {
 export const checkValidEmail = (address) => {
   return !! address.match(/.+@.+/);
 }
+
+export const priceString = (price, currency) => {
+  if(price === null || !currency) return "error";
+
+  let string = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 2
+  }).format(price);
+
+  return string;
+}
+
+export const priceStringDivided = (price, currency) => {
+  if(price === null || !currency) return "error";
+
+  let string = priceString(price/100, currency);
+
+  return string;
+}

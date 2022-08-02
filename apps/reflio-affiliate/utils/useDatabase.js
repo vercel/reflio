@@ -65,6 +65,27 @@ export const getAffiliatePrograms = async (userId) => {
         item.campaign_valid = false;
       }
     }));
+
+    if(affilateData){
+      await Promise.all(affilateData?.map(async (item) => {
+        let commissionsQuery = await supabaseAdmin
+          .from('commissions')
+          .select('commission_total')
+          .eq('campaign_id', item?.campaign_id)
+          .eq('affiliate_id', item?.affiliate_id)
+    
+        if(commissionsQuery?.data !== null){
+          let commissionValue = 0;
+          commissionsQuery?.data?.map(commission => {
+            if(commission?.commission_total > 0){
+              commissionValue = commissionValue + commission?.commission_total;
+            }
+          })
+          item['commissions_value'] = commissionValue > 0 ? commissionValue : 0;
+      }  
+      }));
+    }
+
     return affilateData;
   }
 
