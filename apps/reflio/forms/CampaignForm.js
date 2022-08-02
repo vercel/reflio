@@ -90,7 +90,7 @@ export const CampaignForm = ({ edit, setupMode }) => {
                           <input
                             minLength="2"
                             required
-                            defaultValue={edit ? edit?.campaign_name : `${activeCompany?.company_name}'s Referral Campaign`}
+                            defaultValue={edit ? edit?.campaign_name : `${activeCompany?.company_name}'s Affiliate Campaign`}
                             type="text"
                             name="campaign_name"
                             id="campaign_name"
