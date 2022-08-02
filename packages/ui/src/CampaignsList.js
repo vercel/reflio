@@ -7,9 +7,7 @@ import LoadingTile from '@/components/LoadingTile';
 import { priceString, priceStringDivided } from '@/utils/helpers';
 
 const CampaignsList = (props) => {
-  const { userAffiliateDetails } = useUserAffiliate();
-
-  console.log(userAffiliateDetails)
+  const { userAffiliateDetails, referralDetails } = useUserAffiliate();
 
   return(
     <div className="wrapper">
@@ -86,7 +84,7 @@ const CampaignsList = (props) => {
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">{campaign?.company_name}</td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">{campaign?.impressions}</td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">
-                                <a href="#" className="underline">1 referral</a>
+                                <a href="#" className="underline">{referralDetails?.length ? referralDetails?.length+" referrals" : '0 referrals'}</a>
                               </td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">{priceStringDivided(campaign?.commissions_value ?? 0, campaign?.company_currency)}</td>
                             </tr>

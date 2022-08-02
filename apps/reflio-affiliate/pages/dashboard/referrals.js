@@ -1,4 +1,4 @@
-import LoadingDots from '@/components/LoadingDots';
+import LoadingTile from '@/components/LoadingTile';
 import SEOMeta from '@/templates/SEOMeta'; 
 
 const ReferralsPage = () => {
@@ -6,7 +6,7 @@ const ReferralsPage = () => {
     <>
       <SEOMeta title="Referrals"/>
       <div className="pt-12 wrapper">
-        <LoadingDots/>
+        <LoadingTile/>
       </div>
     </>
   );

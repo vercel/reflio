@@ -9,6 +9,7 @@ export const UserAffiliateContext = createContext();
 export const UserAffiliateContextProvider = (props) => {
   const { user, userFinderLoaded, session } = useUser();
   const [userAffiliateDetails, setUserAffiliateDetails] = useState(null);
+  const [referralDetails, setReferralDetails] = useState(null);
   const [userAffiliateInvites, setUserAffiliateInvites] = useState(null);
   const [publicCampaignData, setPublicCampaignData] = useState(null);
   const [loadingAffiliates, setLoadingAffiliates] = useState(false);
@@ -19,12 +20,13 @@ export const UserAffiliateContextProvider = (props) => {
 
   const affiliatePrograms = async () => {    
     try {
-      const { programs } = await postData({
+      const { affilateData, referralsData } = await postData({
         url: '/api/affiliate/campaigns',
         token: session.access_token
       });
 
-      setUserAffiliateDetails(programs);
+      setUserAffiliateDetails(affilateData);
+      setReferralDetails(referralsData);
       
     } catch (error) {
       console.log(error)
@@ -83,6 +85,7 @@ export const UserAffiliateContextProvider = (props) => {
 
   value = {
     userAffiliateDetails,
+    referralDetails,
     userAffiliateInvites,
     publicCampaignData
   };

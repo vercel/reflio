@@ -10,9 +10,11 @@ const affiliatePrograms = async (req, res) => {
 
       if(user){
 
-        const programs = await getAffiliatePrograms(user?.id);
+        const {affilateData, referralsData} = await getAffiliatePrograms(user?.id);
 
-        return res.status(200).json({ programs });
+        console.log(affilateData)
+
+        return res.status(200).json({ affilateData, referralsData });
 
       } else {
         res.status(500).json({ error: { statusCode: 500, message: 'Not a valid UUID' } });

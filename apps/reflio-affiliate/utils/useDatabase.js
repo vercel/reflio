@@ -13,6 +13,7 @@ export const getAffiliatePrograms = async (userId) => {
   }
 
   let affilateData = data;
+  let referralsData = null;
 
   if(data && data.length > 0){
     await Promise.all(affilateData?.map(async (item) => {
@@ -82,14 +83,23 @@ export const getAffiliatePrograms = async (userId) => {
             }
           })
           item['commissions_value'] = commissionValue > 0 ? commissionValue : 0;
-      }  
+        }  
       }));
+
+      let referralsQuery = await supabaseAdmin
+        .from('referrals')
+        .select('*')
+        .eq('affiliate_id', affilateData[0]?.affiliate_id)
+  
+      if(referralsQuery?.data !== null){
+        referralsData = referralsQuery?.data;
+      }  
     }
 
-    return affilateData;
+    return {affilateData, referralsData};
   }
 
-  return [];
+  return {affilateData, referralsData};
 };
 
 //Get user campaigns
