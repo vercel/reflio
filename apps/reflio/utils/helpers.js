@@ -144,3 +144,11 @@ export const monthsBetweenDates = (dt2, dt1) => {
   diff /= (60 * 60 * 24 * 7 * 4);
   return Math.abs(Math.round(diff));
 }
+
+export const generateInviteUrl = (activeCampaign, companyHandle, campaignId) => {
+  if(activeCampaign === true){
+    return `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/invite/${companyHandle}`;
+  } else {
+    return `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/invite/${companyHandle}/${campaignId}`;
+  }
+};

@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import {
   TemplateIcon
 } from '@heroicons/react/solid';
-import { priceString, priceStringDivided } from 'utils/helpers';
+import { generateInviteUrl, priceString, priceStringDivided } from 'utils/helpers';
 import setupStepCheck from '@/utils/setupStepCheck';
 
 export default function CampaignsPage() {
@@ -18,14 +18,6 @@ export default function CampaignsPage() {
   const router = useRouter();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
-
-  const generateInviteUrl = (activeCampaign, companyHandle, campaignId) => {
-    if(activeCampaign === true){
-      return `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/invite/${companyHandle}`;
-    } else {
-      return `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/invite/${companyHandle}/${campaignId}`;
-    }
-  };
   
   return (
     <>
