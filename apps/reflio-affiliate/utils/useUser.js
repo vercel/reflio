@@ -238,33 +238,6 @@ export const editCompanyWebsite = async (id, form) => {
     }
 };
 
-export const changeReferralCode = async (user, affiliateId, companyId, form) => {
-  if(!form?.referral_code) return "error";
-  
-  const { data } = await supabase
-    .from('affiliates')
-    .select('referral_code, campaign_id')
-    .eq('referral_code', form?.referral_code)
-    .eq('company_id', companyId)
-
-  if(data !== null && data?.length > 0){
-    return "match";
-  }
-  
-  const { error } = await supabase
-    .from('affiliates')
-    .update({ 
-      referral_code: form?.referral_code
-    })
-    .match({ affiliate_id: affiliateId })
-
-    if (error) {
-      return "error";
-    } else {
-      return "success";
-    }
-};
-
 export const disableEmails = async (id, type) => {
   const { error } = await supabase
     .from('companies')

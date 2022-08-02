@@ -5,10 +5,11 @@ import SEOMeta from '@/templates/SEOMeta';
 import Button from '@/components/Button'; 
 import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import LoadingDots from '@/components/LoadingDots';
+import { postData } from 'utils/helpers';
 
 const AffiliateCodePage = () => {
   const router = useRouter();
-  const { user } = useUser();
+  const { user, session } = useUser();
   const { userAffiliateDetails } = useUserAffiliate();
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -33,18 +34,26 @@ const AffiliateCodePage = () => {
 
     setLoading(true);
 
-    await changeReferralCode(user, router?.query?.affiliateId, affiliateFiltered?.company_id, data).then((result) => {
-      if(result === "success"){
-        setErrorMessage(null);
-        router.replace(`/dashboard/campaigns`);
-      } else if(result === "match"){
-        setErrorMessage("You already have already used this code for a different campaign with the same company. Please user a unique referral code per campaign for the same company.")
-      } else {
-        setErrorMessage("There was an error when saving your new referral code. Please try again later.");
-      }
-
-      setLoading(false);
+    const { response } = await postData({
+      url: '/api/affiliate/change-code',
+      data: { 
+        affiliateId: affiliateFiltered?.affiliate_id,
+        companyId: affiliateFiltered?.company_id,
+        userCode: data.referral_code
+      },
+      token: session.access_token
     });
+
+    if(response === "success"){
+      setErrorMessage(null);
+      router.replace(`/dashboard/campaigns`);
+    } else if(response === "match"){
+      setErrorMessage("You already have already used this code for a different campaign with the same company. Please user a unique referral code per campaign for the same company.")
+    } else {
+      setErrorMessage("There was an error when saving your new referral code. Please try again later.");
+    }
+
+    setLoading(false);
 
   };
   

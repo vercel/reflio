@@ -223,3 +223,34 @@ export const getPublicCampaign = async (handle, campaignId) => {
 
   return campaignDetails;
 };
+
+export const changeReferralCode = async (userId, affiliateId, companyId, code) => {
+  if(!code || !userId) return "error";
+  
+  const { data } = await supabaseAdmin
+    .from('affiliates')
+    .select('referral_code, campaign_id')
+    .eq('referral_code', code)
+    .eq('company_id', companyId)
+
+  if(data !== null && data?.length > 0){
+    return "match";
+  }
+  
+  const { error } = await supabaseAdmin
+    .from('affiliates')
+    .update({ 
+      referral_code: code
+    })
+    .match({ affiliate_id: affiliateId })
+    .match({ id: userId })
+
+    console.log("Error:::")
+    console.log(error)
+    
+    if (error) {
+      return "error";
+    } else {
+      return "success";
+    }
+};
