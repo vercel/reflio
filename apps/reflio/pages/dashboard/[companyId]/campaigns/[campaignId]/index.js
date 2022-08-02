@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
-import LoadingDots from '@/components/LoadingDots';
+import LoadingTile from '@/components/LoadingTile';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
 import {
@@ -23,7 +23,7 @@ export default function SingleCampaignPage() {
   return (
     <>
       <SEOMeta title={activeCampaign?.campaign_name}/>
-      <div>
+      <div className="h-full min-h-screen bg-white">
         <div className="py-8 border-b-4">
           <div className="wrapper">
             <Button
@@ -37,11 +37,10 @@ export default function SingleCampaignPage() {
           </div>
         </div>
         <div>
-          <div className="py-12 bg-gray-100 border-b-4">
+          <div className="py-12 border-b-4 bg-gray-100">
             <div className="wrapper">
               {
-                activeCompany && activeCampaign ?
-                  activeCampaign !== null && activeCampaign !== 'none' &&
+                activeCompany && activeCampaign !== null && activeCampaign !== 'none' ?
                     <div>
                       <div className="flex flex-col items-start mb-6">
                         <div className="mb-3">
@@ -81,7 +80,7 @@ export default function SingleCampaignPage() {
                       </div> 
                     </div>
                 :
-                  <LoadingDots/>
+                  <LoadingTile/>
               }
             </div>
           </div>

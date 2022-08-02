@@ -6,6 +6,7 @@ import Button from '@/components/Button';
 import {
   ArrowNarrowLeftIcon
 } from '@heroicons/react/outline';
+import LoadingTile from '@/components/LoadingTile';
 
 export default function EditCampaignPage() {
   const router = useRouter();
@@ -30,8 +31,12 @@ export default function EditCampaignPage() {
         <div className="wrapper pt-12">
           <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-6">Edit campaign</h1>
           {
-            activeCampaign !== null && activeCampaign !== 'none' &&
-            <CampaignForm edit={activeCampaign}/>
+            activeCampaign !== null && activeCampaign !== 'none' ?
+              <CampaignForm edit={activeCampaign}/>
+            :
+              <div>
+                <LoadingTile/>
+              </div>
           }
         </div>
       </div>
