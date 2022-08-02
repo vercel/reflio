@@ -436,10 +436,41 @@ export const newCampaign = async (user, form, companyId) => {
   return "success";
 };
 
-export const editCampaign = async (campaignId, form) => { 
+export const editCampaign = async (user, campaignId, formFields) => { 
 
-  if(form.default_campaign){
-    form.default_campaign = true;
+  //TO DO: FIX THIS DUPLICATE CODE FROM ABOVE ^
+  if(formFields.commission_value && formFields.commission_value <= 0){
+    formFields.commission_value = 20;
+  }
+
+  if(formFields.cookie_window && formFields.cookie_window <= 0){
+    formFields.cookie_window = 60;
+  }
+
+  if(formFields.commission_period && formFields.commission_period <= 0){
+    formFields.commission_period = 12;
+  }
+
+  if(formFields.minimum_days_payout && formFields.minimum_days_payout <= 30){
+    formFields.minimum_days_payout = 30;
+  }
+
+  if(formFields.default_campaign){
+    formFields.default_campaign = true;
+  }
+
+  if(!formFields?.team_id){
+    formFields.team_id = user?.team_id;
+  }
+
+  if(formFields.discount_code?.length === 0 || formFields.discount_code === null){
+    formFields.discount_code = null;
+    formFields.discount_type = null;
+    formFields.discount_value = null;
+  }
+
+  if(formFields.default_campaign){
+    formFields.default_campaign = true;
 
     await supabase
       .from('campaigns')
@@ -450,7 +481,7 @@ export const editCampaign = async (campaignId, form) => {
     
     const { error } = await supabase
       .from('campaigns')
-      .update(form)
+      .update(formFields)
       .eq('campaign_id', campaignId);
   
     if (error) return "error";
@@ -460,14 +491,13 @@ export const editCampaign = async (campaignId, form) => {
   } else {
     const { error } = await supabase
       .from('campaigns')
-      .update(form)
+      .update(formFields)
       .eq('campaign_id', campaignId);
   
     if (error) return "error";
   
     return "success";
   }
-
 };
 
 //New Stripe Account
