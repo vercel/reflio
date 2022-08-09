@@ -1,46 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { Features } from '@/components/Features';
 import { Testimonials } from '@/components/Testimonials';
-import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
-import { Modal } from '@/components/Modal';
 import { Github } from '@/components/Icons/Github'; 
 
 export default function Index() {
-  const [open, setOpen] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
-  const [error, setError] = useState(false);
-  const {width, height} = useWindowSize();
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-
-    if(e.target.email.value === null) return false;
-
-    const data = await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: e.target.email.value
-      })
-    }).then(function(response) {
-      return response.json();
-
-    }).then(function(data) {
-      return data;
-    });
-
-    if(data?.result?.id){
-      setError(false);
-      setSubscribed(true);
-    } else {
-      setError(true);
-    }
-  };
-
   return(
     <>
       <div id="#intro">
@@ -209,84 +174,6 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="py-24 bg-gradient-to-b from-secondary-2 to-secondary">
-        <div className="wrapper wrapper-sm text-center">
-          <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">We&apos;re going live soon.</h2>
-            <div className="mt-5">
-              <Button
-                xlarge
-                primary
-                href="/signup"
-              >
-                <span>Get Started for Free</span>
-              </Button>
-            </div>
-            <div className="mt-5 text-sm flex flex-col lg:flex-row space-y-3 lg:space-y-0 items-center justify-between max-w-lg mx-auto">
-              <div className="flex items-center text-white font-medium">
-                <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
-                <p>Free plan available</p>
-              </div>
-              <div className="flex items-center text-white font-medium">
-                <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
-                <p>Auto cookie consent collection</p>
-              </div>
-              <div className="flex items-center text-white font-medium">
-                <CheckCircleIcon className="w-5 lg:w-5 h-auto mr-1"/>
-                <p>GDPR compliant</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Modal modalOpen={open} setModalOpen={setOpen}>
-        <div>
-          <div className="p-8 text-center">
-
-            {
-              !subscribed &&
-              <form method="POST" onSubmit={handleSubscribe} className="md:flex md:items-center w-full max-w-xl mx-auto h-auto md:h-20 rounded-lg overflow-hidden shadow-lg border-4 border-primary-2 outline-none focus:outline-none">
-                <div className="flex items-center h-20 md:flex-grow">
-                  <input type="email" id="email" name="email" placeholder="youremail@email.com" required className="w-auto flex-grow h-full border-none px-3 text-gray-700 text-md md:text-lg font-medium outline-none focus:outline-none"/>
-                </div>
-                <button disabled={subscribed === true ? true : false} type="submit" className={`${subscribed ? 'bg-primary-2' : 'bg-primary hover:bg-primary-2' } w-full h-full md:w-auto p-5 md:p-0 transition-all font-bold text-md md:text-lg px-3 md:px-5`}>{subscribed ? 'Your Subscribed' : 'Join Waitlist'}</button>
-              </form>
-            }
-
-            {
-              !subscribed &&
-              <p className="text-lg mt-3 text-gray-700">Sign up and be one of the first to get early access.</p>
-            }
-            
-            {
-              subscribed &&
-              <div className="mx-auto bg-green p-5 rounded-lg bg-secondary max-w-xl border-4 border-secondary-2">
-                <p className="text-white font-bold text-lg">Thank you for signing up. We&apos;ll be sending out updates ASAP.</p>
-              </div>
-            }
-            
-            {
-              error &&
-              <div className="mt-10 mx-auto bg-green p-5 rounded-lg bg-secondary max-w-xl border-4 border-secondary-2">
-                <p className="text-white font-bold text-lg">There was an error when signing up - please try again later.</p>
-              </div>
-            }
-          </div>
-          {
-            subscribed &&
-            <div className="w-full h-full absolute top-0 left-0 z-10">
-              <Confetti
-                width={width}
-                height={height}
-                numberOfPieces={100}
-                gravity={0.05}
-                tweenDuration={8000}
-              />
-            </div>
-          }
-        </div>
-      </Modal>
     </>
   )
 };
