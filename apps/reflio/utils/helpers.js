@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export const getURL = () => {
   const url = process.env.NEXT_PUBLIC_SITE_URL ? process.env.NEXT_PUBLIC_SITE_URL : 'http://localhost:3000'
   return url.includes('http') ? url : `https://${url}`;
@@ -150,5 +152,56 @@ export const generateInviteUrl = (activeCampaign, companyHandle, campaignId) => 
     return `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/invite/${companyHandle}`;
   } else {
     return `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/invite/${companyHandle}/${campaignId}`;
+  }
+};
+
+export const LogSnagPost = async (type, message) => {
+  try {
+    if(process.env.NEXT_PUBLIC_LOGSNAG_TOKEN){
+      let myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${process.env.NEXT_PUBLIC_LOGSNAG_TOKEN}`);
+      myHeaders.append("Content-Type", "application/json");
+    
+      const project = "reflio";
+      const fancyType = type.replace(/-/g, " ").toUpperCase(); 
+    
+      let emojiType = "🔥";
+    
+      if(type === "stripe-connect"){
+        emojiType = "💳";
+      } else if(type === "new-campaign"){
+        emojiType = "📚";
+      } else if(type === "invite-affiliate"){
+        emojiType = "🧑";
+      } else if(type === "referral-created"){
+        emojiType = "🎉";
+      }
+    
+      let raw = JSON.stringify({
+        "project": project,
+        "channel": type,
+        "event": fancyType,
+        "description": message,
+        "icon": emojiType,
+        "notify": true
+      });
+    
+      let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+    
+      await fetch("https://api.logsnag.com/v1/log", requestOptions)
+        .then(response => response.text())
+        .then(result => {return "success"})
+        .catch(error => {return "error"});
+    } else {
+      return "LogSnag token not found in .env file";
+    }
+  } catch (error) {
+    console.warn(error);
+    return "error"
   }
 };

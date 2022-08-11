@@ -68,4 +68,4 @@ const recordImpression = async (req, res) => {
   }
 };
 
-export default withSentry(recordImpression);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(recordImpression) : recordImpression;

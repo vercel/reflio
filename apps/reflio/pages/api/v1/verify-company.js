@@ -59,4 +59,4 @@ const verifyCompany = async (req, res) => {
   }
 };
 
-export default withSentry(verifyCompany);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(verifyCompany) : verifyCompany;

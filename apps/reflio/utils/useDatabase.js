@@ -1,6 +1,6 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
-import { toDateTime } from './helpers';
+import { toDateTime, LogSnagPost } from './helpers';
 import { createCommission } from './stripe-helpers';
 
 // This entire file should be removed and moved to supabase-admin
@@ -221,11 +221,12 @@ export const inviteAffiliate = async (user, companyId, campaignId, emailInvites)
     invite_email: emailInvites
   });
 
-  console.log(error);
-
   if (error) {
     return "error";
+    
   } else {
+    await LogSnagPost('invite-affiliate', `New affiliate invited for campaign ${campaignId}`);
+
     return "success";
   }
 };
@@ -311,6 +312,8 @@ export const createReferral = async (details) => {
     });
 
     if(referralData?.data){
+      await LogSnagPost('referral-created', `New referral created for campaign ${campaignData?.campaign_id}`);
+
       return {
         "campaign_id": campaignData?.campaign_id,
         "cookie_date": dateToday,
@@ -383,6 +386,9 @@ export const convertReferral = async (referralId, campaignId, affiliateId, cooki
 
     if(companyData?.data?.stripe_id){  
       const commission = await createCommission(referralData, companyData?.data?.stripe_id, referralData?.data?.referral_id, email);
+
+      await LogSnagPost('referral-converted', `New referral converted for campaign ${campaignData?.campaign_id}`);
+
       return commission;
     }
   }

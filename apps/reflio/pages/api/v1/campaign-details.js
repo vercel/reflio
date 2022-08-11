@@ -59,4 +59,4 @@ const campaignDetails = async (req, res) => {
   }
 };
 
-export default withSentry(campaignDetails);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(campaignDetails) : campaignDetails;

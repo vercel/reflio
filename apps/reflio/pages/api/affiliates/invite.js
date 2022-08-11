@@ -70,4 +70,4 @@ const inviteUser = async (req, res) => {
   }
 };
 
-export default withSentry(inviteUser);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(inviteUser) : inviteUser;

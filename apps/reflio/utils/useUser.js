@@ -1,6 +1,6 @@
 import { useEffect, useState, createContext, useContext } from 'react';
 import { supabase } from './supabase-client';
-import { slugifyString } from './helpers';
+import { slugifyString, LogSnagPost } from './helpers';
 import { useRouter } from 'next/router';
 
 export const UserContext = createContext();
@@ -433,6 +433,8 @@ export const newCampaign = async (user, form, companyId) => {
 
   if (error) return "error";
 
+  await LogSnagPost('new-campaign', `New campaign created (${formFields.campaign_name}), for company ${companyId}`)
+
   return "success";
 };
 
@@ -525,6 +527,9 @@ export const newStripeAccount = async (userId, stripeId, companyId) => {
   if (error) {
     return "error";
   } else {
+
+    await LogSnagPost('stripe-connect', `New Stripe account connected for company ${companyId}`);
+
     return "success";
   }
 

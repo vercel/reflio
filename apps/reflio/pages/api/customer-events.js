@@ -83,4 +83,4 @@ const customerEvents = async (req, res) => {
   }
 };
 
-export default withSentry(customerEvents);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(customerEvents) : customerEvents;

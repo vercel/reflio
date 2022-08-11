@@ -44,4 +44,4 @@ const embedData = async (req, res) => {
   
 };
 
-export default withSentry(embedData);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(embedData) : embedData;

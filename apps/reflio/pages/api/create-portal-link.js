@@ -33,4 +33,4 @@ const createPortalLink = async (req, res) => {
   }
 };
 
-export default withSentry(createPortalLink);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(createPortalLink) : createPortalLink;

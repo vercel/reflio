@@ -22,4 +22,4 @@ const getAccountIdFromToken = async (req, res) => {
   }
 };
 
-export default withSentry(getAccountIdFromToken);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(getAccountIdFromToken) : getAccountIdFromToken;

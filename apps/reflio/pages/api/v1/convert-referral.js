@@ -48,4 +48,4 @@ const referralConvert = async (req, res) => {
   }
 };
 
-export default withSentry(referralConvert);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(referralConvert) : referralConvert;

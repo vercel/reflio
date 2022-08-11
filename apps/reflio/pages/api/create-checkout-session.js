@@ -50,4 +50,4 @@ const createCheckoutSession = async (req, res) => {
   }
 };
 
-export default withSentry(createCheckoutSession);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(createCheckoutSession) : createCheckoutSession;

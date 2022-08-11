@@ -102,4 +102,4 @@ const webhookHandler = async (req, res) => {
   }
 };
 
-export default withSentry(webhookHandler);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(webhookHandler) : webhookHandler;

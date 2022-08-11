@@ -1,4 +1,4 @@
-const ReflioDomainRoot = 'https://reflio.com';
+const ReflioDomainRoot = 'http://localhost:3000';
 const ReflioAPIRoot = ReflioDomainRoot+'/api/v1';
 const rootDomain = window.location.host;
 const queryString = window.location.search;
@@ -97,6 +97,33 @@ class rfl {
 
     return true;
   }
+  checkForOtherDomains(){
+    //If multiple domains, add referral to other domain
+    if(Reflio.details().domains && Reflio.checkCookie() !== null){
+      document.querySelectorAll("[href]").forEach(link => {
+        if(Reflio.details().domains?.includes(",")){
+          Reflio.details().domains.split(',').map(domain => {
+            if(link.href?.includes(domain.trim()) && !link.href.includes(Reflio.details().rootDomain)){
+              let baseUrl = new URL(link.href);
+              let searchParams = baseUrl.searchParams;
+              
+              searchParams.set('referral', Reflio.checkCookie()?.referral_id);
+              
+              baseUrl.search = searchParams.toString();
+              
+              let newUrl = baseUrl.toString();
+      
+              link.href = newUrl;
+            }
+          })
+        }
+      });
+
+      return true;
+    } else {
+      return false;
+    }
+  }
   consentCleanup(){
     if(document.getElementById('reflio-confirm-modal')){
       document.getElementById('reflio-confirm-modal').parentNode.removeChild(document.getElementById('reflio-confirm-modal'));
@@ -118,32 +145,12 @@ class rfl {
       }
 
       const trackImpression = await Reflio.impression(reflioReferralParam, Reflio.details().companyId);
-
-      //If multiple domains, add referral to other domain
-      if(trackImpression?.referral_details && Reflio.details().domains){
-        document.querySelectorAll("[href]").forEach(link => {
-          if(Reflio.details().domains?.includes(",")){
-            Reflio.details().domains.split(',').map(domain => {
-              if(link.href?.includes(domain.trim()) && !link.href.includes(Reflio.details().rootDomain)){
-                let baseUrl = new URL(link.href);
-                let searchParams = baseUrl.searchParams;
-                
-                searchParams.set('ref', reflioReferralParam);
-                
-                baseUrl.search = searchParams.toString();
-                
-                let newUrl = baseUrl.toString();
-        
-                link.href = newUrl;
-              }
-            })
-          }
-        });
-      }
-
+      
       if(trackImpression?.referral_details){
         //Set cookie
         document.cookie = `reflioData=${JSON.stringify(trackImpression?.referral_details)}; expires=${trackImpression?.referral_details?.cookie_date}`;
+
+        Reflio.checkForOtherDomains();
       } else {
         Reflio.consentCleanup();
       }
@@ -437,6 +444,8 @@ if(reflioVerifyParam !== null){
 if(Reflio.consentRequired() === false && Reflio.cookieEligible() === true){
   Reflio.register();
 }
+
+Reflio.checkForOtherDomains();
 
 //Initially activate the function to check if already scrolled past 33% of the page.
 activatePopup();

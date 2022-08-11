@@ -25,4 +25,4 @@ const emailSubscribe = async (req, res) => {
   }
 };
 
-export default withSentry(emailSubscribe);
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(emailSubscribe) : emailSubscribe;
