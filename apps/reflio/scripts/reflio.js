@@ -1,4 +1,4 @@
-const ReflioDomainRoot = 'http://localhost:3000';
+const ReflioDomainRoot = 'https://reflio.com';
 const ReflioAPIRoot = ReflioDomainRoot+'/api/v1';
 const rootDomain = window.location.host;
 const queryString = window.location.search;
