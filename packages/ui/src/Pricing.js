@@ -76,18 +76,26 @@ export const Pricing = ({ products }) => {
               }).format(product.prices[0].unit_amount / 100);
 
               return (
-                <div key={product?.name} className="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-white">
+                <div key={product?.name} className={`${product?.name === "Pro" ? 'bg-secondary border-secondary-2' : 'bg-white border-gray-200'} border rounded-lg shadow-sm divide-y divide-gray-200 relative`}>
                   <div className="p-6">
-                    <h2 className="text-2xl leading-6 font-semibold text-gray-900">{product?.name}</h2>
+                    {
+                      product?.name === "Pro" &&
+                      <div className="py-1 px-2 bg-white absolute top-3 right-3 rounded-full text-xs uppercase font-bold">
+                        Recommended
+                      </div>
+                    }
+                    <h2 className={`${product?.name === "Pro" ? 'text-white' : 'text-gray-900'} text-2xl leading-6 font-semibold`}>
+                      {product?.name}
+                    </h2>
                     <p className="mt-8">
-                      <span className="text-4xl font-extrabold text-gray-900">{priceString}</span>
-                      <span className="text-base font-medium text-gray-500">/mo - <span className="text-sm text-gray-500">(0% fee)</span></span>
+                      <span className={`${product?.name === "Pro" ? 'text-white' : 'text-gray-900'} text-4xl font-extrabold`}>{priceString}</span>
+                      <span className={`${product?.name === "Pro" ? 'text-white' : 'text-gray-500'} text-base font-medium`}>/mo - <span className="text-sm">(0% fee)</span></span>
                     </p>
                     <Button
                       disabled={planDetails === product?.name}
                       medium
                       secondary
-                      className="mt-8 w-full"
+                      className={`${product?.name === "Pro" && 'bg-white border-gray-200 hover:bg-gray-100 text-black'} mt-8 w-full`}
                       onClick={() => handleCheckout(product?.prices[0].id)}
                     >
                       {planDetails === product?.name ? 'Current Plan' : priceIdLoading === product?.prices[0].id ? 'Loading...' : `Subscribe to ${product?.name}`}

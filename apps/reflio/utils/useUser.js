@@ -130,6 +130,7 @@ export const getCampaigns = async (companyId) => {
   .from('campaigns')
   .select('*')
   .eq('company_id', companyId)
+  .order('default_campaign', { ascending: false })
   .order('created', { ascending: false })
 
   let campaignsData = data;
