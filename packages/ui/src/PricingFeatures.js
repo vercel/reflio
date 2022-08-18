@@ -107,10 +107,10 @@ export const PricingFeatures = ({ productName }) => {
             <li key={index} className={`${feature.type === 'ineligible' && 'opacity-50'} flex space-x-2`}>
               {
                 feature.type === 'eligible' ?
-                  <CheckIcon className="h-6 w-6 text-green-600"/>
-                : <XIcon className="h-6 w-6 text-gray-500"/>
+                  <CheckIcon className={`${capitalizedName === "Pro" ? 'text-white' : 'text-green-600'} h-6 w-6`}/>
+                : <XIcon className={`${capitalizedName === "Pro" ? 'text-white' : 'text-gray-500'} h-6 w-6`}/>
               }
-              <span className="text-base text-gray-500">{feature.text}</span>
+              <span className={`${capitalizedName === "Pro" ? 'text-white' : 'text-gray-500'} text-base`}>{feature.text}</span>
             </li>
           )
         })
