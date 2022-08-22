@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
-import LoadingDots from '@/components/LoadingDots';
+import LoadingTile from '@/components/LoadingTile';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 
 export default function InnerDashboardPage() {
@@ -17,7 +17,7 @@ export default function InnerDashboardPage() {
     <>
       <SEOMeta title="Dashboard"/>
       <div className="pt-12 wrapper">
-        <LoadingDots/>
+        <LoadingTile/>
       </div>
     </>
   );
