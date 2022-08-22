@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { postData } from '@/utils/helpers';

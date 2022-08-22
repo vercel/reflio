@@ -1,11 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
+
+import { useEffect } from 'react';
 import { Button } from '@/components/Button';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { Features } from '@/components/Features';
 import { Testimonials } from '@/components/Testimonials';
 import { Github } from '@/components/Icons/Github'; 
+import { useUser } from '@/utils/useUser';
+import { useRouter } from 'next/router';
 
 export default function Index() {
+  const { user } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/dashboard');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   return(
     <>
       <div id="#intro">
