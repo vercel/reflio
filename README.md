@@ -28,7 +28,7 @@ Reflio puts digital privacy first and is proudly open-source. All referrals are 
   
 ## Contributing / Developer Guide
 
-We will be releasing our guide on how to contribute to Reflio very soon.
+All contributions are greatly appreciated. Please see our [Contributing Guide](https://github.com/Reflio-com/reflio/blob/main/CONTRIBUTING.md).
   
 ## License
 
