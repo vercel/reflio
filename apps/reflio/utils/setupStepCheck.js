@@ -7,37 +7,45 @@ export default function setupStepCheck(type) {
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
 
+  const replaceUrl = (url) => {
+    if(router.asPath === `/dashboard/${router?.query?.companyId}${url}`) return false;
+
+    console.log('ok')
+    console.log(`/dashboard/${router?.query?.companyId}${url}`)
+
+    router.replace(`/dashboard/${router?.query?.companyId}${url}`);
+  }
+
   if(activeCompany){
     if(type === 'light'){
       if(activeCompany?.stripe_account_data === null || activeCompany?.stripe_id === null){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/stripe`);
+        replaceUrl('/setup/stripe');
       }
     
       if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency === null){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/currency`);
+        replaceUrl('/setup/currency');
       }
 
     } else {
       if(activeCompany?.stripe_account_data === null || activeCompany?.stripe_id === null){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/stripe`);
+        replaceUrl('/setup/stripe');
       }
     
       if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency === null){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/currency`);
+        replaceUrl('/setup/currency');
       }
     
       if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency !== null && userCampaignDetails?.length === 0){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/campaign`);
+        replaceUrl('/setup/campaign');
       }
     
       if(activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.company_currency !== null && userCampaignDetails !== null && userCampaignDetails?.length > 0 && activeCompany?.domain_verified !== true){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/add`);
+        replaceUrl('/setup/add');
       }
   
       if(activeCompany?.domain_verified === true){
-        router.replace(`/dashboard/${router?.query?.companyId}/setup/verify`);
+        replaceUrl('/setup/verify');
       }
     }
   }
-  
 }
