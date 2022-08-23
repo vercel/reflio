@@ -10,8 +10,11 @@ import LoadingDots from '@/components/LoadingDots';
 import {
   ArrowNarrowLeftIcon
 } from '@heroicons/react/outline';
+import setupStepCheck from '@/utils/setupStepCheck';
 
 export default function AffiliateInvitePage() {
+  setupStepCheck('light');
+  
   const router = useRouter();
   const { session } = useUser();
   const { activeCompany } = useCompany();

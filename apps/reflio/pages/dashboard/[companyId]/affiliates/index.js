@@ -13,8 +13,11 @@ import {
 } from '@heroicons/react/outline';
 import ReactTooltip from 'react-tooltip';
 import { priceStringDivided } from 'utils/helpers';
+import setupStepCheck from '@/utils/setupStepCheck';
 
 export default function InnerDashboardPage() {
+  setupStepCheck('light');
+  
   const router = useRouter();
   const { activeCompany } = useCompany();
   const { mergedAffiliateDetails } = useAffiliate();

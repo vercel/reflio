@@ -2,8 +2,11 @@ import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
 import { useCampaign } from '@/utils/CampaignContext';
 import LoadingDots from '@/components/LoadingDots';
+import setupStepCheck from '@/utils/setupStepCheck';
 
 export const SetupProgress = (props) => {
+  setupStepCheck('light');
+
   const router = useRouter();
   const { activeCompany } = useCompany();
   const { userCampaignDetails } = useCampaign();
@@ -50,7 +53,7 @@ export const SetupProgress = (props) => {
                   {step.status === 'complete' ? (
                     <a
                       href={step.href}
-                      className="group pl-4 py-2 flex flex-col border-l-4 border-green-500 hover:border-green-600 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-8"
+                      className="group pl-4 py-2 flex flex-col border-l-4 border-green-500 hover:border-green-600 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-[12px]"
                     >
                       <span className="text-xs font-semibold tracking-wide uppercase">
                         {step.id}
@@ -60,7 +63,7 @@ export const SetupProgress = (props) => {
                   ) : step.href === router?.asPath ? (
                     <a
                       href={step.href}
-                      className="pl-4 py-2 flex flex-col border-l-4 border-primary md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-8"
+                      className="pl-4 py-2 flex flex-col border-l-4 border-primary md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-[12px]"
                       aria-current="step"
                     >
                       <span className="text-xs font-semibold tracking-wide uppercase">{step.id}</span>
@@ -69,7 +72,7 @@ export const SetupProgress = (props) => {
                   ) : (
                     <a
                       href={step.href}
-                      className="group pl-4 py-2 flex flex-col border-l-4 border-gray-200 hover:border-gray-300 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-8"
+                      className="group pl-4 py-2 flex flex-col border-l-4 border-gray-300 hover:border-gray-400 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-[12px]"
                     >
                       <span className="text-xs text-gray-500 font-semibold tracking-wide uppercase group-hover:text-gray-700">
                         {step.id}

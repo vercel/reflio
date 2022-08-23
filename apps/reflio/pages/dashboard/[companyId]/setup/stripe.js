@@ -19,7 +19,8 @@ export default function StripeSetupPage() {
       </div>
       <div className="pt-12 mb-6">
         <div className="wrapper">
-          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold">Connect your Stripe account</h1>
+          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Firstly, connect your Stripe account</h1>
+          <p className="text-base"><strong>NOTE: Reflio does not store any of your private Stripe information.</strong> When you receive a successful payment via Stripe, Stripe will send us data about that transaction. With that data, we look to see if there is an associated Reflio referral ID in the transaction metadata. If there is, we then calculate the referral commission value based on the paid transaction value.</p>
         </div>
       </div>
       <div className="wrapper">
@@ -50,7 +51,7 @@ export default function StripeSetupPage() {
                   href={`https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&scope=read_write`}
                   target="_blank" rel="noreferrer"
                 >
-                  <StripeConnect className="w-52 h-auto"/>
+                  <StripeConnect className="w-60 h-auto"/>
                 </a>
               </div>
           }
