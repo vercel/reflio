@@ -40,13 +40,13 @@ export default function Index() {
                 <div className="space-y-2 sm:flex sm:items-center sm:justify-center sm:space-x-2 sm:space-y-0">
                   <Button
                     mobileFull
-                    large
+                    xlarge
                     primary
                     href="/signup"
                   >
                     <span>Get Started for Free</span>
                   </Button>
-                  <Button
+                  {/* <Button
                     mobileFull
                     large
                     secondary
@@ -55,7 +55,7 @@ export default function Index() {
                   >
                     <Github className="h-5 w-auto mr-2"/>
                     <span>Star on GitHub</span>
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
               <div className="mt-10 text-sm flex flex-col lg:flex-row space-y-3 lg:space-y-0 items-center justify-between max-w-lg mx-auto">
