@@ -49,7 +49,7 @@ export default function TrackingSetupPage() {
             </div>
             <div className="mb-5">
               <h3 className="text-xl font-semibold mb-1">Step 2: Tracking the referral</h3>
-              <p className="text-lg mb-5">To track a referral on your website, you need to run the below function when you are first creating the user. This process usually happens on your sign up page. <strong>You should do this for every sign up to make sure you catch all valid referrals. It doesn't matter if you send every single sign up to Reflio; our system will only save users who signed up after visiting a referral link, and has a valid cookie in their browser.</strong></p>
+              <p className="text-lg mb-5">To track a referral on your website, you need to run the below function when you are first creating the user. This process usually happens on your sign up page. <strong>You should do this for every sign up to make sure you catch all valid referrals. It doesn&rsquo;t matter if you send every single sign up to Reflio; our system will only save users who signed up after visiting a referral link, and has a valid cookie in their browser.</strong></p>
               <div className="w-full rounded-xl text-lg overflow-hidden shadow-lg">
                 <CopyBlock
                   text={scriptCode}
