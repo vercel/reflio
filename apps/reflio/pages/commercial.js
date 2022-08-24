@@ -19,7 +19,7 @@ export const Terms = () => {
 
   return(
     <>
-      <SEOMeta title="Terms & Conditions"/>
+      <SEOMeta title="Commercial"/>
       <div className="content-block">
           <div className="max-w-5xl mx-auto px-6">
             <div>

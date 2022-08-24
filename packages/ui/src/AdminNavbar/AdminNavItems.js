@@ -32,8 +32,7 @@ export const AdminNavItems = () => {
     { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: ChartBarIcon },
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
     { name: 'Company Settings', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon },
-    { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon },
-    { name: 'My Team', href: `/dashboard/team`, icon: UserGroupIcon }
+    { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon }
   ];
 
   const secondaryNavigation = [

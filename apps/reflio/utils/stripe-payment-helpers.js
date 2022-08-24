@@ -3,7 +3,7 @@ import { stripe } from './stripe';
 
 export const invoicePayment = async(referralData, stripeId, referralId, paymentIntent, invoiceId) => {  
   const invoice = await stripe.invoices.retrieve(
-    invoiceId !== null ? invoiceId : paymentIntent?.data[0]?.invoice,
+    invoiceId !== null ? invoiceId : paymentIntent?.invoice,
     {stripeAccount: stripeId}
   );
   
@@ -94,7 +94,7 @@ export const invoicePayment = async(referralData, stripeId, referralId, paymentI
 export const chargePayment = async(referralData, stripeId, referralId, paymentIntent) => {
   console.log('----CHARGE PAYMENT FUNC ----');
   
-  let validCharges = paymentIntent?.data[0]?.charges?.data?.filter(charge => charge?.amount_captured > 0);
+  let validCharges = paymentIntent?.charges?.data?.filter(charge => charge?.amount_captured > 0);
 
   if(validCharges?.length === 0) {
     return  "no_valid_charges";
@@ -108,7 +108,7 @@ export const chargePayment = async(referralData, stripeId, referralId, paymentIn
 
   //----CALCULATE REUNDS----
   const refunds = await stripe.refunds.list({
-    payment_intent: paymentIntent?.data[0]?.id,
+    payment_intent: paymentIntent?.id,
     limit: 100,
   }, {
     stripeAccount: stripeId
@@ -147,7 +147,7 @@ export const chargePayment = async(referralData, stripeId, referralId, paymentIn
       campaign_id: referralData?.data?.campaign_id,
       affiliate_id: referralData?.data?.affiliate_id,
       referral_id: referralData?.data?.referral_id,
-      payment_intent_id: paymentIntent?.data[0]?.id,
+      payment_intent_id: paymentIntent?.id,
       commission_sale_value: chargeTotal,
       commission_total: commissionAmount,
       commission_due_date: dueDateIso,
@@ -157,14 +157,14 @@ export const chargePayment = async(referralData, stripeId, referralId, paymentIn
     if(newCommissionValues?.data){
       //Add parameter to Stripe payment intent
       await stripe.paymentIntents.update(
-        paymentIntent?.data[0]?.id,
+        paymentIntent?.id,
         {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
         {stripeAccount: stripeId}
       );
 
       //Add parameter to Stripe payment intent
       await stripe.paymentIntents.update(
-        paymentIntent?.data[0]?.customer,
+        paymentIntent?.customer,
         {metadata: {reflio_referral_id: newCommissionValues?.data[0]?.referral_id}},
         {stripeAccount: stripeId}
       );

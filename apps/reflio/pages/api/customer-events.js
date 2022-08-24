@@ -2,7 +2,8 @@ import { stripe } from '@/utils/stripe';
 import {
   deleteIntegrationFromDB,
   editCommission,
-  findCommission
+  createCommission,
+  updateCustomer
 } from 'utils/stripe-helpers';
 import { withSentry } from '@sentry/nextjs';
 
@@ -29,7 +30,8 @@ const relevantEvents = new Set([
   'charge.succeeded',
   'charge.refunded',
   'charge.refund.updated',
-  'charge.updated'
+  'charge.updated',
+  'customer.created'
 ]);
 
 const customerEvents = async (req, res) => {
@@ -60,7 +62,10 @@ const customerEvents = async (req, res) => {
             await editCommission(event);
             break;
           case 'charge.succeeded':
-            await findCommission(event);
+            await createCommission(event);
+            break;
+          case 'customer.created':
+            await updateCustomer(event);
             break;
           case 'account.application.deauthorized':
             if(event.data.object?.name === 'Reflio'){

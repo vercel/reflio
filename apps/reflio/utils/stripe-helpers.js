@@ -3,56 +3,124 @@ import { stripe } from './stripe';
 import { invoicePayment, chargePayment } from './stripe-payment-helpers';
 import { monthsBetweenDates } from './helpers';
 
-export const createCommission = async(referralData, stripeId, referralId, email) => {
-  const customer = await stripe.customers.list({
-    email: email,
-    limit: 1,
-  }, {
-    stripeAccount: stripeId
-  });
+export const createCommission = async(data) => {
+  let paymentData = data?.data?.object ? data?.data?.object : null;
+  let referralId = null;
 
-  //Payment intent flow
-  if(customer?.data?.length){
+  console.log('1')
+
+  //Get customer object from payment data customer ID
+  const customer = await stripe.customers.retrieve(
+    paymentData?.customer,
+    {stripeAccount: data?.account}
+  );
+
+  console.log('4')
+
+  //Check if customer has a referral ID
+  if(customer?.metadata?.reflio_referral_id){
+    referralId = customer?.metadata?.reflio_referral_id;
+
+    console.log('5')
+
+    //If customer doesn't have a referral ID... check if the payment object does
+  } else if(paymentData?.metadata?.reflio_referral_id){
+    referralId = paymentData?.metadata?.reflio_referral_id;
+
+    console.log('6')
+
+    //Update customer with referral ID
     await stripe.customers.update(
-      customer?.data[0]?.id,
-      {metadata: {reflio_referral_id: referralData?.data?.referral_id}},
-      {stripeAccount: stripeId}
+      customer?.id,
+      {metadata: {reflio_referral_id: paymentData?.metadata?.reflio_referral_id}},
+      {stripeAccount: data?.account}
+    );
+  }
+
+  //Check if referral ID exists before continuing
+  if(referralId){
+
+    console.log('7')
+
+    //Check if paymentIntent exists
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      paymentData?.payment_intent,
+      {stripeAccount: data?.account}
     );
 
-    if(customer?.data[0]?.email === email){
-      const paymentIntent = await stripe.paymentIntents.list({
-        customer: customer?.data[0]?.id,
-        limit: 1,
-      }, {
-        stripeAccount: stripeId
-      });
+    //If there's no payment intent... back out
+    if(!paymentIntent){
+      return "no_payment_intent_found";
+    }
 
-      if(paymentIntent?.data?.length && paymentIntent?.data[0]?.metadata?.reflio_commission_id){
-        //Check DB and make sure that the commission is still valid and exists.
-        let commissionFromId = await supabaseAdmin
-          .from('commissions')
-          .select('commission_id, paid_at')
-          .eq('commission_id', paymentIntent?.data[0]?.metadata?.reflio_commission_id)
-          .single();
+    //Check if payment intent already has a commission associated with it
+    if(paymentIntent?.metadata?.reflio_commission_id){
+      return "commission_exists";
+    }
 
-        if(commissionFromId?.data !== null){
-          return "commission_exists"
+    console.log('8')
+    
+    //Check if referral is valid in DB
+    let referralFromId = await supabaseAdmin
+      .from('referrals')
+      .select('*')
+      .eq('referral_id', referralId)
+      .single();
+    
+    console.log('9')
+      
+    //If referral is valid, continue
+    if(referralFromId?.data !== null){
+
+      let continueProcess = true;
+
+      console.log('10')
+
+      //Check if there is an earlier commission with the same referral ID... if so, check if payment limit has been reached
+      let earliestCommission = await supabaseAdmin
+        .from('commissions')
+        .select('created')
+        .eq('referral_id', referralId)
+        .order('created', { ascending: true })
+        .limit(1)
+
+      if(earliestCommission?.data !== null){
+        console.log('11')
+
+        let commissionFound = earliestCommission?.data[0];
+
+        if(commissionFound?.created){
+          let stripeDateConverted = new Date(paymentData?.created * 1000);
+          let earliestCommissionDate = new Date(commissionFound?.created);
+          let monthsBetween = monthsBetweenDates(stripeDateConverted, earliestCommissionDate);
+
+          if(referralFromId?.data?.commission_period < monthsBetween){
+            continueProcess = false;
+          }
         }
       }
 
-      if(paymentIntent?.data[0]?.invoice){
-        await invoicePayment(referralData, stripeId, referralId, paymentIntent, null);
-        return "success";
-
-      } else if(paymentIntent?.data[0]?.charges){
-        await chargePayment(referralData, stripeId, referralId, paymentIntent);
-        return "success";
-
-      } else {
-        return "commission_payment_calculation_error";
+      if(continueProcess === true){
+        console.log('12');
+        
+        if(paymentIntent?.invoice){
+          await invoicePayment(referralFromId, data?.account, referralId, paymentIntent, null);
+          console.log('13-A')
+          return "success";
+    
+        } else if(paymentIntent?.charges){
+          await chargePayment(referralFromId, data?.account, referralId, paymentIntent);
+          console.log('12-B')
+          return "success";
+    
+        } else {
+          return "commission_payment_calculation_error";
+        }
       }
     }
   }
+
+  console.log('14')
 
   return "error";
 };
@@ -190,4 +258,39 @@ export const deleteIntegrationFromDB = async (stripeId) => {
   })
   .eq({ stripe_id: stripeId })
   if (error) return "error";
+};
+
+//Updates customer with referral ID meta info if referral exists with customer email
+export const updateCustomer = async (data) => {
+  let customerData = data?.data?.object ? data?.data?.object : null;
+
+  if(!customerData?.email || customerData?.email === null){
+    return "no_customer_email";
+  }
+
+  //Check if referral exists with customer email
+  let referralFromCustomerEmail = await supabaseAdmin
+    .from('referrals')
+    .select('*')
+    .eq('referral_reference_email', customerData?.email)
+    .order('created', { ascending: true })
+    .limit(1)
+
+  console.log("FINDING CUSTOMER!!!!")
+  console.log(referralFromCustomerEmail);
+
+  if(referralFromCustomerEmail?.data !== null){
+    let foundReferral = referralFromCustomerEmail?.data[0];
+
+    //Update customer with referral ID
+    await stripe.customers.update(
+      customerData?.id,
+      {metadata: {reflio_referral_id: foundReferral?.referral_id}},
+      {stripeAccount: data?.account}
+    );
+
+    return "success";
+  }
+
+  return "error";
 };
