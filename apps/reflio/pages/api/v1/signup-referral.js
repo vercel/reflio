@@ -1,4 +1,4 @@
-import { convertReferral } from '@/utils/useDatabase';
+import { referralSignup } from '@/utils/useDatabase';
 import Cors from 'cors';
 import { withSentry } from '@sentry/nextjs';
 
@@ -21,7 +21,7 @@ function runMiddleware(req, res, fn) {
   })
 }
 
-const referralConvert = async (req, res) => {
+const sigupReferral = async (req, res) => {
 
   // Run the middleware
   await runMiddleware(req, res, cors);
@@ -34,18 +34,18 @@ const referralConvert = async (req, res) => {
   }
 
   try {
-    if(body?.referralId && body?.campaignId && body?.affiliateId && body?.cookieDate && body?.email){
-      const convert = await convertReferral(body?.referralId, body?.campaignId, body?.affiliateId, body?.cookieDate, body?.email);
-      return res.status(200).json({ conversion_details: convert }); 
+    if(body?.referralId && body?.cookieDate && body?.email){
+      const signup = await referralSignup(body?.referralId, body?.cookieDate, body?.email);
+      return res.status(200).json({ conversion_details: signup }); 
     }
 
-    return res.status(500).json({ statusCode: 500, verified: false });
+    return res.status(500).json({ statusCode: 500, verified: false, donkey: true });
 
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: { statusCode: 500, verified: false } });
+    return res.status(500).json({ error: { statusCode: 500, verified: false, donkey: false } });
 
   }
 };
 
-export default process.env.SENTRY_AUTH_TOKEN ? withSentry(referralConvert) : referralConvert;
+export default process.env.SENTRY_AUTH_TOKEN ? withSentry(sigupReferral) : sigupReferral;

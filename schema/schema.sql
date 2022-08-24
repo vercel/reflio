@@ -198,6 +198,7 @@ create table referrals (
   affiliate_code text,
   campaign_id text references campaigns,
   company_id text references companies,
+  referral_reference_email text default null,
   commission_type text,
   commission_value integer,
   cookie_window integer default 60,

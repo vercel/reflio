@@ -125,6 +125,9 @@ export default function CampaignInvite() {
                     </div>
                   </>
                 </div>
+                <div className="mt-12">
+                  <p className="text-sm text-gray-500">{publicCampaignData?.campaign_name} is powered by <a target="_blank" className="font-semibold underline" href={`https://reflio.com?ref=${publicCampaignData?.campaign_name}`} rel="noreferrer">Reflio</a></p>
+                </div>
               </div>
             : 
               <div>

@@ -8,6 +8,10 @@ export const Card = (props) => {
     styles = styles + ' bg-white border-gray-200';
   }
 
+  if(props.className){
+    styles = styles + ' ' + props.className;
+  }
+
   return(
     <div className={styles}>
       <div className="p-6 sm:p-8">

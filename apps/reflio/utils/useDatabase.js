@@ -1,7 +1,6 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
 import { toDateTime, LogSnagPost } from './helpers';
-import { createCommission } from './stripe-helpers';
 
 // This entire file should be removed and moved to supabase-admin
 // It's not a react hook, so it shouldn't have useDatabase format
@@ -360,7 +359,7 @@ export const campaignInfo = async (code, companyId) => {
   return campaignData;
 };
 
-export const convertReferral = async (referralId, campaignId, affiliateId, cookieDate, email) => {
+export const referralSignup = async (referralId, cookieDate, email) => {
   let referralData = await supabaseAdmin
     .from('referrals')
     .select('*')
@@ -377,6 +376,16 @@ export const convertReferral = async (referralId, campaignId, affiliateId, cooki
       return "expired";
     }
 
+    //Add email to referral object
+    await supabaseAdmin
+      .from('referrals')
+      .update({
+        referral_reference_email: email,
+      })
+      .eq('referral_id', referralId);
+
+    await LogSnagPost('referral-registered', `New referral registered for campaign ${referralData?.data?.campaign_id}`);
+    
     //Get stripe ID from company
     let companyData = await supabaseAdmin
       .from('companies')
@@ -385,12 +394,24 @@ export const convertReferral = async (referralId, campaignId, affiliateId, cooki
       .single();
 
     if(companyData?.data?.stripe_id){  
-      const commission = await createCommission(referralData, companyData?.data?.stripe_id, referralData?.data?.referral_id, email);
+      const customer = await stripe.customers.list({
+        email: email,
+        limit: 1,
+      }, {
+        stripeAccount: companyData?.data?.stripe_id
+      });
 
-      await LogSnagPost('referral-converted', `New referral converted for campaign ${campaignData?.campaign_id}`);
+      if(customer?.data?.length){
+        await stripe.customers.update(
+          customer?.data[0]?.id,
+          {metadata: {reflio_referral_id: referralData?.data?.referral_id}},
+          {stripeAccount: companyData?.data?.stripe_id}
+        );
+      }
 
-      return commission;
     }
+
+    return referralData?.data;
   }
 
   return "error";

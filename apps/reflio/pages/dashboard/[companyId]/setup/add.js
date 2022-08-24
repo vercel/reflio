@@ -13,7 +13,7 @@ export default function TrackingSetupPage() {
 
   const scriptCode = 
   `<script type="text/javascript">
-    await Reflio.convert('yourcustomer@email.com')
+    await Reflio.signup('yourcustomer@email.com')
 </script>`
   
   return (
@@ -30,12 +30,12 @@ export default function TrackingSetupPage() {
         </div>
       </div>
       <div className="wrapper">
-        <div className="grid grid-cols-1 space-y-3 md:grid-cols-2 md:space-y-0 md:space-x-3">
-          <Card>
+        <div className="grid grid-cols-1 space-y-3 md:grid-cols-12 md:space-y-0 md:space-x-4">
+          <Card className="lg:col-span-6 xl:col-span-8 max-w-4xl">
             <h2 className="text-3xl font-semibold mb-5">Manual setup</h2>
             <div className="mb-5">
-              <h3 className="text-xl font-semibold">Step 1: Installing the snippet on your website</h3>
-              <p className="text-lg mb-2">Paste the following JavaScript snippet into your website&apos;s <code className="text-lg tracking-tight font-bold text-pink-500">{`<head>`}</code> tag</p>
+              <h3 className="text-xl font-semibold mb-1">Step 1: Installing the snippet on your website</h3>
+              <p className="text-lg mb-5">Paste the following JavaScript snippet into your website&apos;s <code className="text-lg tracking-tight font-bold text-pink-500">{`<head>`}</code> tag</p>
               <div className="w-full rounded-xl text-lg overflow-hidden shadow-lg">
                 <CopyBlock
                   text={embedCode}
@@ -47,9 +47,9 @@ export default function TrackingSetupPage() {
                 /> 
               </div>
             </div>
-            <div className="mb-10">
-              <h3 className="text-xl font-semibold">Step 2: Tracking the conversion</h3>
-              <p className="text-lg mb-2">To track a referral conversion your website, you need to run the below function when you are creating the Stripe customer. This process usually happens on a thank you page, via the Stripe API in your backend or some other callback that occurs after the Stripe checkout has been completed.</p>
+            <div className="mb-5">
+              <h3 className="text-xl font-semibold mb-1">Step 2: Tracking the referral</h3>
+              <p className="text-lg mb-5">To track a referral on your website, you need to run the below function when you are first creating the user. This process usually happens on your sign up page. <strong>You should do this for every sign up to make sure you catch all valid referrals. It doesn't matter if you send every single sign up to Reflio; our system will only save users who signed up after visiting a referral link, and has a valid cookie in their browser.</strong></p>
               <div className="w-full rounded-xl text-lg overflow-hidden shadow-lg">
                 <CopyBlock
                   text={scriptCode}
@@ -61,6 +61,7 @@ export default function TrackingSetupPage() {
               </div>
             </div>
             <div>
+              <p className="text-lg mb-8">Reflio will automatically add the referral ID to an existing Stripe customer with the same email address, or later if the Stripe customer is created at a different time. When the user converts to a paying customer, Reflio will automatically create a commission if there was an eligible referral ID associated with that user.</p>
               <Button
                 large
                 primary
@@ -71,6 +72,7 @@ export default function TrackingSetupPage() {
             </div>
           </Card>
           <Card 
+            className="lg:col-span-6 xl:col-span-4"
             secondary
           >
             <span className="text-sm font-semibold uppercase py-1 px-3 bg-white rounded-xl mb-2 inline-block">Free whilst in Beta</span>

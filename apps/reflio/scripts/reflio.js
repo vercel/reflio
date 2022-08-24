@@ -1,4 +1,7 @@
-const ReflioDomainRoot = 'https://reflio.com';
+let ReflioDomainRoot = 'https://reflio.com';
+if(window.location.href.includes('reflioTestingMode=true')){
+  ReflioDomainRoot = 'http://localhost:3000';
+}
 const ReflioAPIRoot = ReflioDomainRoot+'/api/v1';
 const rootDomain = window.location.host;
 const queryString = window.location.search;
@@ -18,6 +21,7 @@ class rfl {
       domains: reflioInnerScript.getAttribute("data-domains") ? reflioInnerScript.getAttribute("data-domains") : null,
       hidePopup: reflioInnerScript.getAttribute("hidePopup") ? true : false,
       privacyCompliance: reflioInnerScript.getAttribute("privacyCompliance") ? true : false,
+      apiUrl: ReflioAPIRoot
     })
   }
   async checkDomainVerification(){
@@ -28,7 +32,7 @@ class rfl {
   async impression(referralCode, companyId){
     if(!referralCode || !companyId) console.warn("Reflio: could not track impression. Referral code / companyId not found.");
     
-    return await fetch(ReflioAPIRoot+'/record-impression', {
+    return await fetch(ReflioAPIRoot+'/record-referral', {
       method: 'POST',
       body: JSON.stringify({
         referralCode: referralCode,
@@ -390,18 +394,16 @@ class rfl {
       });
     }
   }
-  async convert(email){
-    if(!email || Reflio.checkCookie() === null || !Reflio.checkCookie().referral_id || !Reflio.checkCookie().campaign_id || !Reflio.checkCookie().affiliate_id || !Reflio.checkCookie().cookie_date){
-      console.warn("Reflio: Conversion could not be tracked.")
+  async signup(email){
+    if(!email || Reflio.checkCookie() === null || !Reflio.checkCookie().referral_id || !Reflio.checkCookie().cookie_date){
+      console.warn("Reflio: Signup could not be tracked.")
       return false;
     }
     
-    const convertData = await fetch(ReflioAPIRoot+'/convert-referral', {
+    const convertData = await fetch(ReflioAPIRoot+'/signup-referral', {
       method: 'POST',
       body: JSON.stringify({
         referralId: Reflio.checkCookie().referral_id,
-        campaignId: Reflio.checkCookie().campaign_id,
-        affiliateId: Reflio.checkCookie().affiliate_id,
         cookieDate: Reflio.checkCookie().cookie_date,
         email: email
       }),
