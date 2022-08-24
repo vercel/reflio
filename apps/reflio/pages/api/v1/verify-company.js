@@ -34,7 +34,7 @@ const verifyCompany = async (req, res) => {
     filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
 
   } else {
-    return res.status(500).json({ statusCode: 500, referer: false });
+    return res.status(500).json({ statusCode: 500, referer: false, headers: headers });
   }
 
   try {
