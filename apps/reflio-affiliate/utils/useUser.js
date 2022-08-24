@@ -105,9 +105,6 @@ export const paypalEmail = async (id, email) => {
       paypal_email: email,
     })
     .match({ id: id })
-    
-    console.log(data);
-    console.log(error);
 
     if (error) {
       return "error";

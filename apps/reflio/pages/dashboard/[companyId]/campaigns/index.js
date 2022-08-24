@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/solid';
 import { generateInviteUrl, priceString, priceStringDivided } from 'utils/helpers';
 import setupStepCheck from '@/utils/setupStepCheck';
+import DueCommissions from '@/components/DueCommissions'; 
 
 export default function CampaignsPage() {
   setupStepCheck('light');
@@ -34,10 +35,8 @@ export default function CampaignsPage() {
           </Button>
         </div>
       </div>
-      {/* <div className="mb-12">
-        <LoadingDots/>
-      </div> */}
       <div className="wrapper">
+        <DueCommissions className="mb-6"/>
         {
           activeCompany && userCampaignDetails ?
             userCampaignDetails !== null && userCampaignDetails?.length > 0 ?
