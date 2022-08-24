@@ -1,6 +1,6 @@
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
 
-export const PricingFeatures = ({ productName }) => {
+export const PricingFeatures = ({ productName, normal }) => {
 
   if(!productName) return false;
 
@@ -107,10 +107,10 @@ export const PricingFeatures = ({ productName }) => {
             <li key={index} className={`${feature.type === 'ineligible' && 'opacity-50'} flex space-x-2`}>
               {
                 feature.type === 'eligible' ?
-                  <CheckIcon className={`${capitalizedName === "Pro" ? 'text-white' : 'text-green-600'} h-6 w-6`}/>
-                : <XIcon className={`${capitalizedName === "Pro" ? 'text-white' : 'text-gray-500'} h-6 w-6`}/>
+                  <CheckIcon className={`${capitalizedName === "Pro" && !normal ? 'text-white' : 'text-green-600'} h-6 w-6`}/>
+                : <XIcon className={`${capitalizedName === "Pro" && !normal ? 'text-white' : 'text-gray-500'} h-6 w-6`}/>
               }
-              <span className={`${capitalizedName === "Pro" ? 'text-white' : 'text-gray-500'} text-base`}>{feature.text}</span>
+              <span className={`${capitalizedName === "Pro" && !normal ? 'text-white' : 'text-gray-500'} text-base`}>{feature.text}</span>
             </li>
           )
         })

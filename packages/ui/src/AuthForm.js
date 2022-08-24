@@ -146,8 +146,10 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
           </div> */}
 
           {message.content && (
-            <div className={`${message.type === 'error' ? 'bg-red-500 border-red-600 text-white' : 'bg-gray-200 border-gray-300' } border-4 p-4 rounded-xl text-center text-lg`}>
-              {message.content === 'Signups not allowed for otp' ? 'We could not find an account with this email address.' : message.content}
+            <div>
+              <div className={`${message.type === 'error' ? 'bg-red-500 border-red-600 text-white' : 'bg-gray-200 border-gray-300' } border-4 p-4 rounded-xl text-center text-lg mt-8`}>
+                {message.content === 'Signups not allowed for otp' ? 'We could not find an account with this email address.' : message.content}
+              </div>
             </div>
           )}
         </form>
