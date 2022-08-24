@@ -46,15 +46,16 @@ const verifyCompany = async (req, res) => {
 
       if(projectVerify === "success"){
         return res.status(200).json({ verified: true }); 
+      } else {
+        return res.status(500).json({ error: projectVerify });
       }
-
     }
 
-    return res.status(500).json({ statusCode: 500, verified: false });
+    return res.status(500).json({ statusCode: 500, verified: false, referer: filteredReferer });
 
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: { statusCode: 500, verified: false } });
+    return res.status(500).json({ error: { statusCode: 500, verified: false, referer: filteredReferer } });
 
   }
 };

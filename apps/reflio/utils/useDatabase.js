@@ -191,21 +191,18 @@ export const getCompanyFromExternal = async (domain) => {
       companyData = data[0];
     }
 
-    if (error) return "error";
+    if (error) return "error getting company";
 
   if(companyData?.domain_verified === false){
 
     let { error } = await supabaseAdmin
     .from('companies')
     .update({
-      domain_verified: true,
+      domain_verified: true
     })
     .eq('company_id', companyData?.company_id);
 
-    console.log('error here 2');
-    console.log(error);
-
-    if (error) return "error";
+    if (error) return "error updating company";
   }
 
   return "success";
