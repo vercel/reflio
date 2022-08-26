@@ -109,9 +109,9 @@ class rfl {
           let baseUrl = new URL(link.href);
 
           if(baseUrl.origin !== Reflio.details().rootDomain){
-            Reflio.details().domains.split(',').map(domain => {
-              if(baseUrl.origin == domain.trim()){
-                
+            Reflio.details().domains.split(',').map(domain => {              
+              if(baseUrl.origin === domain.trim()){
+              
                 let searchParams = baseUrl.searchParams;
                 
                 searchParams.set('referral', Reflio.checkCookie()?.referral_id);
@@ -452,9 +452,9 @@ if(Reflio.consentRequired() === false && Reflio.cookieEligible() === true){
 }
 
 //On load, check for external links etc
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", function() {
   Reflio.checkForOtherDomains();
-};
+});
 
 //Initially activate the function to check if already scrolled past 33% of the page.
 activatePopup();
