@@ -3,7 +3,7 @@ if(window.location.href.includes('reflioTestingMode=true')){
   ReflioDomainRoot = 'http://localhost:3000';
 }
 const ReflioAPIRoot = ReflioDomainRoot+'/api/v1';
-const rootDomain = window.location.host;
+const rootDomain = window.location.origin;
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const reflioVerifyParam = urlParams.get("reflioVerify");
