@@ -109,7 +109,7 @@ class rfl {
           let baseUrl = new URL(link.href);
 
           if(baseUrl.origin !== Reflio.details().rootDomain){
-            Reflio.details().domains.split(',').map(domain => {              
+            Reflio.details().domains.replace(/”/g, '').split(',').map(domain => {              
               if(baseUrl.origin === domain.trim()){
               
                 let searchParams = baseUrl.searchParams;
