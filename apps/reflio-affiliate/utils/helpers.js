@@ -160,3 +160,16 @@ export const priceStringDivided = (price, currency) => {
 
   return string;
 }
+
+export const checkUTCDateExpired = (UTCDate) => {
+  let dateToday = new Date();
+  let dateTodayTimestamp = dateToday.getTime();
+  let UTCDateConverted = new Date(UTCDate);
+  let UTCDateConvertedTimestamp = UTCDateConverted.getTime();
+
+  if(dateTodayTimestamp > UTCDateConvertedTimestamp){
+    return true;
+  } else {
+    return false;
+  }
+};
