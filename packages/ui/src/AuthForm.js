@@ -30,9 +30,7 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
     setLoading(true);
     setMessage({});
 
-    let funcType = signIn({ email }, {shouldCreateUser: type === "signin" ? false : true, redirectTo: `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`})
-
-    const { error } = await funcType;
+    const { error } = await signIn({ "email": email, "shouldCreateUser": type === "signin" ? false : true, "redirectTo": `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`});
     if(error){
       setMessage({ type: 'error', content: error.message });
     } else {
@@ -50,14 +48,14 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
     setLoading(false);
   };
 
-  const handleOAuthSignIn = async (provider) => {
-    setLoading(true);
-    const { error } = await signIn({ provider });
-    if (error) {
-      setMessage({ type: 'error', content: error.message });
-    }
-    setLoading(false);
-  };
+  // const handleOAuthSignIn = async (provider) => {
+  //   setLoading(true);
+  //   const { error } = await signIn({ provider });
+  //   if (error) {
+  //     setMessage({ type: 'error', content: error.message });
+  //   }
+  //   setLoading(false);
+  // };
 
   return(
     <div className="flex items-center justify-center px-4">

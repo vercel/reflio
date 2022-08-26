@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/outline';
 
 export const AdminNavItems = () => {
-  const { signOut, planDetails } = useUser();
+  const { signOut } = useUser();
   const router = useRouter();
 
   const navigation = [

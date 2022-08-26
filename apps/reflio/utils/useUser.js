@@ -80,7 +80,7 @@ export const UserContextProvider = (props) => {
     subscription,
     userFinderLoaded,
     planDetails,
-    signIn: (options) => supabase.auth.signIn(options),
+    signIn: (options) => supabase.auth.signIn({email: options.email}, {shouldCreateUser: options.shouldCreateUser, redirectTo: options.redirectTo}),
     signUp: (options) => supabase.auth.signUp(options, {redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`}),
     forgotPassword: (email) => supabase.auth.api.resetPasswordForEmail(email),
     signOut: () => {
