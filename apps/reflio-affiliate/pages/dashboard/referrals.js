@@ -21,9 +21,7 @@ const ReferralsPage = () => {
         token: session.access_token
       });
 
-      if(referralsData?.length > 0){
-        setReferrals(referralsData);
-      }
+      setReferrals(referralsData);
       
     } catch (error) {
       console.log(error)
@@ -44,7 +42,7 @@ const ReferralsPage = () => {
       <div className="mb-8">
         <div className="pt-10 wrapper">
           <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
-          <p>Referrals are tracked when a cookie has been successfully placed on the users device.</p>
+          <p>Referrals are tracked when a cookie has been successfully placed on the users device. This is tracked initially as a <strong>"Link visit"</strong>. If the user signs up, this will change to <strong>"Signed up"</strong>, and if they purchase a plan the status will change to <strong>"Converted"</strong>.</p>
         </div>
       </div>
       <div className="wrapper">
