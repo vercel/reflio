@@ -106,9 +106,12 @@ class rfl {
     if(Reflio.details().domains && Reflio.checkCookie() !== null){
       if(Reflio.details().domains?.includes(",")){
         document.querySelectorAll("[href]").forEach(link => {
+          let baseUrl = new URL(link.href);
+
+          if(baseUrl.origin !== Reflio.details().rootDomain){
             Reflio.details().domains.split(',').map(domain => {
-              if(link.href?.includes(domain.trim()) && !link.href.includes(Reflio.details().rootDomain)){
-                let baseUrl = new URL(link.href);
+              if(baseUrl.origin == domain.trim()){
+                
                 let searchParams = baseUrl.searchParams;
                 
                 searchParams.set('referral', Reflio.checkCookie()?.referral_id);
@@ -120,6 +123,7 @@ class rfl {
                 link.href = newUrl;
               }
             })
+          }
         });
       }
 
