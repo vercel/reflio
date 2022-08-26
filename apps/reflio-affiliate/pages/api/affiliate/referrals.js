@@ -1,7 +1,7 @@
 import { getUser } from '@/utils/supabase-admin';
-import { getAffiliatePrograms } from '@/utils/useDatabase';
+import { getAffiliateReferrals } from '@/utils/useDatabase';
 
-const affiliatePrograms = async (req, res) => {
+const affiliateReferrals = async (req, res) => {
   if (req.method === 'POST') {
     const token = req.headers.token;
 
@@ -10,9 +10,9 @@ const affiliatePrograms = async (req, res) => {
 
       if(user){
 
-        const {affilateData} = await getAffiliatePrograms(user?.id);
+        const { referralsData } = await getAffiliateReferrals(user?.id);
 
-        return res.status(200).json({ affilateData });
+        return res.status(200).json({ referralsData });
 
       } else {
         res.status(500).json({ error: { statusCode: 500, message: 'Not a valid UUID' } });
@@ -29,4 +29,4 @@ const affiliatePrograms = async (req, res) => {
   }
 };
 
-export default affiliatePrograms;
+export default affiliateReferrals;

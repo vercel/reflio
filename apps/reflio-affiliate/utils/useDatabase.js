@@ -13,7 +13,6 @@ export const getAffiliatePrograms = async (userId) => {
   }
 
   let affilateData = data;
-  let referralsData = null;
 
   if(data && data.length > 0){
     await Promise.all(affilateData?.map(async (item) => {
@@ -85,21 +84,10 @@ export const getAffiliatePrograms = async (userId) => {
           item['commissions_value'] = commissionValue > 0 ? commissionValue : 0;
         }  
       }));
-
-      let referralsQuery = await supabaseAdmin
-        .from('referrals')
-        .select('*')
-        .eq('affiliate_id', affilateData[0]?.affiliate_id)
-  
-      if(referralsQuery?.data !== null){
-        referralsData = referralsQuery?.data;
-      }  
     }
-
-    return {affilateData, referralsData};
   }
 
-  return {affilateData, referralsData};
+  return {affilateData};
 };
 
 //Get user campaigns
@@ -284,4 +272,68 @@ export const changeReferralCode = async (userId, affiliateId, companyId, code) =
     } else {
       return "success";
     }
+};
+
+
+//Get user referrals
+export const getAffiliateReferrals = async (userId) => {
+  let referralsData = [];
+
+  let campaigns = await supabaseAdmin
+    .from('affiliates')
+    .select(`
+        campaign:campaign_id (campaign_name),
+        company:company_id (company_currency),
+        campaign_id,
+        affiliate_id
+      `, 
+    )
+    .eq('invited_user_id', userId)
+    .order('created', { ascending: false })
+
+  if(campaigns?.data !== null){
+    await Promise.all(campaigns?.data?.map(async (item) => {
+      let { data } = await supabaseAdmin
+        .from('referrals')
+        .select('*')
+        .eq('affiliate_id', item?.affiliate_id)
+        .order('created', { ascending: false })
+
+      if(data){
+        data?.map((referral) => {
+          if(item?.company?.company_currency){
+            referral.company_currency = item?.company?.company_currency;
+          }
+          if(item?.campaign?.campaign_name){
+            referral.campaign_name = item?.campaign?.campaign_name;
+          }
+          referralsData.push(referral);
+        })
+      }
+    }));
+  }
+  
+  // let query = supabaseAdmin
+  //   .from('referrals')
+  //   .select(`
+  //       *,
+  //       campaign:campaign_id (campaign_name),
+  //       affiliate:affiliate_id (details:invited_user_id(email))
+  //     `, 
+  //     { count: "exact" }
+  //   )
+  //   .eq('id', companyId)
+  //   .order('created', { ascending: false })
+  //   .limit(30);
+
+  // if(date !== null){
+  //   query.lt('created', [date])
+  // }
+
+  // const { data, count, error } = await query;
+
+  // if(error) return "error"; 
+  // return { data, count };
+
+  return { referralsData };
 };
