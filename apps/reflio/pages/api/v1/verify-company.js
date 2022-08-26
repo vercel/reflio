@@ -32,22 +32,25 @@ const verifyCompany = async (req, res) => {
 
   if(headers?.origin) {
     filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
+    
+  } else if(headers?.host) {
+    filteredReferer = headers.host.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
 
   } else {
-    return res.status(500).json({ statusCode: 500, referer: false, headers: headers });
+    return res.status(500).json({ statusCode: 500, referer: false, error: "No host or origin" });
   }
 
   try {
     if(filteredReferer !== null){
 
-      console.log("Filtered Referer: " + filteredReferer)
-
       const projectVerify = await getCompanyFromExternal(filteredReferer);
 
       if(projectVerify === "success"){
         return res.status(200).json({ verified: true }); 
+
       } else {
         return res.status(500).json({ error: projectVerify });
+
       }
     }
 
