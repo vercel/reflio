@@ -72,19 +72,19 @@ const CampaignsList = (props) => {
                                   </p>
                                   <Button
                                     primary
-                                    xsmall
+                                    small
                                     href={`/dashboard/campaigns/${campaign?.affiliate_id}/code`}
                                     className="mt-4"
                                   >
                                     Edit referral code
                                   </Button>
                                 </div> 
-                                <p className="text-gray-700 bg-gray-100 border-2 border-gray-200 p-3 rounded-xl mt-4 break-all text-xs">Tip: You can link to any page, just add <span className="font-bold text-secondary-2">?via={campaign?.referral_code ? campaign?.referral_code : campaign?.affiliate_id}</span> to the end of the URL to track your referral.</p>
+                                <p className="text-gray-700 bg-gray-100 border-2 border-gray-200 p-3 rounded-xl mt-4 break-all text-sm">Tip: You can link to any page, just add <span className="font-bold text-secondary-2">?via={campaign?.referral_code ? campaign?.referral_code : campaign?.affiliate_id}</span> to the end of the URL to track your referral.</p>
                               </td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">{campaign?.company_name}</td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">{campaign?.impressions}</td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">
-                                <a href="#" className="underline">{referralDetails?.length ? referralDetails?.length+" referrals" : '0 referrals'}</a>
+                                {`${campaign?.campaign_referrals} referrals`}
                               </td>
                               <td className="whitespace-nowrap p-4 text-sm font-semibold text-center">{priceStringDivided(campaign?.commissions_value ?? 0, campaign?.company_currency)}</td>
                             </tr>

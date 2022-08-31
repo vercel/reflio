@@ -61,6 +61,19 @@ export const getAffiliatePrograms = async (userId) => {
         item.campaign_name = data?.campaign_name;
         item.commission_type = data?.commission_type;
         item.commission_value = data?.commission_value;
+
+        let referralsQuery = await supabaseAdmin
+          .from('referrals')
+          .select('referral_id')
+          .eq('affiliate_id', affilateData[0]?.affiliate_id)
+          .eq('campaign_id', item?.campaign_id)
+    
+        if(referralsQuery?.data !== null){
+          item.campaign_referrals = referralsQuery?.data?.length;
+        } else {
+          item.campaign_referrals = 0;
+        }
+
       } else {
         item.campaign_valid = false;
       }

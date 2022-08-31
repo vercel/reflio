@@ -413,3 +413,31 @@ export const referralSignup = async (referralId, cookieDate, email) => {
 
   return "error";
 };
+
+export const getReferralFromId = async (referralId, companyId) => {
+  let referralData = await supabaseAdmin
+    .from('referrals')
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name)
+      `
+    )
+    .eq('referral_id', referralId)
+    .eq('company_id', companyId)
+    .single();
+
+  if(referralData?.data){
+    let expiryDate = new Date(referralData?.data?.referral_expiry);
+    expiryDate = createdDate.toUTCString();
+
+    return {
+      "campaign_id": referralData?.data?.campaign_id,
+      "cookie_date": expiryDate,
+      "campaign_name": referralData?.data?.campaign?.campaign_name,
+      "affiliate_id": referralData?.data?.affiliate_id,
+      "referral_id": referralData?.data?.referral_id
+    }
+  }
+
+  return "error";
+}
