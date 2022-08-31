@@ -49,10 +49,10 @@ export const Pricing = ({ products }) => {
           <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-4">
             <div key="free" className="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-white">
               <div className="p-6">
-                <h2 className="text-2xl leading-6 font-semibold text-gray-900">Free</h2>
+                <h2 className="text-2xl leading-6 font-semibold text-gray-900">*Free</h2>
                 <p className="mt-8">
                   <span className="text-4xl font-extrabold text-gray-900">9%</span>
-                  <span className="text-base font-medium text-gray-500"> fee per referral</span>
+                  <span className="text-base font-medium text-gray-500"> fee per referral*</span>
                 </p>
                 <Button
                   medium

@@ -10,15 +10,14 @@ import {
   CreditCardIcon,
   TemplateIcon,
   CogIcon,
-  TableIcon,
   ClipboardCheckIcon,
   UserGroupIcon,
   ChartBarIcon,
   SparklesIcon,
-  StatusOnlineIcon,
   ChatAltIcon,
   BookOpenIcon
 } from '@heroicons/react/outline';
+import Link from 'next/link';
 
 export const AdminNavItems = () => {
   const { signOut } = useUser();
@@ -27,7 +26,7 @@ export const AdminNavItems = () => {
 
   const navigation = [
     { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
-    { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: StatusOnlineIcon },
+    { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
     { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
     { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: ChartBarIcon },
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
@@ -35,9 +34,7 @@ export const AdminNavItems = () => {
     { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon }
   ];
 
-  const secondaryNavigation = [
-    { name: 'Changelog', href: '/changelog' },
-  ];
+  const navItemClass = 'flex items-center p-2 my-1 text-base font-semibold rounded-lg hover:bg-gray-300';
 
   const handleCompanySwitch = async (companyId) => {
     if(!companyId) return false;
@@ -52,7 +49,7 @@ export const AdminNavItems = () => {
   return(
     <>
       <nav className="mt-8 flex-1 flex flex-col overflow-y-auto" aria-label="Sidebar">
-        <div className="px-4 space-y-1 pb-6">
+        <div className="px-4 space-y-1 pb-2">
           <Listbox onChange={value=>{handleCompanySwitch(value)}} value={activeCompany?.company_id}>
             {({ open }) => (
               <>
@@ -61,7 +58,7 @@ export const AdminNavItems = () => {
                     <span className="relative w-5 h-5 rounded-full block mr-2">
                       {
                         activeCompany?.company_url &&
-                        <Image src={'https://s2.googleusercontent.com/s2/favicons?domain='+activeCompany?.company_url+''} objectFit='contain' layout='fill' />
+                        <Image src={'https://s2.googleusercontent.com/s2/favicons?domain='+activeCompany?.company_url+''} objectFit='contain' layout='fill' alt={`${activeCompany?.company_name} Image`} />
                       }
                     </span>
                     <span className="flex items-center truncate">
@@ -113,9 +110,14 @@ export const AdminNavItems = () => {
                           )}
                         </Listbox.Option>
                       ))}
-                      <a href="/dashboard/add-company" className="block bg-gray-100 cursor-pointer select-none font-semibold relative py-3 px-5">
-                        + Add Company
-                      </a>
+                      <Link 
+                        passHref 
+                        href="/dashboard/add-company"
+                      >
+                        <a className="block bg-gray-300 text-gray-700 cursor-pointer select-none font-semibold relative py-3 px-5 -mt-1">
+                          + Add Company
+                        </a>
+                      </Link>
                     </Listbox.Options>
                   </Transition>
                 </div>
@@ -125,40 +127,48 @@ export const AdminNavItems = () => {
         </div>
         <div className="p-5">
           {navigation.map((item) => (
-            <a
+            <Link
+              passHref
               key={item.name}
               href={item.href}
-              className={classNames(
-                router?.asPath?.includes(item.href) && 'bg-gray-300 border-gray-400 hover-opacity-100',
-                'flex items-center p-2 text-lg font-semibold rounded-md border-2 border-transparent hover:opacity-80'
-              )}
               aria-current={item.current ? 'page' : undefined}
             >
-              <item.icon className="mr-4 flex-shrink-0 h-6 w-6" aria-hidden="true" />
-              <span>{item.name}</span>
-            </a>
+              <a
+                className={classNames(
+                  router?.asPath?.includes(item.href) && 'bg-gray-300',
+                  navItemClass
+                )}
+              >
+                <item.icon className="mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                <span>{item.name}</span>
+              </a>
+            </Link>
           ))}
         </div>
         <div className="pt-3 mt-auto border-t-4 border-gray-300">
           <div className="px-4">
-            <a
+            <Link
+              passHref
               href="https://reflio.com/resources"
-              target="_blank"
-              className={classNames(
-                'flex items-center p-2 text-lg font-semibold rounded-md border-2 border-transparent hover:opacity-80'
-              )} 
-              rel="noreferrer"
             >
-              <BookOpenIcon className="mr-2 flex-shrink-0 h-6 w-6" aria-hidden="true" />
-              <span>Docs & Guides</span>
-            </a>
+              <a
+                className={classNames(
+                  navItemClass
+                )} 
+                rel="noreferrer"
+                target="_blank"
+              >               
+                <BookOpenIcon className="mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                <span>Docs & Guides</span>
+              </a>
+            </Link>
             <button
               onClick={e=>{$crisp.push(['do', 'chat:open'])}}
               className={classNames(
-                'flex items-center p-2 text-lg font-semibold rounded-md border-2 border-transparent hover:opacity-80'
+                navItemClass
               )}
             >
-              <ChatAltIcon className="mr-2 flex-shrink-0 h-6 w-6" aria-hidden="true" />
+              <ChatAltIcon className="mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true" />
               <span>Live Support</span>
             </button>
           </div>
