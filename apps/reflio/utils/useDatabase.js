@@ -234,21 +234,9 @@ export const verifyReferral = async (referralCode, companyId) => {
     .select('*')
     .eq('company_id', companyId)
     .eq('referral_code', referralCode)
-    .single();
-  
-  if(data){
-    referralData = data;
-  } else {
-    let { data } = await supabaseAdmin
-      .from('affiliates')
-      .select('*')
-      .eq('company_id', companyId)
-      .eq('affiliate_id', referralCode)
-      .single();
 
-    if(data){
-      referralData = data;
-    }
+  if(data?.length){
+    referralData = data[0];
   }
   
   if (referralData === null) {
