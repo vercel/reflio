@@ -399,6 +399,8 @@ class rfl {
     }
   }
   async signup(email){
+    console.log('Reflio: Running signup function');
+
     if(!email || Reflio.checkCookie() === null || !Reflio.checkCookie().referral_id || !Reflio.checkCookie().cookie_date){
       console.warn("Reflio: Signup could not be tracked.")
       return false;
@@ -416,7 +418,11 @@ class rfl {
     });
 
     if(convertData?.conversion_details !== "error"){
+      console.log('Reflio: Running signup function successful');
       Reflio.deleteCookie();
+    } else {
+      console.warn("Reflio: Signup error:")
+      console.log(convertData)
     }
 
     return convertData;
@@ -424,7 +430,7 @@ class rfl {
 }
 
 //Activate global class.
-const Reflio = new rfl;
+var Reflio = new rfl;
 
 function activatePopup(){
   if(scrolledPercentage >= 33 && Reflio.details().hidePopup === false && Reflio.consentRequired() === true && Reflio.cookieExists() === false){
