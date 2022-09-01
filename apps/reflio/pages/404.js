@@ -13,7 +13,7 @@ export default function FourOhFour() {
     <div className="bg-white">
       <div className="wrapper wrapper-sm py-24">
         <div className="text-center">
-          <p className="text-base font-semibold text-secondary">404</p>
+          <p className="text-base font-semibold uppercase">Error 404</p>
           <h1 className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
             This page does not exist.
           </h1>
