@@ -40,6 +40,7 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
       });
 
       if(type === "signup" && affiliate !== true){
+        console.log("Firing signup function")
         await Reflio.signup(email);
       }
 

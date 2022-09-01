@@ -401,7 +401,7 @@ class rfl {
   async signup(email){
     console.log('Reflio: Running signup function');
 
-    if(!email || Reflio.checkCookie() === null || !Reflio.checkCookie().referral_id || !Reflio.checkCookie().cookie_date){
+    if(!email || Reflio.checkCookie() === null){
       console.warn("Reflio: Signup could not be tracked.")
       return false;
     }
@@ -417,12 +417,12 @@ class rfl {
       return response.json();
     });
 
+    console.warn("Reflio: Convert data:")
+    console.log(convertData)
+
     if(convertData?.conversion_details !== "error"){
       console.log('Reflio: Running signup function successful');
       Reflio.deleteCookie();
-    } else {
-      console.warn("Reflio: Signup error:")
-      console.log(convertData)
     }
 
     return convertData;

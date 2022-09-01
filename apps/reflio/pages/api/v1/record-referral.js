@@ -59,7 +59,7 @@ const recordImpression = async (req, res) => {
     }
 
     
-    return res.status(500).json({ statusCode: 500, verified: false });
+    return res.status(500).json({ statusCode: 500, verified: false, referrer: filteredReferer });
 
   } catch (error) {
     console.log(error);
