@@ -40,7 +40,7 @@ export const SEOMeta = ({ title, description, keywords, img }) => {
 
       {/* Open Graph */}
       <meta property="og:url" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}`} key="ogurl" />
-      <meta property="og:image" content={setImg} key="ogimage" />
+      <meta property="og:image" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}${setImg}`} key="ogimage" />
       <meta property="og:site_name" content="Reflio" key="ogsitename" />
       <meta property="og:title" content={setTitle} key="ogtitle" />
       <meta property="og:description" content={setDescription} key="ogdesc" />
