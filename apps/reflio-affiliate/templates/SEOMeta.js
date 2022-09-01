@@ -25,14 +25,6 @@ export const SEOMeta = ({ title, description, keywords, img }) => {
     setImg = img;
   }
 
-  if(router?.query?.handle){
-    setImg = `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/api/public/campaign-image?companyHandle=${router?.query?.handle}`
-
-    if(router?.query?.campaignId){
-      setImg = `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/api/public/campaign-image?companyHandle=${router?.query?.handle}&campaignId=${router?.query?.campaignId}`
-    }
-  }
-
   setTitle = setTitle + " | Reflio Affiliates";
 
   return (
@@ -44,10 +36,10 @@ export const SEOMeta = ({ title, description, keywords, img }) => {
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" key="twcard" />
-      <meta name="twitter:image" content={`https://reflio.com${setImg}`}/>
+      <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}${setImg}`}/>
 
       {/* Open Graph */}
-      <meta property="og:url" content="https://reflio.com" key="ogurl" />
+      <meta property="og:url" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}`} key="ogurl" />
       <meta property="og:image" content={setImg} key="ogimage" />
       <meta property="og:site_name" content="Reflio" key="ogsitename" />
       <meta property="og:title" content={setTitle} key="ogtitle" />

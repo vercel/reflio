@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRouter } from 'next/router';
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useUser } from '@/utils/useUser';
 import { postData } from '@/utils/helpers';
@@ -11,11 +10,8 @@ export const UserAffiliateContextProvider = (props) => {
   const [userAffiliateDetails, setUserAffiliateDetails] = useState(null);
   const [userAffiliateInvites, setUserAffiliateInvites] = useState(null);
   const [referralDetails, setReferralDetails] = useState(null);
-  const [publicCampaignData, setPublicCampaignData] = useState(null);
   const [loadingAffiliates, setLoadingAffiliates] = useState(false);
   const [loadingAffiliateInvites, setLoadingAffiliateInvites] = useState(false);
-  const [publicCampaignDataLoading, setPublicCampaignDataLoading] = useState(false);
-  const router = useRouter();
   let value;
 
   const affiliatePrograms = async () => {    
@@ -47,25 +43,6 @@ export const UserAffiliateContextProvider = (props) => {
     }
   };
 
-  const campaignData = async (companyHandle) => {    
-    if(!companyHandle) return false;
-
-    try {
-      const { campaign } = await postData({
-        url: '/api/public/campaign',
-        data: {
-          "companyHandle": companyHandle,
-          "campaignId": router?.query?.campaignId ? router?.query?.campaignId : null
-        }
-      });
-
-      setPublicCampaignData(campaign);
-  
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
   useEffect(() => {
     if (userFinderLoaded && user && userAffiliateDetails === null && loadingAffiliates === false) {
       setLoadingAffiliates(true);
@@ -76,18 +53,12 @@ export const UserAffiliateContextProvider = (props) => {
       setLoadingAffiliateInvites(true);
       affiliateInvites();
     }
-
-    if (publicCampaignData === null && publicCampaignDataLoading === false && router?.query?.handle) {
-      setPublicCampaignDataLoading(true);
-      campaignData(router?.query?.handle);
-    }
   });
 
   value = {
     userAffiliateDetails,
     userAffiliateInvites,
-    referralDetails,
-    publicCampaignData
+    referralDetails
   };
 
   return <UserAffiliateContext.Provider value={value} {...props}  />;
