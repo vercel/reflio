@@ -11,12 +11,11 @@ import Button from '@/components/Button';
 import toast from 'react-hot-toast';
 import { postData } from '@/utils/helpers';
 import AuthForm from '@/components/AuthForm'; 
-import SEOMeta from '@/templates/SEOMeta';
 
-export default function CampaignInvite() {
+export default function CampaignInvite({ publicCampaignData }) {
   const router = useRouter();
   const { user, session } = useUser();
-  const { userAffiliateDetails, publicCampaignData } = useUserAffiliate();
+  const { userAffiliateDetails } = useUserAffiliate();
   const [loading, setLoading] = useState(false);
   const [campaignAlreadyJoined, setCampaignAlreadyJoined] = useState(false);
 
@@ -60,12 +59,6 @@ export default function CampaignInvite() {
   
   return(
     <>
-      {
-        publicCampaignData?.campaign_name &&
-        <SEOMeta 
-          title={`${publicCampaignData?.campaign_name}`}
-        />
-      }
       <div>
         {
           user &&

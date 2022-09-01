@@ -1,9 +1,41 @@
 import CampaignInvite from '@/templates/CampaignInvite';
+import { postData } from '@/utils/helpers';
+import SEOMeta from '@/templates/SEOMeta';
+import { useRouter } from 'next/router';
 
-const CampaignInviteId = () => {
+function CampaignInviteIndex({ publicCampaignData }){
+  const router = useRouter();
+
+  let campaignImageUrl = `/api/public/campaign-image?companyHandle=${router?.query?.handle}&campaignId=${router?.query?.campaignId}`
+
   return(
-    <CampaignInvite/>
+    <>
+      {
+        publicCampaignData?.campaign_name &&
+        <SEOMeta 
+          title={`${publicCampaignData?.campaign_name}`}
+          img={campaignImageUrl}
+        />
+      }
+      <CampaignInvite publicCampaignData={publicCampaignData} />
+    </>
   )
 };
 
-export default CampaignInviteId;
+CampaignInviteIndex.getInitialProps = async ({ query}) => {
+  
+  const { handle, campaignId } = query
+  
+  const { campaign } = await postData({
+    url: `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/api/public/campaign`,
+    data: {
+      "companyHandle": handle ? handle : null,
+      "campaignId": campaignId ? campaignId : null
+    }
+  });
+
+  return { publicCampaignData: campaign };
+}
+
+
+export default CampaignInviteIndex;
