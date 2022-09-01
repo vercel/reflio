@@ -22,7 +22,7 @@ function CampaignInviteIndex({ publicCampaignData }){
   )
 };
 
-CampaignInviteIndex.getInitialProps = async ({ query}) => {
+export async function getServerSideProps({ query }) {
   
   const { handle } = query
   
@@ -34,8 +34,7 @@ CampaignInviteIndex.getInitialProps = async ({ query}) => {
     }
   });
 
-  return { publicCampaignData: campaign };
+  return { props: { publicCampaignData: campaign } }
 }
-
 
 export default CampaignInviteIndex;
