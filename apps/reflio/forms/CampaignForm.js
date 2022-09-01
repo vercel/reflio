@@ -34,7 +34,6 @@ export const CampaignForm = ({ edit, setupMode }) => {
     setLoading(true);
 
     if(edit){
-
       await editCampaign(userDetails, edit?.campaign_id, data).then((result) => {
         if(result === "success"){
           router.replace(`/dashboard/${router?.query?.companyId}/campaigns/${edit?.campaign_id}`)

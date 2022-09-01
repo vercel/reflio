@@ -23,13 +23,13 @@ export default function Index() {
   return(
     <>
       <div id="#intro">
-        <div className="relative py-14 md:py-24 bg-white md:bg-gradient-to-b md:from-white md:via-gray-50 md:to-primary">
+        <div className="relative py-14 md:py-24 bg-gradient-to-b from-white via-gray-50 to-primary">
           <div className="wrapper text-center">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               <div className="mb-10">
                 <div className="mb-7">
-                  <h1 className="inline text-4xl lg:text-5xl font-semibold md:text-transparent md:bg-clip-text md:bg-gradient-to-r from-secondary to-secondary-2 tracking-tight">
-                    Create a referral program for your SaaS <span className="inline md:text-transparent md:bg-clip-text md:bg-gradient-to-r md:from-secondary md:to-primary">in minutes, from $0/month.</span>
+                  <h1 className="inline text-4xl lg:text-6xl font-semibold md:text-transparent md:bg-clip-text md:bg-gradient-to-r from-secondary to-secondary-2 tracking-tight">
+                    Create an affiliate program for your SaaS <span className="inline md:text-transparent md:bg-clip-text md:bg-gradient-to-r md:from-secondary md:to-primary">in minutes, from $0/month.</span>
                   </h1>
                 </div>
                 <p className="text-xl sm:text-2xl font-light">

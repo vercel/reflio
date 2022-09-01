@@ -47,7 +47,7 @@ export const Pricing = ({ products }) => {
       <div>
         <div>
           <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-4">
-            <div key="free" className="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-white">
+            <div key="free" className="border-2 border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-white">
               <div className="p-6">
                 <h2 className="text-2xl leading-6 font-semibold text-gray-900">*Free</h2>
                 <p className="mt-8">
@@ -75,11 +75,11 @@ export const Pricing = ({ products }) => {
               }).format(product.prices[0].unit_amount / 100);
 
               return (
-                <div key={product?.name} className={`${product?.name === "Pro" ? 'bg-secondary border-secondary-2' : 'bg-white border-gray-200'} border rounded-lg shadow-sm divide-y divide-gray-200 relative`}>
+                <div key={product?.name} className={`${product?.name === "Pro" ? 'bg-secondary border-secondary-2' : 'bg-white border-gray-200'} border-2 rounded-lg shadow-sm divide-y divide-gray-200 relative`}>
                   <div className="p-6">
                     {
                       product?.name === "Pro" &&
-                      <div className="py-1 px-2 bg-white absolute top-3 right-3 rounded-full text-xs uppercase font-bold">
+                      <div className="py-1.5 px-3 bg-white absolute top-3 right-3 rounded-full text-xs uppercase font-bold">
                         Recommended
                       </div>
                     }
