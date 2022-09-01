@@ -118,9 +118,13 @@ export default function ReferralsPage() {
                                       <div className={`bg-secondary-2 text-white inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
                                         Converted
                                       </div>
+                                    : referral?.referral_reference_email !== null ?
+                                      <div className={`bg-orange-400 text-orange-900 inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
+                                        Signed up
+                                      </div>
                                     :
                                       <div data-tip={`${checkUTCDateExpired(referral?.referral_expiry) === true ? 'Expired' : 'Expires'} at ${referral?.referral_expiry}`} className={`${checkUTCDateExpired(referral?.referral_expiry) === true ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-900'} 'bg-gray-400 text-gray-900'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
-                                        {checkUTCDateExpired(referral?.referral_expiry) === true ? 'Expired' : 'Pending'}
+                                        {checkUTCDateExpired(referral?.referral_expiry) === true ? 'Expired' : 'Visited link'}
                                       </div>
                                   }
                                 </td>
