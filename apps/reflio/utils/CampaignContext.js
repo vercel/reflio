@@ -12,8 +12,6 @@ export const CampaignContextProvider = (props) => {
   const [activeCampaign, setActiveCampaign] = useState('none');
   const router = useRouter();
   let value;
-
-  console.log(userCampaignDetails)
   
   useEffect(() => {
     if (userFinderLoaded && getCampaigns && user && userCampaignDetails === null && activeCompany?.company_id) {

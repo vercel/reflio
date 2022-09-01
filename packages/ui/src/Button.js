@@ -1,5 +1,8 @@
+import dynamic from 'next/dynamic';
+
 export const Button = (props) => {
-  const ButtonType = props.href ? `a` : `button`;
+  const Link = dynamic(() => import('next/link'));
+
   let styles = 'relative inline-flex items-center justify-center border-2 border-transparent font-semibold rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all';
 
   //Sizing styles
@@ -32,17 +35,32 @@ export const Button = (props) => {
     styles = styles + ' w-full sm:w-auto x'
   }
 
-  return(
-    <ButtonType 
-      disabled={props.disabled && props.disabled}
-      onClick={props.onClick && props.onClick}
-      href={props.href && props.href}
-      className={`${styles} ${props.className ? props.className : ''}`}
-      target={props.external ? '_blank' : ''}
-    >
-      {props.children && props.children}
-    </ButtonType>
-  )
+  if(props.href){
+    return(
+      <Link
+        passHref
+        href={props.href}
+      >
+        <a 
+          className={`${styles} ${props.className ? props.className : ''}`}
+          onClick={props.onClick && props.onClick}
+          target={props.external ? '_blank' : ''}
+        >
+          {props.children && props.children}
+        </a>    
+      </Link>
+    )
+  } else {
+    return(
+      <button 
+        disabled={props.disabled && props.disabled}
+        onClick={props.onClick && props.onClick}
+        className={`${styles} ${props.className ? props.className : ''}`}
+      >
+        {props.children && props.children}
+      </button>
+    )
+  }
 };
 
 export default Button;

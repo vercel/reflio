@@ -440,7 +440,7 @@ export const newCampaign = async (user, form, companyId) => {
 };
 
 export const editCampaign = async (user, campaignId, formFields) => { 
-
+  
   //TO DO: FIX THIS DUPLICATE CODE FROM ABOVE ^
   if(formFields.commission_value && formFields.commission_value <= 0){
     formFields.commission_value = 20;
@@ -454,7 +454,7 @@ export const editCampaign = async (user, campaignId, formFields) => {
     formFields.commission_period = 12;
   }
 
-  if(formFields.minimum_days_payout && formFields.minimum_days_payout <= 30){
+  if(formFields.minimum_days_payout && formFields.minimum_days_payout <= 0){
     formFields.minimum_days_payout = 30;
   }
 

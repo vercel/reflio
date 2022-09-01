@@ -12,6 +12,7 @@ import {
 import { generateInviteUrl, priceString, priceStringDivided } from 'utils/helpers';
 import setupStepCheck from '@/utils/setupStepCheck';
 import DueCommissions from '@/components/DueCommissions'; 
+import Link from 'next/link';
 
 export default function CampaignsPage() {
   setupStepCheck('light');
@@ -69,7 +70,14 @@ export default function CampaignsPage() {
                                       Default Campaign
                                     </div>
                                   }
-                                  <p className="text-xl mb-2 font-semibold"><a className="underline" href={`/dashboard/${router?.query?.companyId}/campaigns/${campaign?.campaign_id}`}>{campaign?.campaign_name}</a></p>
+                                  <p className="text-xl mb-2 font-semibold">
+                                    <Link
+                                      passHref
+                                      href={`/dashboard/${router?.query?.companyId}/campaigns/${campaign?.campaign_id}`}
+                                    >
+                                      <a className="underline">{campaign?.campaign_name}</a>
+                                    </Link>
+                                  </p>
                                   <p className="text-md">{campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals` : `${priceString(campaign?.commission_value, activeCompany?.company_currency)} commission on all paid referrals`}</p>
                                   <div className="mt-3">
                                     <p className="text-gray-500">
@@ -81,9 +89,9 @@ export default function CampaignsPage() {
                                   </div> 
                                 </td>
                                 <td className="whitespace-nowrap p-4 text-sm text-center">
-                                  <a href="#" className="underline font-semibold">{campaign?.affiliate_count} affiliates</a>
+                                  <p className="font-semibold">{campaign?.affiliate_count} affiliates</p>
                                 </td>
-                                <td className="whitespace-nowrap p-4 text-sm text-center">{priceStringDivided(campaign?.commissions_value ?? 0, activeCompany?.company_currency)}</td>
+                                <td className="whitespace-nowrap font-semibold p-4 text-sm text-center">{priceStringDivided(campaign?.commissions_value ?? 0, activeCompany?.company_currency)}</td>
                               </tr>
                             ))}
                           </tbody>

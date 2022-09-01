@@ -10,9 +10,6 @@ const campaignJoin = async (req, res) => {
       const user = await getUser(token);
 
       if(user){
-
-        console.log(user?.id, companyId, campaignId)
-
         const status = await handleCampaignJoin(user, companyId, campaignId);
 
         return res.status(200).json({ status });

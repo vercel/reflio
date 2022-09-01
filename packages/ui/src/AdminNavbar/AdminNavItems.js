@@ -24,17 +24,20 @@ export const AdminNavItems = () => {
   const { activeCompany, userCompanyDetails } = useCompany();
   const router = useRouter();
 
-  const navigation = [
+  const manageNavigation = [
     { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
     { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
     { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
-    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: ChartBarIcon },
+    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: ChartBarIcon }
+  ];
+
+  const settingsNavigation = [
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
     { name: 'Company Settings', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon },
     { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon }
   ];
 
-  const navItemClass = 'flex items-center p-2 my-1 text-base font-semibold rounded-lg hover:bg-gray-300';
+  const navItemClass = 'flex items-center py-1.5 px-2 my-1 text-base font-semibold rounded-lg hover:bg-gray-300';
 
   const handleCompanySwitch = async (companyId) => {
     if(!companyId) return false;
@@ -49,7 +52,7 @@ export const AdminNavItems = () => {
   return(
     <>
       <nav className="mt-8 flex-1 flex flex-col overflow-y-auto" aria-label="Sidebar">
-        <div className="px-4 space-y-1 pb-2">
+        <div className="px-4 space-y-1 pb-6">
           <Listbox onChange={value=>{handleCompanySwitch(value)}} value={activeCompany?.company_id}>
             {({ open }) => (
               <>
@@ -114,7 +117,7 @@ export const AdminNavItems = () => {
                         passHref 
                         href="/dashboard/add-company"
                       >
-                        <a className="block bg-gray-300 text-gray-700 cursor-pointer select-none font-semibold relative py-3 px-5 -mt-1">
+                        <a className="block bg-gray-200 cursor-pointer select-none font-semibold relative py-3 px-5 -mt-1">
                           + Add Company
                         </a>
                       </Link>
@@ -125,8 +128,9 @@ export const AdminNavItems = () => {
             )}
           </Listbox>
         </div>
-        <div className="p-5">
-          {navigation.map((item) => (
+        <div className="px-5 py-2">
+          <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Manage</p>
+          {manageNavigation.map((item) => (
             <Link
               passHref
               key={item.name}
@@ -139,39 +143,62 @@ export const AdminNavItems = () => {
                   navItemClass
                 )}
               >
-                <item.icon className="mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                <item.icon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
                 <span>{item.name}</span>
               </a>
             </Link>
           ))}
         </div>
-        <div className="pt-3 mt-auto border-t-4 border-gray-300">
-          <div className="px-4">
+        <div className="px-5 py-2">
+          <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Settings</p>
+          {settingsNavigation.map((item) => (
             <Link
               passHref
-              href="https://reflio.com/resources"
+              key={item.name}
+              href={item.href}
+              aria-current={item.current ? 'page' : undefined}
             >
               <a
                 className={classNames(
+                  router?.asPath?.includes(item.href) && 'bg-gray-300',
                   navItemClass
-                )} 
-                rel="noreferrer"
-                target="_blank"
-              >               
-                <BookOpenIcon className="mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true" />
-                <span>Docs & Guides</span>
+                )}
+              >
+                <item.icon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                <span>{item.name}</span>
               </a>
             </Link>
-            <button
-              onClick={e=>{$crisp.push(['do', 'chat:open'])}}
+          ))}
+        </div>
+        <div className="px-5 py-2">
+          <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Resources</p>
+          <Link
+            passHref
+            href="https://reflio.com/resources"
+          >
+            <a
               className={classNames(
                 navItemClass
-              )}
-            >
-              <ChatAltIcon className="mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true" />
-              <span>Live Support</span>
-            </button>
-          </div>
+              )} 
+              rel="noreferrer"
+              target="_blank"
+            >               
+              <BookOpenIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <span>Docs & Guides</span>
+            </a>
+          </Link>
+          <button
+            onClick={e=>{$crisp.push(['do', 'chat:open'])}}
+            className={classNames(
+              navItemClass,
+              'w-full'
+            )}
+          >
+            <ChatAltIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+            <span>Live Support</span>
+          </button>
+        </div>
+        <div className="pt-3 mt-auto border-t-4 border-gray-300">
           <div className="px-4 space-y-1">
             {/* {secondaryNavigation.map((item) => (
               <a
