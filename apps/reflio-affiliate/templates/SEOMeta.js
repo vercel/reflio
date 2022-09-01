@@ -1,6 +1,8 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export const SEOMeta = ({ title, description, keywords, img }) => {
+  const router = useRouter();
 
   let setTitle = "Reflio: Create a privacy-friendly referral program for your SaaS.";
   let setDescription = "Create a privacy-friendly referral program for your SaaS. GDPR Friendly. Based in the UK. European-owned infrastructure.";
@@ -21,6 +23,14 @@ export const SEOMeta = ({ title, description, keywords, img }) => {
 
   if(img){
     setImg = img;
+  }
+
+  if(router?.query?.handle){
+    setImg = `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/api/public/campaign-image?companyHandle=${router?.query?.handle}`
+
+    if(router?.query?.campaignId){
+      setImg = `${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}/api/public/campaign-image?companyHandle=${router?.query?.handle}&campaignId=${router?.query?.campaignId}`
+    }
   }
 
   setTitle = setTitle + " | Reflio Affiliates";
