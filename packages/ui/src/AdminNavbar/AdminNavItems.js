@@ -17,7 +17,8 @@ import {
   ChatAltIcon,
   BookOpenIcon,
   MapIcon,
-  SupportIcon
+  SupportIcon,
+  CurrencyDollarIcon
 } from '@heroicons/react/outline';
 import Link from 'next/link';
 
@@ -30,7 +31,8 @@ export const AdminNavItems = () => {
     { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
     { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
     { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
-    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: ChartBarIcon }
+    { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: CurrencyDollarIcon },
+    { name: 'Analytics', href: `/dashboard/${activeCompany?.company_id}/analytics`, icon: ChartBarIcon }
   ];
 
   const settingsNavigation = [
