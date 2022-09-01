@@ -83,7 +83,7 @@ export const Navbar = () => {
             }
 
             <div className="hidden lg:flex items-center">
-              <a className="mr-1"href="https://github.com/Reflio-com/reflio" target="_blank" rel="noreferrer">
+              <a className="mr-3"href="https://github.com/Reflio-com/reflio" target="_blank" rel="noreferrer">
                 <Github className="w-auto h-6"/>
               </a>
               {
@@ -101,7 +101,7 @@ export const Navbar = () => {
                   <div className="flex-shrink-0">
                     <a
                       href="/signin"
-                      className={navClass}
+                      className={navClass + ' mr-6'}
                     >
                       Sign In
                     </a>
