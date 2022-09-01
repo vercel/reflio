@@ -39,6 +39,10 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
         content: 'Check your email for the magic link.'
       });
 
+      if(type === "signup" && affiliate !== true){
+        await Reflio.signup(email);
+      }
+
       if(campaignId){
         if (typeof window !== "undefined") {
           localStorage.setItem("join_campaign_details", JSON.stringify({"campaign_id": campaignId, "campaign_handle": campaignHandle}));

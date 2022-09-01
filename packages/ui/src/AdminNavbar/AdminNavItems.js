@@ -15,7 +15,9 @@ import {
   ChartBarIcon,
   SparklesIcon,
   ChatAltIcon,
-  BookOpenIcon
+  BookOpenIcon,
+  MapIcon,
+  SupportIcon
 } from '@heroicons/react/outline';
 import Link from 'next/link';
 
@@ -185,6 +187,36 @@ export const AdminNavItems = () => {
             >               
               <BookOpenIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
               <span>Docs & Guides</span>
+            </a>
+          </Link>
+          <Link
+            passHref
+            href="https://reflio.canny.io/"
+          >
+            <a
+              className={classNames(
+                navItemClass
+              )} 
+              rel="noreferrer"
+              target="_blank"
+            >               
+              <MapIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <span>Roadmap</span>
+            </a>
+          </Link>
+          <Link
+            passHref
+            href="https://reflio.canny.io/feature-requests"
+          >
+            <a
+              className={classNames(
+                navItemClass
+              )} 
+              rel="noreferrer"
+              target="_blank"
+            >               
+              <SupportIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <span>Give Feedback</span>
             </a>
           </Link>
           <button
