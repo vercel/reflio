@@ -1,7 +1,11 @@
 import Auth from '@/templates/Auth'; 
+import SEOMeta from '@/templates/SEOMeta';
 
 export default function SignUp() {
   return (
-    <Auth type="signup"/>
+    <>
+      <SEOMeta title="Sign Up"/>
+      <Auth type="signup"/>
+    </>
   );
 }

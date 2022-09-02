@@ -10,13 +10,10 @@ function CampaignInviteIndex({ publicCampaignData }){
 
   return(
     <>
-      {
-        publicCampaignData?.campaign_name &&
-        <SEOMeta 
-          title={`${publicCampaignData?.campaign_name}`}
-          img={campaignImageUrl}
-        />
-      }
+      <SEOMeta 
+        title={`${publicCampaignData?.campaign_name}`}
+        img={campaignImageUrl}
+      />
       <CampaignInvite publicCampaignData={publicCampaignData} />
     </>
   )

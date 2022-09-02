@@ -22,7 +22,6 @@ const AuthTemplate = ({ type }) => {
   if (!user)
     return (
       <>
-        <SEOMeta title={authState}/>
         <div className="py-12">
           <div className="mb-6">
             <AffiliateLogo className="w-44 h-auto mx-auto"/>
@@ -36,7 +35,6 @@ const AuthTemplate = ({ type }) => {
 
   return (
     <>
-      <SEOMeta title="Sign Up"/>
       <div className="m-6">
         <LoadingDots />
       </div>

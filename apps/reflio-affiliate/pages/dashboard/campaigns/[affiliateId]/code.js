@@ -67,7 +67,7 @@ const AffiliateCodePage = () => {
 
   return (
     <>
-      <SEOMeta title="Settings"/>
+      <SEOMeta title="Code Settings"/>
       <div className="pb-10 mb-12 border-b-4">
         <div className="pt-10 wrapper">
           <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold">Edit Referral Code</h1>

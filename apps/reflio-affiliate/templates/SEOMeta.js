@@ -1,8 +1,6 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
-export const SEOMeta = ({ title, description, keywords, img }) => {
-  const router = useRouter();
+function SEOMeta({ title, description, keywords, img }) {
 
   let setTitle = "Reflio: Create a privacy-friendly referral program for your SaaS.";
   let setDescription = "Create a privacy-friendly referral program for your SaaS. GDPR Friendly. Based in the UK. European-owned infrastructure.";
@@ -36,6 +34,7 @@ export const SEOMeta = ({ title, description, keywords, img }) => {
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" key="twcard" />
+      <meta name="twitter:creator" content="@useReflio" key="twhandle" />
       <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}${setImg}`}/>
 
       {/* Open Graph */}
@@ -45,8 +44,27 @@ export const SEOMeta = ({ title, description, keywords, img }) => {
       <meta property="og:title" content={setTitle} key="ogtitle" />
       <meta property="og:description" content={setDescription} key="ogdesc" />
       <title>{setTitle}</title>
+      <link rel="manifest" href="/site.webmanifest"/>
+      <link
+        href="/favicon-16x16.png"
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        purpose="any maskable"
+      />
+      <link
+        href="/favicon-32x32.png"
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        purpose="any maskable"
+      />
+      <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
+      <meta name="theme-color" content="#ffaf45" />
+      <script defer data-domain="affiliates.reflio.com" src="https://plausible.io/js/plausible.js"></script>
     </Head>
   )
-};
+}
 
 export default SEOMeta;

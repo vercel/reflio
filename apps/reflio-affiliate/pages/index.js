@@ -1,9 +1,11 @@
 import Auth from '@/templates/Auth'; 
+import SEOMeta from '@/templates/SEOMeta';
 
-export const IndexPage = () => {
+export default function Index() {
   return (
-    <Auth type="signin"/>
+    <>
+      <SEOMeta title="Sign In"/>
+      <Auth type="signin"/>
+    </>
   );
 };
-
-export default IndexPage;
