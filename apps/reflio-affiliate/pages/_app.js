@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import "@/dist/styles.css";
 import Layout from '../templates/Layout';
 import { useRouter } from 'next/router';
-import SEOMeta from '../templates/SEOMeta'; 
 
 export default function MyApp({ Component, pageProps }) {
   const UserContextProvider = dynamic(() =>
@@ -26,33 +25,13 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <SEOMeta/>
-      <div>
-        {
-          router.pathname.indexOf('/dashboard') > -1 ?
-            <UserContextProvider>
-              <UserAffiliateContextProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </UserAffiliateContextProvider>
-            </UserContextProvider>
-          : router.pathname.indexOf('/invite') > -1 ?
-            <UserContextProvider>
-              <UserAffiliateContextProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </UserAffiliateContextProvider>
-            </UserContextProvider>
-          :
-            <UserContextProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </UserContextProvider>
-        }
-      </div>
+      <UserContextProvider>
+        <UserAffiliateContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UserAffiliateContextProvider>
+      </UserContextProvider>
     </>
   );
 }
