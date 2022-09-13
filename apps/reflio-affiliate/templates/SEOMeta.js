@@ -1,7 +1,6 @@
 import Head from 'next/head';
 
 function SEOMeta({ title, description, keywords, img }) {
-
   let setTitle = "Reflio: Create a privacy-friendly referral program for your SaaS.";
   let setDescription = "Create a privacy-friendly referral program for your SaaS. GDPR Friendly. Based in the UK. European-owned infrastructure.";
   let setKeywords = "Reflio, Referral software, create referral program, stripe referral program";
