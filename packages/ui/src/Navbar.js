@@ -54,6 +54,13 @@ export const Navbar = () => {
                 >
                   Docs & Guides
                 </a>
+                <a
+                  href="https://reflio.canny.io"
+                  className={navClass}
+                  target="_blank"
+                >
+                  Roadmap
+                </a>
               </nav>
             </div>
 
@@ -74,11 +81,12 @@ export const Navbar = () => {
                 <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="/#why-reflio">Why Reflio</a>
                 <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="/pricing">Pricing</a>
                 <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="/resources">Docs & Guides</a>
+                <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 border-b-2 border-gray-200" href="https://reflio.canny.io" target="_blank">Roadmap</a>
                 {
                   !user &&
                   <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 font-semibold" href="/signin">Sign In</a>
                 }
-                <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg:text-white hover:bg-gray-100 font-semibold" href={user ? '/dashboard' : '/signup'}>{user ? 'Dashboard' : 'Get Started for Free' }</a>
+                <a onClick={e=>{setActive(false)}} className="block p-5 text-md bg-primary border-b-primary-3 border-b-4 hover:bg-primary-2 font-semibold" href={user ? '/dashboard' : '/signup'}>{user ? 'Dashboard' : 'Get Started for Free' }</a>
               </div>
             }
 
