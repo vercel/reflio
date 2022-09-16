@@ -122,12 +122,4 @@ function Layout({ children }) {
   );
 };
 
-export async function getServerSideProps(props) {
-  
-  console.log('server props:::::')
-  console.log(props)
-
-  return { props: { donkey: true } }
-}
-
 export default Layout;
