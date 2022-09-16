@@ -1592,6 +1592,14 @@ video {
   border-color: var(--primary);
 }
 
+.border-b-primary-2 {
+  border-bottom-color: var(--primary-2);
+}
+
+.border-b-primary-3 {
+  border-bottom-color: var(--primary-3);
+}
+
 .bg-secondary {
   background-color: var(--secondary);
 }

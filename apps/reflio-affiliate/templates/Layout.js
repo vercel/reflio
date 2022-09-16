@@ -105,9 +105,7 @@ function Layout({ children }) {
               <div className="flex-1 overflow-auto focus:outline-none">
                 <AdminMobileNav/>
                 <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
-                  <>
-                    {children}
-                  </>
+                  {children}
                 </main>
               </div>
             </div>
