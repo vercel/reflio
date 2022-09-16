@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import "@/dist/styles.css";
 import Layout from '../templates/Layout';
 import { useRouter } from 'next/router';
+import SEOMeta from '@/templates/SEOMeta';
 
 export default function MyApp({ Component, pageProps }) {
   const UserContextProvider = dynamic(() =>
@@ -25,6 +26,7 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <>
+      <SEOMeta/>
       <UserContextProvider>
         <UserAffiliateContextProvider>
           <Layout>

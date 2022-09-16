@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useUser } from '../utils/useUser';
 
-export default function Layout({ children }) {
+function Layout({ children }) {
   const { user, userFinderLoaded } = useUser();
   const Toaster = dynamic(() =>
     import("react-hot-toast").then((module) => module.Toaster)
@@ -14,22 +14,23 @@ export default function Layout({ children }) {
   const AdminMobileNav = dynamic(() => import('@/templates/AdminNavbar/AdminMobileNav'));
   const AdminDesktopNav = dynamic(() => import('@/templates/AdminNavbar/AdminDesktopNav'));
   const router = useRouter();
+
   let defaultPage = true;
   let dashboardPage = false;
   let simplePage = false;
-
+  
   if(router.pathname.indexOf('/dashboard') === -1 && router.pathname.indexOf('/dashboard/add-company') === -1 && router.pathname.indexOf('/dashboard/create-team') === -1){
     defaultPage = true;
     dashboardPage = false;
     simplePage = false;
   }
-
+  
   if(router.pathname === '/dashboard/add-company' || router.pathname === '/dashboard/create-team' || router.pathname.includes('/invite/')){
     defaultPage = false;
     dashboardPage = false;
     simplePage = true;
   }
-
+  
   if(router.pathname.indexOf('/dashboard') > -1 && simplePage !== true){
     defaultPage = false;
     dashboardPage = true;
@@ -44,20 +45,21 @@ export default function Layout({ children }) {
     }, [userFinderLoaded, user]);
   }
 
-  if(user && !router?.asPath.includes('/invite/')){
+  if(!router?.asPath.includes('/invite/')){
     if (typeof window !== "undefined") {
       if(localStorage.getItem('join_campaign_details')){
-
-        let details = localStorage.getItem('join_campaign_details');
-
-        try {
-          details = JSON.parse(details);
-        } catch (error) {
-          console.warn(error);
-        }
-
-        if(details){
-          router.replace(`/invite/${details?.campaign_handle}/${details?.campaign_id}?campaignRedirect=true`)
+        if(user){          
+          let details = localStorage.getItem('join_campaign_details');
+  
+          try {
+            details = JSON.parse(details);
+          } catch (error) {
+            console.warn(error);
+          }
+  
+          if(details){
+            router.replace(`/invite/${details?.campaign_handle}/${details?.campaign_id}?campaignRedirect=true`)
+          }
         }
       }
     }
@@ -118,4 +120,6 @@ export default function Layout({ children }) {
       </>
     </>
   );
-}
+};
+
+export default Layout;

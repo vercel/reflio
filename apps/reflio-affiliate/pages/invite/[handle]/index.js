@@ -11,7 +11,7 @@ function CampaignInviteIndex({ publicCampaignData }){
   return(
     <>
       <SEOMeta 
-        title={`${publicCampaignData?.campaign_name}`}
+        title={publicCampaignData?.campaign_name ?? 'Campaign not found'}
         img={campaignImageUrl}
       />
       <CampaignInvite publicCampaignData={publicCampaignData} />
