@@ -12,6 +12,7 @@ function CampaignInviteIndex({ publicCampaignData }){
     <>
       <SEOMeta 
         title={`${publicCampaignData?.campaign_name}`}
+        description={`Join ${publicCampaignData?.campaign_name} and get ${publicCampaignData?.commission_type === 'percentage' ? `${publicCampaignData?.commission_value}% commission on all paid referrals.` : `${publicCampaignData?.company_currency}${publicCampaignData?.commission_value} commission on all paid referrals.`}`}
         img={campaignImageUrl}
       />
       <CampaignInvite publicCampaignData={publicCampaignData} />
