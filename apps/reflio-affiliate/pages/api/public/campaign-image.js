@@ -25,15 +25,15 @@ export default withOGImage({
             <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
           </head>
           <body>
-            <div class="flex flex-col items-center justify-center w-full h-full bg-gradient-to-b from-white to-gray-200">
+            <div class="flex flex-col items-center justify-center w-full h-full bg-gradient-to-r from-gray-300 via-white to-gray-300">
             ${
               campaign?.company_image !== null ? 
-                `<img alt="${campaign?.company_name} Logo" src="${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+campaign?.company_image}" class="h-24 w-auto mx-auto mb-3"/>` 
+                `<img alt="${campaign?.company_name} Logo" src="${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+campaign?.company_image}" class="h-28 w-auto mx-auto mb-3"/>` 
               : 
-                `<h1 class="text-7xl font-semibold mb-3">${campaign?.company_name}</h1>`
+                `<h1 class="text-8xl font-semibold mb-3">${campaign?.company_name}</h1>`
             }
               <div class="mb-14">
-                <h2 class="text-4xl text-gray-600">${campaign?.campaign_name}</h2>
+                <h2 class="text-5xl text-gray-600">${campaign?.campaign_name}</h2>
               </div>
               <p class="text-4xl mb-5">${campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals.` : `${campaign?.company_currency}${campaign?.commission_value} commission on all paid referrals.`}</p> 
             </div>
