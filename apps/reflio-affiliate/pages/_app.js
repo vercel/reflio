@@ -1,18 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import "@/dist/styles.css";
 import Layout from '../templates/Layout';
 import { useRouter } from 'next/router';
 import SEOMeta from '@/templates/SEOMeta';
+import { UserContextProvider } from '@/utils/useUser';
+import { UserAffiliateContextProvider } from '@/utils/UserAffiliateContext';
 
 export default function MyApp({ Component, pageProps }) {
-  const UserContextProvider = dynamic(() =>
-    import("@/utils/useUser").then((module) => module.UserContextProvider)
-  );
-  const UserAffiliateContextProvider = dynamic(() =>
-    import("@/utils/UserAffiliateContext").then((module) => module.UserAffiliateContextProvider)
-  );
   const router = useRouter();
   
   useEffect(() => {

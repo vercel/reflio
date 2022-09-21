@@ -16,16 +16,16 @@ function SEOMeta({ title, description, keywords, img }) {
       <meta key="keywords" name="keywords" content={setKeywords} />
 
       {/* Twitter */}
-      <meta key="twCard" name="twitter:card" content="summary_large_image" key="twcard" />
-      <meta key="twCreator" name="twitter:creator" content="@useReflio" key="twhandle" />
+      <meta key="twCard" name="twitter:card" content="summary_large_image"/>
+      <meta key="twCreator" name="twitter:creator" content="@useReflio" />
       <meta key="twImage" name="twitter:image" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}${setImg}`}/>
 
       {/* Open Graph */}
-      <meta key="ogURL" property="og:url" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}`} key="ogurl" />
-      <meta key="ogImage" property="og:image" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}${setImg}`} key="ogimage" />
-      <meta key="ogSiteName" property="og:site_name" content="Reflio" key="ogsitename" />
-      <meta key="ogTitle" property="og:title" content={setTitle} key="ogtitle" />
-      <meta key="ogDescription" property="og:description" content={setDescription} key="ogdesc" />
+      <meta key="ogURL" property="og:url" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}`} />
+      <meta key="ogImage" property="og:image" content={`${process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL}${setImg}`} />
+      <meta key="ogSiteName" property="og:site_name" content="Reflio" />
+      <meta key="ogTitle" property="og:title" content={setTitle} />
+      <meta key="ogDescription" property="og:description" content={setDescription} />
       <meta key="themeColor" name="theme-color" content="#ffaf45" />
       <title>{setTitle}</title>
       <link rel="manifest" href="/site.webmanifest"/>
