@@ -1502,6 +1502,10 @@ video {
   border-bottom-width: 2px;
 }
 
+.border-b-4 {
+  border-bottom-width: 4px;
+}
+
 .border-r-4 {
   border-right-width: 4px;
 }
@@ -1516,10 +1520,6 @@ video {
 
 .border-b {
   border-bottom-width: 1px;
-}
-
-.border-b-4 {
-  border-bottom-width: 4px;
 }
 
 .border-t-8 {
@@ -1590,10 +1590,6 @@ video {
 
 .border-primary {
   border-color: var(--primary);
-}
-
-.border-b-primary-2 {
-  border-bottom-color: var(--primary-2);
 }
 
 .border-b-primary-3 {

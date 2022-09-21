@@ -67,55 +67,55 @@ function Layout({ children }) {
 
   return (
     <>
-      <>
-        <Toaster
-          position="bottom-center"
-          reverseOrder={true}
-          gutter={20}
-          toastOptions={{
-            className: '',
-            duration: 5000,
+      <Toaster
+        position="bottom-center"
+        reverseOrder={true}
+        gutter={20}
+        toastOptions={{
+          className: '',
+          duration: 5000,
+          style: {
+            background: '#fff',
+            color: '#111827',
+          },
+          // Default options for specific types
+          success: {
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+          error: {
             style: {
-              background: '#fff',
-              color: '#111827',
+              background: '#DC2626',
+              color: 'white',
             },
-            // Default options for specific types
-            success: {
-              theme: {
-                primary: 'green',
-                secondary: 'black',
-              },
-            },
-            error: {
-              style: {
-                background: '#DC2626',
-                color: 'white',
-              },
-            },
-          }}
-        />
-        {
-          defaultPage === true ?
-            <main id="skip">{children}</main>
-          : simplePage === true ?
-            <main id="skip">{children}</main>
-          : dashboardPage === true ?
-            <div className="h-screen flex overflow-hidden">
-              <AdminDesktopNav/>
-              <div className="flex-1 overflow-auto focus:outline-none">
-                <AdminMobileNav/>
-                <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
+          },
+        }}
+      />
+      {
+        defaultPage === true ?
+          <main id="skip">{children}</main>
+        : simplePage === true ?
+          <main id="skip">{children}</main>
+        : dashboardPage === true ?
+          <div className="h-screen flex overflow-hidden">
+            <AdminDesktopNav/>
+            <div className="flex-1 overflow-auto focus:outline-none">
+              <AdminMobileNav/>
+              <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
+                <>
                   {children}
-                </main>
-              </div>
+                </>
+              </main>
             </div>
-          : <main id="skip">{children}</main>
-        }
-        {
-          defaultPage === true &&
-          <Footer />
-        }
-      </>
+          </div>
+        : <main id="skip">{children}</main>
+      }
+      {
+        defaultPage === true &&
+        <Footer />
+      }
     </>
   );
 };
