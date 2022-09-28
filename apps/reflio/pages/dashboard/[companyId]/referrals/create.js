@@ -120,7 +120,7 @@ export default function ReferralCreatePage() {
                       <label htmlFor="invite_emails" className="text-xl font-semibold text-gray-900 block mb-1">
                         Affiliate ID
                       </label>
-                      <p className="mb-3">You can find an affiliate's ID on the <a className="font-bold underline" href={`/dashboard/${router?.query?.companyId}/affiliates`}>Affiliates</a> page</p>
+                      <p className="mb-3">You can find an affiliate&lsquo;s ID on the <a className="font-bold underline" href={`/dashboard/${router?.query?.companyId}/affiliates`}>Affiliates</a> page</p>
                       <div className="mt-1 flex rounded-md shadow-sm">
                        <input
                           placeholder="Affiliate ID (e.g. 6ryqri3cdjxeyqwl14yi)"
@@ -134,7 +134,7 @@ export default function ReferralCreatePage() {
                     </div>
                     <div>
                       <label htmlFor="email_subject" className="text-xl font-semibold text-gray-900 mb-1 block">
-                        User's Email Address
+                        User&lsquo;s Email Address
                       </label>
                       <p className="mb-3">The email address which the user used to sign up to your product with.</p>
                       <div className="mt-1 flex rounded-md shadow-sm">
