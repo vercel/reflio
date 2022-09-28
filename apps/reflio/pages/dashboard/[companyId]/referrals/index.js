@@ -8,13 +8,18 @@ import { SEOMeta } from '@/templates/SEOMeta';
 import {
   EmojiSadIcon
 } from '@heroicons/react/solid';
+import {
+  UserAddIcon
+} from '@heroicons/react/outline';
 import { UTCtoString, checkUTCDateExpired, priceString } from '@/utils/helpers';
 import ReactTooltip from 'react-tooltip';
+import Modal from '@/components/Modal';
 
 export default function ReferralsPage() {
   const router = useRouter();
   const { activeCompany } = useCompany();
   const [referrals, setReferrals] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
  
   if(referrals?.length === 0 && activeCompany?.company_id){
@@ -56,9 +61,18 @@ export default function ReferralsPage() {
     <>
       <SEOMeta title="Referrals"/>
       <div className="mb-8">
-        <div className="pt-10 wrapper">
-          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
-          <p>Referrals are tracked when a cookie has been successfully placed on the users device.</p>
+        <div className="pt-10 wrapper flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
+            <p>Referrals are tracked when a cookie has been successfully placed on the users device.</p>
+          </div>
+          {/* <Button
+            href={`/dashboard/${router?.query?.companyId}/referrals/create`}
+            medium
+            primary
+          >
+            <span>Create referral</span>
+          </Button> */}
         </div>
       </div>
       <div className="wrapper">
@@ -171,6 +185,12 @@ export default function ReferralsPage() {
             <LoadingTile/>
         }
       </div>
+      {
+        showModal && 
+        <Modal modalOpen={showModal} setModalOpen={setShowModal}>
+
+        </Modal>
+      }
     </>
   );
 }
