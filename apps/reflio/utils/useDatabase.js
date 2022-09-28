@@ -233,7 +233,7 @@ export const verifyReferral = async (referralCode, companyId) => {
     .from('affiliates')
     .select('*')
     .eq('company_id', companyId)
-    .eq('referral_code', referralCode)
+    .or(`referral_code.eq.${referralCode},affiliate_id.eq.${referralCode}`)
 
   if(data?.length){
     referralData = data[0];

@@ -64,6 +64,9 @@ export default function InnerDashboardPage() {
                               <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">
                                 User
                               </th>
+                              <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">
+                                Affiliate ID
+                              </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Campaign
                               </th>
@@ -92,6 +95,9 @@ export default function InnerDashboardPage() {
                                       <span>{affiliate?.details?.email ?? affiliate?.invite_email}</span>
                                     </div>
                                   </div>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                  <p>{affiliate?.affiliate_id}</p>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   {
