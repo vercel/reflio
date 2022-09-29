@@ -416,7 +416,7 @@ export const getReferralFromId = async (referralId, companyId) => {
 
   if(referralData?.data){
     let expiryDate = new Date(referralData?.data?.referral_expiry);
-    expiryDate = createdDate.toUTCString();
+    expiryDate = expiryDate.toUTCString();
 
     return {
       "campaign_id": referralData?.data?.campaign_id,
