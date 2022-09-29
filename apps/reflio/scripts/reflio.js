@@ -497,7 +497,7 @@ window.addEventListener("scroll", function checkScrollPercentage() {
 
 }, false);
 
-if(reflioRetrieveReferralParam !== null && cookieExists === false){
+if(reflioRetrieveReferralParam !== null && Reflio.cookieExists() === false){
   console.log("Running referral retrieve function")
   Reflio.retrieve(reflioRetrieveReferralParam, Reflio.details().companyId)
 }
