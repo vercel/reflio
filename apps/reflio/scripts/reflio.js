@@ -1,5 +1,3 @@
-const e = require("cors");
-
 let ReflioDomainRoot = 'https://reflio.com';
 if(window.location.href.includes('reflioTestingMode=true')){
   ReflioDomainRoot = 'http://localhost:3000';
