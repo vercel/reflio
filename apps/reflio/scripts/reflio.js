@@ -1,3 +1,5 @@
+const e = require("cors");
+
 let ReflioDomainRoot = 'https://reflio.com';
 if(window.location.href.includes('reflioTestingMode=true')){
   ReflioDomainRoot = 'http://localhost:3000';
@@ -8,6 +10,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const reflioVerifyParam = urlParams.get("reflioVerify");
 const reflioReferralParam = urlParams.get("via") ? urlParams.get("via") : urlParams.get("ref") ? urlParams.get("ref") : null;
+const reflioRetrieveReferralParam = urlParams.get("referral") ? urlParams.get("referral") : null;
 let reflioReferralObject = localStorage.getItem('reflioReferral');
 const reflioInnerScript = document.querySelector("script[data-reflio]");
 let scrolledPercentage = (((document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100).toFixed(0));
@@ -427,6 +430,26 @@ class rfl {
 
     return convertData;
   }
+  async retrieve(referralId, companyId){
+    const referralData = await fetch(ReflioAPIRoot+'/retrieve-referral', {
+      method: 'POST',
+      body: JSON.stringify({
+        referralId: referralId,
+        companyId: companyId
+      }),
+    }).then(function (response) {
+      return response.json();
+    });
+
+    if(referralData !== null){
+      console.log("Reflio cookie was set")
+      //Set cookie
+      document.cookie = `reflioData=${JSON.stringify(referralData?.referral_details)}; expires=${referralData?.referral_details?.cookie_date}`;
+      return true;
+    }
+
+    return false;
+  }
 }
 
 //Activate global class.
@@ -475,6 +498,11 @@ window.addEventListener("scroll", function checkScrollPercentage() {
   }
 
 }, false);
+
+if(reflioRetrieveReferralParam !== null && cookieExists === false){
+  console.log("Running referral retrieve function")
+  Reflio.retrieve(reflioRetrieveReferralParam, Reflio.details().companyId)
+}
 
 //If cookie already exists, double check and remove all consent banners.
 if(Reflio.cookieExists() === true){
