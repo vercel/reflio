@@ -3,49 +3,43 @@ import { stripe } from './stripe';
 import { invoicePayment, chargePayment } from './stripe-payment-helpers';
 import { monthsBetweenDates } from './helpers';
 
-export const createCommission = async(data) => {
-  let paymentData = data?.data?.object ? data?.data?.object : null;
+export const createCommission = async(data, stripeId, manualReferralId) => {
+  let paymentData = data?.data?.object ? data?.data?.object : data?.id ? data : null;
   let referralId = null;
-
-  console.log('1')
 
   //Get customer object from payment data customer ID
   const customer = await stripe.customers.retrieve(
     paymentData?.customer,
-    {stripeAccount: data?.account}
+    {stripeAccount: stripeId ? stripeId : data?.account}
   );
-
-  console.log('4')
 
   //Check if customer has a referral ID
   if(customer?.metadata?.reflio_referral_id){
     referralId = customer?.metadata?.reflio_referral_id;
 
-    console.log('5')
-
     //If customer doesn't have a referral ID... check if the payment object does
   } else if(paymentData?.metadata?.reflio_referral_id){
     referralId = paymentData?.metadata?.reflio_referral_id;
-
-    console.log('6')
 
     //Update customer with referral ID
     await stripe.customers.update(
       customer?.id,
       {metadata: {reflio_referral_id: paymentData?.metadata?.reflio_referral_id}},
-      {stripeAccount: data?.account}
+      {stripeAccount: stripeId ? stripeId : data?.account}
     );
+  }
+
+  if(referralId === null && manualReferralId){
+    referralId = manualReferralId;
   }
 
   //Check if referral ID exists before continuing
   if(referralId){
 
-    console.log('7')
-
     //Check if paymentIntent exists
     const paymentIntent = await stripe.paymentIntents.retrieve(
-      paymentData?.payment_intent,
-      {stripeAccount: data?.account}
+      paymentData?.payment_intent ? paymentData?.payment_intent : paymentData?.id,
+      {stripeAccount: stripeId ? stripeId : data?.account}
     );
 
     //If there's no payment intent... back out
@@ -57,8 +51,6 @@ export const createCommission = async(data) => {
     if(paymentIntent?.metadata?.reflio_commission_id){
       return "commission_exists";
     }
-
-    console.log('8')
     
     //Check if referral is valid in DB
     let referralFromId = await supabaseAdmin
@@ -66,15 +58,11 @@ export const createCommission = async(data) => {
       .select('*')
       .eq('referral_id', referralId)
       .single();
-    
-    console.log('9')
       
     //If referral is valid, continue
     if(referralFromId?.data !== null){
 
       let continueProcess = true;
-
-      console.log('10')
 
       //Check if there is an earlier commission with the same referral ID... if so, check if payment limit has been reached
       let earliestCommission = await supabaseAdmin
@@ -85,8 +73,6 @@ export const createCommission = async(data) => {
         .limit(1)
 
       if(earliestCommission?.data !== null){
-        console.log('11')
-
         let commissionFound = earliestCommission?.data[0];
 
         if(commissionFound?.created){
@@ -101,16 +87,13 @@ export const createCommission = async(data) => {
       }
 
       if(continueProcess === true){
-        console.log('12');
         
         if(paymentIntent?.invoice){
-          await invoicePayment(referralFromId, data?.account, referralId, paymentIntent, null);
-          console.log('13-A')
+          await invoicePayment(referralFromId, stripeId ? stripeId : data?.account, referralId, paymentIntent, null);
           return "success";
     
         } else if(paymentIntent?.charges){
-          await chargePayment(referralFromId, data?.account, referralId, paymentIntent);
-          console.log('12-B')
+          await chargePayment(referralFromId, stripeId ? stripeId : data?.account, referralId, paymentIntent);
           return "success";
     
         } else {
@@ -119,8 +102,6 @@ export const createCommission = async(data) => {
       }
     }
   }
-
-  console.log('14')
 
   return "error";
 };

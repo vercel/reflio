@@ -11,6 +11,7 @@ import {
   ArrowNarrowLeftIcon
 } from '@heroicons/react/outline';
 import setupStepCheck from '@/utils/setupStepCheck';
+import toast from 'react-hot-toast';
 
 export default function ReferralCreatePage() {
   setupStepCheck('light');
@@ -41,36 +42,37 @@ export default function ReferralCreatePage() {
 
     try {
       const { response } = await postData({
-        url: '/api/affiliates/invite',
+        url: '/api/referrals/create',
         data: { 
           companyId: router?.query?.companyId,
-          companyName: activeCompany?.company_name,
-          companyHandle: activeCompany?.company_handle,
           campaignId: data?.campaign_id,
-          emailInvites: data?.invite_emails,
-          logoUrl: activeCompany?.company_image !== null && activeCompany?.company_image?.length > 0 ? process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+activeCompany?.company_image : null,
-          emailSubject: data?.email_subject?.length > 0 ? data?.email_subject : null,
-          emailContent: data?.email_content?.length > 0 ? data?.email_content : null
+          affiliateId: data?.affiliate_id,
+          emailAddress: data?.email_address,
+          stripeAccountId: activeCompany?.stripe_id,
+          paymentIntentId: data?.payment_intent_id ? data?.payment_intent_id : null,
         },
         token: session.access_token
       });
 
-      if(response === "success"){
-        setLoading(false);
+      if(response !== "error"){
         setErrorMessage(false);
-        router.replace(`/dashboard/${router?.query?.companyId}/affiliates`);
+        
+        if(response === "referral_success"){
+          toast.success('Referral successfully created');
+        } else if(response === "commission_success"){
+          toast.success('Referral and commission successfully created');
+        }
+
+        router.replace(`/dashboard/${router?.query?.companyId}/referrals`);
       }
 
-      if(response === "limit reached"){
-        setLoading(false);
-        setErrorMessage(true);
-      }
+      setErrorMessage(true);
+      setLoading(false);
 
     } catch (error) {
       setLoading(false);
       setErrorMessage(true);
     }
-
   };
 
   return (
@@ -117,15 +119,15 @@ export default function ReferralCreatePage() {
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="invite_emails" className="text-xl font-semibold text-gray-900 block mb-1">
+                      <label htmlFor="affiliate_id" className="text-xl font-semibold text-gray-900 block mb-1">
                         Affiliate ID
                       </label>
                       <p className="mb-3">You can find an affiliate&lsquo;s ID on the <a className="font-bold underline" href={`/dashboard/${router?.query?.companyId}/affiliates`}>Affiliates</a> page</p>
                       <div className="mt-1 flex rounded-md shadow-sm">
                        <input
                           placeholder="Affiliate ID (e.g. 6ryqri3cdjxeyqwl14yi)"
-                          name="email_subject"
-                          id="email_subject"
+                          name="affiliate_id"
+                          id="affiliate_id"
                           type="text"
                           required
                           className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-gray-300"
@@ -133,30 +135,30 @@ export default function ReferralCreatePage() {
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="email_subject" className="text-xl font-semibold text-gray-900 mb-1 block">
+                      <label htmlFor="email_address" className="text-xl font-semibold text-gray-900 mb-1 block">
                         User&lsquo;s Email Address
                       </label>
                       <p className="mb-3">The email address which the user used to sign up to your product with.</p>
                       <div className="mt-1 flex rounded-md shadow-sm">
                         <input
                           placeholder="youruser@email.com"
-                          name="email_subject"
-                          id="email_subject"
-                          type="text"
+                          name="email_address"
+                          id="email_address"
+                          type="email"
                           className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-gray-300"
                         />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="email_subject" className="text-xl font-semibold text-gray-900 mb-1 block">
-                        Stripe Payment ID *optional*
+                      <label htmlFor="payment_intent_id" className="text-xl font-semibold text-gray-900 mb-1 block">
+                        Stripe Payment ID (*optional*)
                       </label>
                       <p className="mb-3">The ID of the Stripe payment intent or invoice. If the payment is found, this will automatically create a commission for the affiliate.</p>
                       <div className="mt-1 flex rounded-md shadow-sm">
                         <input
                           placeholder="Stripe Payment ID (e.g. pi_2FaPXJC7NSaZYFlG02P1MRVx)"
-                          name="email_subject"
-                          id="email_subject"
+                          name="payment_intent_id"
+                          id="payment_intent_id"
                           type="text"
                           className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-gray-300"
                         />
@@ -176,7 +178,7 @@ export default function ReferralCreatePage() {
                     primary
                     disabled={loading}
                   >
-                    <span>{loading ? 'Sending invites...' : 'Create referral'}</span>
+                    <span>{loading ? 'Creating referral...' : 'Create referral'}</span>
                   </Button>
                 </div>
               </form>

@@ -1,6 +1,7 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
 import { toDateTime, LogSnagPost } from './helpers';
+import { createCommission } from 'utils/stripe-helpers';
 
 // This entire file should be removed and moved to supabase-admin
 // It's not a react hook, so it shouldn't have useDatabase format
@@ -284,7 +285,7 @@ export const createReferral = async (details) => {
       id: campaignData?.id,
       team_id: campaignData?.team_id,
       affiliate_id: details?.affiliate_id,
-      affiliate_code: details?.affiliate_code,
+      affiliate_code: details?.affiliate_code ?? null,
       campaign_id: campaignData?.campaign_id,
       company_id: campaignData?.company_id,
       commission_type: campaignData?.commission_type,
@@ -292,7 +293,8 @@ export const createReferral = async (details) => {
       cookie_window: campaignData?.cookie_window,
       commission_period: campaignData?.commission_period,
       minimum_days_payout: campaignData?.minimum_days_payout,
-      referral_expiry: dateTodayIso
+      referral_expiry: dateTodayIso,
+      referral_reference_email: details?.referral_reference_email ?? null
     });
 
     if(referralData?.data){
@@ -427,5 +429,39 @@ export const getReferralFromId = async (referralId, companyId) => {
     }
   }
 
+  return "error";
+}
+
+export const referralCreate = async (user, companyId, campaignId, affiliateId, emailAddress, stripeAccountId, paymentIntentId) => {
+  if(!user || !companyId || !campaignId || !emailAddress) return "error";
+
+  const details = {
+    "affiliate_id": affiliateId,
+    "campaign_id": campaignId,
+    "referral_reference_email": emailAddress
+  };
+
+  const referral = await createReferral(details);
+  
+  if(referral !== "error"){
+    if(stripeAccountId && paymentIntentId){      
+      //Check if paymentIntent exists
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        paymentIntentId,
+        {stripeAccount: stripeAccountId}
+      );
+
+      if(paymentIntent?.id){
+        const commission = await createCommission(paymentIntent, stripeAccountId, referral?.referral_id);
+
+        if(commission === "success"){
+          return "commission_success";
+        }
+      }
+    }
+
+    return "referral_success";
+  }
+  
   return "error";
 }
