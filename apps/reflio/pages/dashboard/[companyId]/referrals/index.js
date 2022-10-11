@@ -66,13 +66,13 @@ export default function ReferralsPage() {
             <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
             <p>Referrals are tracked when a cookie has been successfully placed on the users device.</p>
           </div>
-          {/* <Button
+          <Button
             href={`/dashboard/${router?.query?.companyId}/referrals/create`}
             medium
             primary
           >
             <span>Create referral</span>
-          </Button> */}
+          </Button>
         </div>
       </div>
       <div className="wrapper">
@@ -91,6 +91,9 @@ export default function ReferralsPage() {
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Referrer
+                              </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                Signup Email/ID
                               </th>
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Campaign
@@ -114,6 +117,9 @@ export default function ReferralsPage() {
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   <span>{referral?.affiliate?.details?.email}</span>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                  <span>{referral?.referral_reference_email}</span>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                   {

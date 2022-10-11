@@ -99,6 +99,12 @@ export const CommissionsTemplate = ({ page }) => {
     });
   };
 
+  const exportCSV = async () => {
+    if(checkedItems?.length === 0) return false;
+
+    alert('Test mode enabled.')
+  }
+
   return (
     <>
       <div className="mb-8">

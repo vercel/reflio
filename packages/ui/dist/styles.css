@@ -2509,6 +2509,16 @@ a {
   }
 }
 
+.Canny_BadgeContainer .Canny_Badge {
+  position: absolute;
+  top: -1px;
+  right: -20px;
+  border-radius: 50%;
+  background-color: rgb(240, 70, 70);
+  padding: 4px;
+  border: 2px solid rgb(197, 38, 38);
+}
+
 .height-screen-helper {
   height: var(--vh100-offset);
 }

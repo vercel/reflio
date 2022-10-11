@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useUser, handleActiveCompany } from '@/utils/useUser';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -18,7 +18,8 @@ import {
   BookOpenIcon,
   MapIcon,
   SupportIcon,
-  CurrencyDollarIcon
+  CurrencyDollarIcon,
+  BellIcon
 } from '@heroicons/react/outline';
 import Link from 'next/link';
 
@@ -52,6 +53,17 @@ export const AdminNavItems = () => {
       }
     });
   };
+
+  useEffect(() => {
+    if(typeof Canny !== 'undefined'){
+      Canny('initChangelog', {
+        appID: '63109013e111097776764cdd',
+        position: 'bottom',
+        align: 'left',
+      });
+    }
+  }, [])
+  
   
   return(
     <>
@@ -176,6 +188,20 @@ export const AdminNavItems = () => {
         </div>
         <div className="px-5 py-2">
           <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Resources</p>
+          {
+            typeof Canny !== 'undefined' &&
+            <div
+              className={classNames(
+                navItemClass,
+                'w-full'
+              )}
+            >
+              <button className="flex items-center" data-canny-changelog>
+                <BellIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                <span>What's New</span>
+              </button>
+            </div>
+          }
           <Link
             passHref
             href="https://reflio.com/resources"

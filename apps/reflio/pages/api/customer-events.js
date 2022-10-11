@@ -62,7 +62,7 @@ const customerEvents = async (req, res) => {
             await editCommission(event);
             break;
           case 'charge.succeeded':
-            await createCommission(event);
+            await createCommission(event, null, null);
             break;
           case 'customer.created':
             await updateCustomer(event);
