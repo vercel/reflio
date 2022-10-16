@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 export const Button = (props) => {
   const Link = dynamic(() => import('next/link'));
 
-  let styles = 'relative inline-flex items-center justify-center border-2 border-transparent font-semibold rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all';
+  let styles = 'relative inline-flex items-center justify-center font-semibold rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all';
 
   //Sizing styles
   if(props.small){
@@ -20,15 +20,15 @@ export const Button = (props) => {
 
   //Color styles
   if(props.secondary){
-    styles = styles + ' text-white bg-secondary border-secondary-2 hover:bg-secondary-2'
+    styles = styles + ' text-white bg-secondary hover:bg-secondary-2'
   } else if(props.gray){
-    styles = styles + ' text-gray-800 bg-gray-300 border-gray-400 hover:bg-gray-400'
+    styles = styles + ' text-gray-800 bg-gray-300 hover:bg-gray-400'
   } else if(props.white){
-    styles = styles + ' bg-white border-gray-100 hover:bg-gray-100'
+    styles = styles + ' bg-white hover:bg-gray-100'
   } else if(props.red){
-    styles = styles + ' text-white bg-red-500 border-red-600 hover:bg-red-600'
+    styles = styles + ' text-white bg-red-500 hover:bg-red-600'
   } else {
-    styles = styles + ' bg-primary border-primary-2 hover:bg-primary-2'
+    styles = styles + ' bg-primary hover:bg-primary-2'
   }
 
   if(props.mobileFull){

@@ -9,6 +9,8 @@
     "js": "uglifyjs ./scripts/reflio.js -c --mangle --no-annotations --webkit -o ./public/js/reflio.min.js"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.186.0",
+    "@aws-sdk/lib-dynamodb": "^3.188.0",
     "@babel/preset-env": "^7.16.11",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",

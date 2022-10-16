@@ -126,7 +126,7 @@ export const CampaignForm = ({ edit, setupMode }) => {
                               type="number"
                               name="commission_value"
                               id="commission_value"
-                              defaultValue={edit && edit?.commission_value}
+                              defaultValue={edit?.commission_value ?  edit?.commission_value : 20}
                               autoComplete="commission_value"
                               className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 border-r-0 rounded-tr-none rounded-br-none border-gray-300"
                             />
@@ -151,7 +151,7 @@ export const CampaignForm = ({ edit, setupMode }) => {
                               type="number"
                               name="commission_value"
                               id="commission_value"
-                              defaultValue={edit && edit?.commission_value}
+                              defaultValue={edit?.commission_value ?  edit?.commission_value : 20}
                               autoComplete="commission_value"
                               className="flex-1 block w-full min-w-0 p-3 rounded-xl focus:outline-none sm:text-md border-2 bor border-r-0 rounded-tl-none rounded-bl-none border-gray-300"
                             />

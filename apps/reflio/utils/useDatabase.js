@@ -1,7 +1,9 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
 import { toDateTime, LogSnagPost } from './helpers';
-import { createCommission } from 'utils/stripe-helpers';
+import { createCommission } from '@/utils/stripe-helpers';
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import ddbDocClient from "@/utils/analytics/ddbDocClient";
 
 // This entire file should be removed and moved to supabase-admin
 // It's not a react hook, so it shouldn't have useDatabase format
@@ -247,13 +249,23 @@ export const verifyReferral = async (referralCode, companyId) => {
   }
 };
 
-export const fireRecordImpression = async (id) => {
-  const { error } = await supabaseAdmin.rpc('referralimpression', { x: 1, affiliateid: id })
-
-  if (error) {
-    return "error";
-  } else {
+export const fireRecordImpression = async (campaignId, affiliateId) => {
+  const params = {
+    TableName: "reflio-analytics-v1",
+    Item: {
+      campaign_id: campaignId,
+      affiliate_id: affiliateId,
+      date: new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+      created: ((new Date()).toISOString())
+    },
+  };
+  try {
+    await ddbDocClient.send(new PutCommand(params));
+    console.log("Impression fired!!!")
     return "success";
+  } catch (err) {
+    console.log("Error", err.stack);
+    return "error";
   }
 };
 

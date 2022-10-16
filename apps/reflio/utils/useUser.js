@@ -346,6 +346,19 @@ export const newCompany = async (user, form) => {
   }
 };
 
+export const continueWithoutStripe = async (companyId) => {
+  let { error } = await supabase
+    .from('companies')
+    .update({
+      stripe_id: 'manual',
+      stripe_account_data: 'manual'
+    })
+    .eq('company_id', companyId);
+  if (error) return "error";
+
+  return "success";
+}
+
 export const handleActiveCompany = async (switchedCompany) => {
   let { data } = await supabase
     .from('companies')
@@ -535,6 +548,19 @@ export const newStripeAccount = async (userId, stripeId, companyId) => {
   }
 
 };
+
+export const manuallyVerifyDomain = async (companyId) => {
+  let { error } = await supabase
+  .from('companies')
+  .update({
+    domain_verified: true
+  })
+  .eq('company_id', companyId);
+
+  if (error) return "error";
+
+  return "success";
+}
 
 export const deleteAffiliate = async (id) => {
   const { error } = await supabase
