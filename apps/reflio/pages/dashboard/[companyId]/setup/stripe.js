@@ -1,13 +1,27 @@
 import { useRouter } from 'next/router';
 import SetupProgress from '@/components/SetupProgress'; 
 import Button from '@/components/Button'; 
+import { continueWithoutStripe } from '@/utils/useUser';
 import { StripeConnect } from '@/components/Icons/StripeConnect'; 
 import { useCompany } from '@/utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
+import toast from 'react-hot-toast';
 
 export default function StripeSetupPage() {
   const router = useRouter();
   const { activeCompany } = useCompany();
+  
+  const handleSkipStripe = async () => {
+    if (window.confirm('Are you sure you want to continue without adding Stripe? This means that payments will not be automatically be synced with your Stripe dashboard.')){
+      const status = await continueWithoutStripe(activeCompany?.company_id);
+
+      if(status === "success"){
+        router.replace(`/dashboard/${router?.query?.companyId}/setup/currency`)
+      } else {
+        toast.error("There was an error when trying to continue. Please contact support.");
+      }
+    }
+  };
 
   return (
     <>
@@ -26,7 +40,7 @@ export default function StripeSetupPage() {
       <div className="wrapper">
         <div className="rounded-xl bg-white max-w-2xl overflow-hidden shadow-lg border-4 border-gray-300 p-6">
           {
-            activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null ?
+            activeCompany?.stripe_account_data !== null && activeCompany?.stripe_id !== null && activeCompany?.stripe_id !== 'manual' ?
               <div>
                 <p className="text-lg mb-3">Your Stripe account is connected.</p>
                 <div className="mb-3">
@@ -56,6 +70,17 @@ export default function StripeSetupPage() {
               </div>
           }
         </div>
+        {
+          activeCompany?.stripe_account_data === null && activeCompany?.stripe_id === null &&
+          <div className="mt-12">
+            <button 
+              className="text-gray-500 font-bold underline"
+              onClick={e=>{handleSkipStripe()}}
+            >
+              Continue without connecting Stripe
+            </button>
+          </div>
+        }
       </div>
     </>
   );

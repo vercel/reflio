@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import SetupProgress from '@/components/SetupProgress'; 
 import Button from '@/components/Button'; 
 import { SEOMeta } from '@/templates/SEOMeta'; 
+import { manuallyVerifyDomain } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
@@ -11,10 +12,18 @@ export default function TrackingSetupPage() {
   const { activeCompany } = useCompany();
   const {width, height} = useWindowSize();
 
-  const embedCode = 
-  `<script>(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'reflio');</script>
- <script async src='https://reflio.com/js/reflio.min.js' data-reflio='${router?.query?.companyId}'></script>`;
-  
+  const handleSkipDomainVerify = async () => {
+    if (window.confirm('Are you sure you want to manually set this domain as verified? We always advise going through our standard verification process to ensure data is being properly received.')){
+      const status = await manuallyVerifyDomain(activeCompany?.company_id);
+
+      if(status === "success"){
+        router.reload();
+      } else {
+        toast.error("There was an error when trying to continue. Please contact support.");
+      }
+    }
+  };
+
   return (
     <div>
       <SEOMeta title="Verify Setup"/>
@@ -70,6 +79,17 @@ export default function TrackingSetupPage() {
             }
           </div>
         </div>
+        {
+          activeCompany?.domain_verified === false &&
+          <div className="mt-8">
+            <button 
+              className="text-gray-500 font-bold underline"
+              onClick={e=>{handleSkipDomainVerify()}}
+            >
+              Manually verify domain
+            </button>
+          </div>
+        }
       </div>
       {
         activeCompany?.domain_verified === true &&

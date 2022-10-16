@@ -23,6 +23,8 @@ function runMiddleware(req, res, fn) {
 
 const recordImpression = async (req, res) => {
 
+  console.log('Impression API Call')
+
   // Run the middleware
   await runMiddleware(req, res, cors);
 
@@ -42,11 +44,21 @@ const recordImpression = async (req, res) => {
   }
 
   try {
+    console.log('Trying...')
+
     if(filteredReferer !== null && body?.referralCode && body?.companyId){
       const referralVerify = await verifyReferral(body?.referralCode, body?.companyId);
 
+      console.log('referralVerify:')
+      console.log(referralVerify)
+      
       if(referralVerify !== "error" && referralVerify?.affiliate_id && referralVerify?.campaign_id){
-        const impression = await fireRecordImpression(referralVerify?.affiliate_id);
+        console.log('Referral verified...')
+
+        const impression = await fireRecordImpression(referralVerify?.campaign_id, referralVerify?.affiliate_id);
+
+        console.log("Impression:")
+        console.log(impression)
 
         if(impression === "success"){
           const referral = await createReferral(referralVerify);
