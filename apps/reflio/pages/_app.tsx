@@ -1,3 +1,4 @@
+import type { AppProps } from "next/app";
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useEffect } from 'react';
@@ -6,7 +7,7 @@ import Layout from '@/templates/Layout';
 import { useRouter } from 'next/router';
 import SEOMeta from '@/templates/SEOMeta'; 
 
-export default function MyApp({ Component, pageProps }){
+export default function MyApp({ Component, pageProps: { ...pageProps }, }: AppProps<{}>) {
   const UserContextProvider = dynamic(() =>
     import("@/utils/useUser").then((module) => module.UserContextProvider)
   );

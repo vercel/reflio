@@ -1,6 +1,13 @@
 import Head from 'next/head';
 
-export const SEOMeta = ({ title, description, keywords, img }) => {
+type SEOMetaProps = {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  img?: string;
+}
+
+export const SEOMeta: React.FC<SEOMetaProps> = ({ title, description, keywords, img }) => {
 
   let setTitle = "Reflio: Create a privacy-friendly referral program for your SaaS.";
   let setDescription = "Create a privacy-friendly referral program for your SaaS. GDPR Friendly. Based in the UK. European-owned infrastructure.";

@@ -354,6 +354,10 @@ export const continueWithoutStripe = async (companyId) => {
       stripe_account_data: 'manual'
     })
     .eq('company_id', companyId);
+
+    console.log("error!!!")
+    console.log(error)
+
   if (error) return "error";
 
   return "success";
