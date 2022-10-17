@@ -32,7 +32,7 @@ export default function BillingPage() {
       <div className="wrapper">
         <Card>
           <div className="flex items-center mb-4">
-            <h2 className="text-xl leading-6 font-semibold text-gray-900">Current Plan: <span className="capitalize font-medium">{planDetails}</span></h2>
+            <h2 className="text-xl leading-6 font-semibold text-gray-900">Current Plan: <span className="capitalize font-medium">{planDetails === 'free' ? 'Pay-as-you-go (9% fee)' : planDetails}</span></h2>
           </div>
           <div className="bg-gray-100 rounded-xl p-6">
             <PricingFeatures normal productName={planDetails === 'free' ? 'Indie' : planDetails}/>

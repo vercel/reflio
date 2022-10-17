@@ -119,7 +119,7 @@ create table companies (
   company_affiliates jsonb,
   stripe_account_data jsonb,
   domain_verified boolean default false,
-  stripe_id text unique,
+  stripe_id text,
   active_company boolean default false,
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
