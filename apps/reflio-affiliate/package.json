@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@supabase/supabase-js": "^1.25.1",
+    "@vercel/og": "^0.0.19",
     "add": "^2.0.6",
     "autoprefixer": "^10.4.2",
     "babel-plugin-static-fs": "^3.0.0",
@@ -38,7 +39,7 @@
     "trailingComma": "none"
   },
   "engines": {
-    "node": "^14"
+    "node": "^16"
   },
   "devDependencies": {
     "@types/node": "^18.11.0",
