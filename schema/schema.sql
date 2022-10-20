@@ -231,6 +231,7 @@ create table commissions (
   commission_sale_value integer default null,
   commission_refund_value integer default null,
   paid_at text default null,
+  reflio_commission_paid boolean default false,
   commission_total integer default null,
   commission_due_date text default null,
   commission_description text default null,

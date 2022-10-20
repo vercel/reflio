@@ -1,23 +1,80 @@
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
 
+export const PricingParams = () => {
+  return({
+    "free": {
+      "companies": 1,
+      "campaigns": 1,
+      "affiliates": 100
+    },
+    "indie": {
+      "companies": 2,
+      "campaigns": 4,
+      "affiliates": 100
+    },
+    "pro": {
+      "companies": 3,
+      "campaigns": 6,
+      "affiliates": 500
+    },
+    "team": {
+      "companies": 10,
+      "campaigns": 30,
+      "affiliates": 2000
+    }
+  })
+}
+
 export const PricingFeatures = ({ productName, normal }) => {
 
   if(!productName) return false;
 
   const capitalizedName = productName.charAt(0).toUpperCase() + productName.slice(1);
 
+  const plans = PricingParams();
+
   const features = {
+    "Free": [
+      {
+        text: `${plans?.free?.affiliates} ${plans?.free?.affiliates > 1 ? 'affiliates' : 'affiliate'}`,
+        type: 'eligible'
+      },
+      {
+        text: `${plans?.free?.companies} ${plans?.free?.companies > 1 ? 'companies' : 'company'}`,
+        type: 'eligible'
+      },
+      {
+        text: `${plans?.free?.campaigns} ${plans?.free?.campaigns > 1 ? 'campaigns' : 'campaign'}`,
+        type: 'eligible'
+      },
+      {
+        text: 'Stripe auto sync',
+        type: 'eligible'
+      },
+      {
+        text: 'PayPal Mass Payouts',
+        type: 'eligible'
+      },
+      {
+        text: 'Live chat & email support',
+        type: 'eligible'
+      },
+      {
+        text: 'Invite team members',
+        type: 'ineligible'
+      }
+    ],
     "Indie": [
       {
-        text: '200 affiliates',
+        text: `${plans?.indie?.affiliates} ${plans?.indie?.affiliates > 1 ? 'affiliates' : 'affiliate'}`,
         type: 'eligible'
       },
       {
-        text: '2 companies',
+        text: `${plans?.indie?.companies} ${plans?.indie?.companies > 1 ? 'companies' : 'company'}`,
         type: 'eligible'
       },
       {
-        text: '4 campaigns',
+        text: `${plans?.indie?.campaigns} ${plans?.indie?.campaigns > 1 ? 'campaigns' : 'campaign'}`,
         type: 'eligible'
       },
       {
@@ -39,15 +96,15 @@ export const PricingFeatures = ({ productName, normal }) => {
     ],
     "Pro": [
       {
-        text: '500 affiliates',
+        text: `${plans?.pro?.affiliates} ${plans?.pro?.affiliates > 1 ? 'affiliates' : 'affiliate'}`,
         type: 'eligible'
       },
       {
-        text: '5 companies',
+        text: `${plans?.pro?.companies} ${plans?.pro?.companies > 1 ? 'companies' : 'company'}`,
         type: 'eligible'
       },
       {
-        text: '10 campaigns',
+        text: `${plans?.pro?.campaigns} ${plans?.pro?.campaigns > 1 ? 'campaigns' : 'campaign'}`,
         type: 'eligible'
       },
       {
@@ -69,15 +126,15 @@ export const PricingFeatures = ({ productName, normal }) => {
     ],
     "Team": [
       {
-        text: '2000 affiliates',
+        text: `${plans?.team?.affiliates} ${plans?.team?.affiliates > 1 ? 'affiliates' : 'affiliate'}`,
         type: 'eligible'
       },
       {
-        text: '10 companies',
+        text: `${plans?.team?.companies} ${plans?.team?.companies > 1 ? 'companies' : 'company'}`,
         type: 'eligible'
       },
       {
-        text: 'Unlimited campaigns',
+        text: `${plans?.team?.campaigns} ${plans?.team?.campaigns > 1 ? 'campaigns' : 'campaign'}`,
         type: 'eligible'
       },
       {

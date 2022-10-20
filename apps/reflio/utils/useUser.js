@@ -265,6 +265,28 @@ export const getSales = async (companyId, date, page) => {
   return { data, count };
 };
 
+export const getReflioCommissionsDue = async (teamId) => {
+  let query = supabase
+    .from('commissions')
+    .select(`
+        *,
+        campaign:campaign_id (campaign_name),
+        affiliate:affiliate_id (details:invited_user_id(email,paypal_email))
+      `, 
+      { count: "exact" }
+    )
+    .eq('team_id', teamId)
+    .eq('reflio_commission_paid', false)
+    .lt('commission_due_date', [((new Date()).toISOString())])
+    .is('paid_at', null)
+    .order('created', { ascending: false });
+
+  const { data, error } = await query;
+
+  if(error) return "error"; 
+  return { data };
+};
+
 export const payCommissions = async (companyId, checkedCommissions, eligibleCommissions) => {
   if(!companyId || !eligibleCommissions) return "error";
 

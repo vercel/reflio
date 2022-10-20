@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { getSales, payCommissions } from '@/utils/useUser';
+import { getSales, payCommissions, useUser } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 
 export const CommissionsTemplate = ({ page }) => {
   const { activeCompany } = useCompany();
+  const { planDetails } = useUser();
   const [commissions, setCommissions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -223,12 +224,18 @@ export const CommissionsTemplate = ({ page }) => {
                               {
                                 page !== 'due' &&
                                 <th data-tip="The total amount received, after any deductions for refunds and discounts." scope="col" className="px-3 py-3.5 text-sm text-left font-semibold">
-                                  Sale Amount
+                                  Amount
                                 </th>
                               }
-                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                {page !== 'due' ? 'Commission Value' : 'Total Due'}
+                              <th data-tip="The amount due to your affiliate." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                {page !== 'due' ? 'Commission Due' : 'Total Due'}
                               </th>
+                              {
+                                planDetails === 'free' &&
+                                <th data-tip="This is a 9% commission due to Reflio, since you are on the Pay-as-you-go plan. Upgrade your plan today to remove commission fees." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                  Reflio Fee (9%)
+                                </th>
+                              }
                               {
                                 page !== 'due' &&
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
@@ -252,7 +259,7 @@ export const CommissionsTemplate = ({ page }) => {
                               </th>
                
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                Date Created
+                                Created
                               </th>
                               {
                                 page === 'paid' &&
@@ -304,6 +311,12 @@ export const CommissionsTemplate = ({ page }) => {
                                 <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
                                   <span>{priceStringDivided(sale?.commission_total, activeCompany?.company_currency)}</span>
                                 </td>
+                                {
+                                  planDetails === 'free' &&
+                                  <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
+                                    <span>{priceStringDivided(((9/100)*sale?.commission_sale_value).toFixed(2), activeCompany?.company_currency)}</span>
+                                  </td>
+                                }
                                 {
                                   page !== 'due' &&
                                   <td className="px-3 py-4 text-sm max-w-xs break-all">

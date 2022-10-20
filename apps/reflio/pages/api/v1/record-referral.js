@@ -55,7 +55,7 @@ const recordImpression = async (req, res) => {
       if(referralVerify !== "error" && referralVerify?.affiliate_id && referralVerify?.campaign_id){
         console.log('Referral verified...')
 
-        const impression = await fireRecordImpression(referralVerify?.campaign_id, referralVerify?.affiliate_id);
+        const impression = await fireRecordImpression(referralVerify?.affiliate_id);
 
         console.log("Impression:")
         console.log(impression)

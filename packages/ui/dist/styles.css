@@ -763,6 +763,11 @@ video {
   margin-bottom: 0.25rem;
 }
 
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -899,6 +904,10 @@ video {
   margin-left: 0px;
 }
 
+.mt-24 {
+  margin-top: 6rem;
+}
+
 .mt-5 {
   margin-top: 1.25rem;
 }
@@ -913,10 +922,6 @@ video {
 
 .mb-14 {
   margin-bottom: 3.5rem;
-}
-
-.box-content {
-  box-sizing: content-box;
 }
 
 .block {
@@ -1013,16 +1018,6 @@ video {
 
 .h-28 {
   height: 7rem;
-}
-
-.h-24 {
-  height: 6rem;
-}
-
-.h-fit {
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
 }
 
 .max-h-60 {
@@ -1151,10 +1146,6 @@ video {
 
 .max-w-lg {
   max-width: 32rem;
-}
-
-.max-w-xl {
-  max-width: 36rem;
 }
 
 .max-w-sm {
@@ -3070,6 +3061,12 @@ a {
     --tw-space-x-reverse: 0;
     margin-right: calc(2rem * var(--tw-space-x-reverse));
     margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:space-x-6 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+    margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
   }
 
   .md\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
