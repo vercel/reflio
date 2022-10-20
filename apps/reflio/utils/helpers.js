@@ -205,3 +205,14 @@ export const LogSnagPost = async (type, message) => {
     return "error"
   }
 };
+
+export const prettyMonthStartAndEnd = () => {
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+
+  return {
+    firstDay,
+    lastDay
+  }
+}

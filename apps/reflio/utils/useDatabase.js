@@ -249,23 +249,31 @@ export const verifyReferral = async (referralCode, companyId) => {
   }
 };
 
-export const fireRecordImpression = async (campaignId, affiliateId) => {
-  const params = {
-    TableName: "reflio-analytics-v1",
-    Item: {
-      campaign_id: campaignId,
-      affiliate_id: affiliateId,
-      date: new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
-      created: ((new Date()).toISOString())
-    },
-  };
-  try {
-    await ddbDocClient.send(new PutCommand(params));
-    console.log("Impression fired!!!")
-    return "success";
-  } catch (err) {
-    console.log("Error", err.stack);
+export const fireRecordImpression = async (id) => {
+  // AWS IMPRESSION WIP -----
+  // const params = {
+  //   TableName: "reflio-analytics-v1",
+  //   Item: {
+  //     campaign_id: campaignId,
+  //     affiliate_id: affiliateId,
+  //     date: new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+  //     created: ((new Date()).toISOString())
+  //   },
+  // };
+  // try {
+  //   await ddbDocClient.send(new PutCommand(params));
+  //   console.log("Impression fired!!!")
+  //   return "success";
+  // } catch (err) {
+  //   console.log("Error", err.stack);
+  //   return "error";
+  // }
+  const { error } = await supabaseAdmin.rpc('referralimpression', { x: 1, affiliateid: id })
+
+  if (error) {
     return "error";
+  } else {
+    return "success";
   }
 };
 
@@ -476,4 +484,45 @@ export const referralCreate = async (user, companyId, campaignId, affiliateId, e
   }
   
   return "error";
+}
+
+export const billingUsageDetails = async (teamId) => {
+  try {
+    let companyData = await supabaseAdmin
+      .from('companies')
+      .select('*', { count: 'exact' })
+      .eq('team_id', teamId);
+      
+    let campaignData = await supabaseAdmin
+      .from('campaigns')
+      .select('*', { count: 'exact' })
+      .eq('team_id', teamId);
+
+    let affiliateData = await supabaseAdmin
+      .from('affiliates')
+      .select('*', { count: 'exact' })
+      .eq('team_id', teamId);
+      
+    let referralData = await supabaseAdmin
+      .from('referrals')
+      .select('*', { count: 'exact' })
+      .eq('team_id', teamId);
+  
+    let commissionData = await supabaseAdmin
+      .from('commissions')
+      .select('*', { count: 'exact' })
+      .eq('team_id', teamId);
+      
+  
+    return {
+      "companies": companyData?.count,
+      "campaigns": campaignData?.count,
+      "affiliates": affiliateData?.count,
+      "referrals": referralData?.count,
+      "commissions": commissionData?.count,
+    }
+  } catch (error) {
+    console.warn(error);
+    return "error";
+  }
 }
