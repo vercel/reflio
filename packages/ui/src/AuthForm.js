@@ -5,21 +5,19 @@ import { useUser } from '@/utils/useUser';
 // import { Twitter } from '@/components/Icons/Twitter';
 // import { Google } from '@/components/Icons/Google';
 import { Button } from '@/components/Button';
+import LoadingDots from '@/components/LoadingDots';
 
-export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
+export const AuthForm = ({ type, campaignId, campaignHandle, affiliate, hideDetails, editor }) => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(''); 
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', content: '' });
   const router = useRouter();
-  const { signIn } = useUser();
-  let invitePage = false;
+  const { signIn, signInWithPassword, signUp } = useUser();
 
   if(router?.asPath?.includes('/invite/') && !router?.asPath?.includes('/signin')){
     type === 'signup';
-  }
-
-  if(router?.asPath?.includes('/invite/')){
-    invitePage = true;
   }
 
   let authState = type === 'signin' ? "Sign in" : type === "signup" ? "Sign up" : "Sign in";
@@ -30,15 +28,34 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
     setLoading(true);
     setMessage({});
 
-    const { error } = await signIn({ "email": email, "shouldCreateUser": type === "signin" ? false : true, "redirectTo": `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`});
-    if(error){
-      setMessage({ type: 'error', content: error.message });
-    } else {
-      setMessage({
-        type: 'note',
-        content: 'Check your email for the magic link.'
-      });
+    let signInFunc;
 
+    if(password && password?.length){
+      if(type === "signin"){
+        signInFunc = await signInWithPassword({ "email": email, "password": password, "shouldCreateUser": type === "signin" ? false : true, "redirectTo": `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`});
+      } else {
+        signInFunc = await signUp({ "email": email, "password": password, "redirectTo": `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`});
+      }
+    } else {
+      signInFunc = await signIn({ "email": email, "shouldCreateUser": type === "signin" ? false : true, "redirectTo": `${affiliate === true ? process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/dashboard`});
+    }
+   
+    if(signInFunc?.error){
+      setMessage({ type: 'error', content: signInFunc?.error.message });
+    } else {
+
+      if(password){
+        setMessage({
+          type: 'note',
+          content: 'Check your email for your confirmation email.'
+        });
+      } else {
+        setMessage({
+          type: 'note',
+          content: 'Check your email for the magic link.'
+        });
+      }
+      
       if(type === "signup" && affiliate !== true){
         console.log("Firing signup function")
         await Reflio.signup(email);
@@ -67,7 +84,7 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
       <div className="max-w-md w-full space-y-12">
 
         {
-          !invitePage &&
+          !hideDetails &&
           <div className="text-center">
             <h1 className="text-center text-3xl font-extrabold text-gray-900 capitalize mb-3">{authState}</h1>
             <p className="text-sm">Enter your email below and you'll be sent your magic <span className="lowercase">{authState}</span> link.</p>
@@ -92,14 +109,36 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
             />
           </div>
 
+          {
+            showPasswordInput &&
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="password"
+                required
+                className="appearance-none rounded-lg relative block w-full p-4 border-2 border-gray-200 placeholder-gray-500 focus:outline-none focus:z-10 text-base"
+                placeholder="*********"
+                onChange={e=>{setPassword(e.target.value)}}
+              />
+            </div>
+          }
+
           <div>
             <Button
+              disabled={loading}
               type="submit"
               medium
               secondary
               className="w-full"
             >
-              Send magic link
+              {
+                loading ? <LoadingDots/> : showPasswordInput ? authState : 'Send magic link'
+              }
             </Button>
           </div>
 
@@ -108,23 +147,35 @@ export const AuthForm = ({ type, campaignId, campaignHandle, affiliate }) => {
               <div className="mt-3 text-center text-sm">
                 <span className="text-accents-2">Don&apos;t have an account?</span>
                 {` `}
-                <Link href="/signup">
-                  <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                    Sign up.
-                  </a>
+                <Link href="/signup" className="text-accents-1 font-bold hover:underline cursor-pointer">
+                  Sign up.
                 </Link>
               </div>
             :
               <div className="mt-3 text-center text-sm">
                 <span className="text-accents-2">Already have an account?</span>
                 {` `}
-                <Link href={'/signin'}>
-                  <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                    Sign in.
-                  </a>
+                <Link href={'/signin'} className="text-accents-1 font-bold hover:underline cursor-pointer">
+                  Sign in.
                 </Link>
               </div>
           }
+
+          <div className="text-center">
+            <button
+              type="button"
+              className="text-sm text-accents-1 font-bold hover:underline"
+              onClick={() => {
+                if (showPasswordInput) setPassword('');
+                setShowPasswordInput(!showPasswordInput);
+                setMessage({});
+              }}
+            >
+              {`Or ${authState} with ${
+                showPasswordInput ? 'magic link' : 'password'
+              }.`}
+            </button>
+          </div>
 {/* 
           <div className="mb-6 space-y-2">
             <button

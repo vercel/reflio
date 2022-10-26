@@ -1,23 +1,22 @@
 import { useEffect } from 'react';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 
-export const Terms = () => {
+export const Commercial = () => {
 
   useEffect(() => {
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `window.Reform=window.Reform||function(){(Reform.q=Reform.q||[]).push(arguments)};`
-        }}
-      />
-      <script id="reform-script" async src="https://embed.reform.app/v1/embed.js"></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `Reform('init', { url: 'https://forms.reform.app/45Dbqq/commercial/b04o3s', target: '#my-reform', background: 'default', })`
-        }}
-      />
-    </>
-  });
+    const el = document.createElement('script')
+    el.src = 'https://embed.reform.app/v1/embed.js'
+    document.head.appendChild(el);
+
+    el.onload = () => {
+      if(typeof window.Reform !== 'undefined'){
+        window.Reform('init', {
+          url: 'https://forms.reform.app/45Dbqq/commercial/b04o3s',
+          target: '#my-reform',
+        })
+      }
+    }
+  }, [])
 
   return(
     <>
@@ -33,4 +32,4 @@ export const Terms = () => {
   );
 };
 
-export default Terms;
+export default Commercial;

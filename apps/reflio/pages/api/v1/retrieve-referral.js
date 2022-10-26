@@ -39,11 +39,11 @@ const retrieveReferral = async (req, res) => {
       return res.status(200).json({ referral_details: retrieve }); 
     }
 
-    return res.status(500).json({ statusCode: 500, verified: false, donkey: true });
+    return res.status(500).json({ statusCode: 500, verified: false });
 
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: { statusCode: 500, verified: false, donkey: false } });
+    return res.status(500).json({ error: { statusCode: 500, verified: false } });
 
   }
 };

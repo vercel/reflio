@@ -22,7 +22,8 @@
       "@/forms/*": ["./forms/*"],
       "@/utils/*": ["utils/*"],
       "@/public/js/*": ["public/js/*"]
-    }
+    },
+    "typeRoots": ["./types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
   "exclude": ["node_modules"]

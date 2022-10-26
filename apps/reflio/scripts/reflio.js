@@ -418,9 +418,6 @@ class rfl {
       return response.json();
     });
 
-    console.warn("Reflio: Convert data:")
-    console.log(convertData)
-
     if(convertData?.conversion_details !== "error"){
       console.log('Reflio: Running signup function successful');
       Reflio.deleteCookie();

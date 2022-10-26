@@ -8,9 +8,7 @@ export const SimpleNav = (props) => {
   return(
     <nav className="py-5 flex justify-between items-center wrapper bg-transparent">
       <Link href="/">
-        <a>
-          <Logo className="h-10 w-auto mx-auto"/>
-        </a>
+        <Logo className="h-10 w-auto mx-auto"/>
       </Link>
       <a
         onClick={() => signOut()}

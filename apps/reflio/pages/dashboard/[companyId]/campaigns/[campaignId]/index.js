@@ -23,7 +23,7 @@ export default function SingleCampaignPage() {
   return (
     <>
       <SEOMeta title={activeCampaign?.campaign_name}/>
-      <div className="h-full min-h-screen bg-white">
+      <div>
         <div className="py-8 border-b-4">
           <div className="wrapper">
             <Button
@@ -46,19 +46,29 @@ export default function SingleCampaignPage() {
                         <div className="mb-3">
                           {
                             activeCampaign?.default_campaign === true &&
-                            <div className="inline-flex items-center px-4 py-1 rounded-full text-xs font-semibold bg-secondary text-white mb-5">
+                            <div className="text-xs tracking-normal font-semibold mb-2 bg-gray-600 text-white inline-flex px-3 py-1.5 rounded-full">
                               Default Campaign
                             </div>
                           }
                           <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold">{activeCampaign?.campaign_name}</h1>
                         </div>
-                        <Button
-                          href={`/dashboard/${router?.query?.companyId}/campaigns/${router?.query?.campaignId}/edit`}
-                          small
-                          primary
-                        >
-                          <span>Edit campaign</span>
-                        </Button>
+                        <div>
+                          <Button
+                            href={`/dashboard/${router?.query?.companyId}/campaigns/${router?.query?.campaignId}/edit`}
+                            small
+                            primary
+                          >
+                            <span>Edit campaign</span>
+                          </Button>
+                          {/* <Button
+                            className="ml-3"
+                            href={`/dashboard/${router?.query?.companyId}/campaigns/${router?.query?.campaignId}/customize`}
+                            small
+                            secondary
+                          >
+                            <span>Customize campaign</span>
+                          </Button> */}
+                        </div>
                       </div>
                       <div className="mb-8">
                         <p className="text-lg font-semibold">{activeCampaign?.commission_type === 'percentage' ? `${activeCampaign?.commission_value}% commission on all paid referrals.` : `${priceString(activeCampaign?.commission_value, activeCompany?.company_currency)} commission on all paid referrals.`}</p>

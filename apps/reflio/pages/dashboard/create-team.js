@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useUser, newTeam } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 export default function CreateTeam() {
   const router = useRouter();
-  const { user, userFinderLoaded } = useUser();
+  const { user, team } = useUser();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -40,9 +40,9 @@ export default function CreateTeam() {
 
   };
 
-  // if(planDetails === 'free' && userCompanyDetails?.length >= 1){
-  //   router.replace('/dashboard/plan');
-  // }
+  if(team !== null && team?.id && team?.team_name){
+    router.replace('/dashboard');
+  }
 
   return (
     <>

@@ -167,7 +167,7 @@ export const LogSnagPost = async (type, message) => {
     
       let emojiType = "🔥";
     
-      if(type === "stripe-connect"){
+      if(type === "stripe-connected"){
         emojiType = "💳";
       } else if(type === "new-campaign"){
         emojiType = "📚";
@@ -175,6 +175,8 @@ export const LogSnagPost = async (type, message) => {
         emojiType = "🧑";
       } else if(type === "referral-created"){
         emojiType = "🎉";
+      } else if(type === "commission-created"){
+        emojiType = "💵";
       }
     
       let raw = JSON.stringify({

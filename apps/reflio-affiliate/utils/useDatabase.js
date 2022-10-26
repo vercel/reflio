@@ -225,7 +225,7 @@ export const getPublicCampaign = async (handle, campaignId) => {
   if(campaignId === null && campaignDetails?.company_id){
     let { data } = await supabaseAdmin
       .from('campaigns')
-      .select('campaign_id, campaign_name, commission_type, commission_value, campaign_public')
+      .select('campaign_id, campaign_name, commission_type, commission_value, campaign_public, custom_campaign_data')
       .eq('company_id', campaignDetails?.company_id)
       .eq('default_campaign', true)
       .single()
@@ -236,11 +236,12 @@ export const getPublicCampaign = async (handle, campaignId) => {
       campaignDetails.commission_type = data?.commission_type;
       campaignDetails.commission_value = data?.commission_value;
       campaignDetails.campaign_public = data?.campaign_public;
+      campaignDetails.custom_campaign_data = data?.custom_campaign_data;
     }
   } else {
     let { data } = await supabaseAdmin
       .from('campaigns')
-      .select('campaign_id, campaign_name, commission_type, commission_value, campaign_public')
+      .select('campaign_id, campaign_name, commission_type, commission_value, campaign_public, custom_campaign_data')
       .eq('campaign_id', campaignId)
       .single()
 
@@ -250,6 +251,7 @@ export const getPublicCampaign = async (handle, campaignId) => {
       campaignDetails.commission_type = data?.commission_type;
       campaignDetails.commission_value = data?.commission_value;
       campaignDetails.campaign_public = data?.campaign_public;
+      campaignDetails.custom_campaign_data = data?.custom_campaign_data;
     }
   }
 
@@ -325,28 +327,59 @@ export const getAffiliateReferrals = async (userId) => {
       }
     }));
   }
-  
-  // let query = supabaseAdmin
-  //   .from('referrals')
-  //   .select(`
-  //       *,
-  //       campaign:campaign_id (campaign_name),
-  //       affiliate:affiliate_id (details:invited_user_id(email))
-  //     `, 
-  //     { count: "exact" }
-  //   )
-  //   .eq('id', companyId)
-  //   .order('created', { ascending: false })
-  //   .limit(30);
-
-  // if(date !== null){
-  //   query.lt('created', [date])
-  // }
-
-  // const { data, count, error } = await query;
-
-  // if(error) return "error"; 
-  // return { data, count };
 
   return { referralsData };
+};
+
+//Get user referrals
+export const getAffiliateCommissions = async (userId) => {
+  let commissionsData = [];
+
+  let campaigns = await supabaseAdmin
+    .from('affiliates')
+    .select(`
+        campaign:campaign_id (campaign_name),
+        company:company_id (company_currency),
+        campaign_id,
+        affiliate_id
+      `, 
+    )
+    .eq('invited_user_id', userId)
+    .order('created', { ascending: false })
+
+  if(campaigns?.data !== null){
+    await Promise.all(campaigns?.data?.map(async (item) => {
+      let { data } = await supabaseAdmin
+        .from('commissions')
+        .select('*')
+        .eq('affiliate_id', item?.affiliate_id)
+        .order('created', { ascending: false })
+
+      if(data){
+        data?.map((commission) => {
+          let payoutEligible = false;
+          let dateToday = new Date();
+          let commissionDueDate = new Date(commission?.commission_due_date);
+
+          if(dateToday.getTime() >= commissionDueDate){
+            payoutEligible = true;
+          }
+
+          commission.payout_eligible = payoutEligible;
+          
+          if(item?.company?.company_currency){
+            commission.company_currency = item?.company?.company_currency;
+          }
+          if(item?.campaign?.campaign_name){
+            commission.campaign_name = item?.campaign?.campaign_name;
+          }
+
+          
+          commissionsData.push(commission);
+        })
+      }
+    }));
+  }
+
+  return { commissionsData };
 };

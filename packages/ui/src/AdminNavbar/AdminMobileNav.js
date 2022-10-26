@@ -62,9 +62,7 @@ export const AdminMobileNav = () => {
               </Transition.Child>
               <div className="flex-shrink-0 flex items-center px-4">
                 <Link href="/dashboard">
-                  <a className="block m-auto">
-                    <Logo className="h-7 w-full"/>
-                  </a>
+                  <Logo className="h-7 w-full"/>
                 </Link>
               </div>
               <AdminNavItems/>
@@ -87,9 +85,7 @@ export const AdminMobileNav = () => {
         <div className="flex justify-center lg:justify-end w-full px-6">
           <div className="flex-shrink-0 flex lg:hidden items-center px-4">
             <Link href="/dashboard">
-              <a className="block m-auto">
-                <Logo className="h-8 w-full"/>
-              </a>
+              <Logo className="h-8 w-full"/>
             </Link>
           </div>
 

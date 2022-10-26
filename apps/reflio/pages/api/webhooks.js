@@ -2,7 +2,8 @@ import { stripe } from '@/utils/stripe';
 import {
   upsertProductRecord,
   upsertPriceRecord,
-  manageSubscriptionStatusChange
+  manageSubscriptionStatusChange,
+  invoicePaidCheck
 } from '@/utils/useDatabase';
 import { withSentry } from '@sentry/nextjs';
 
@@ -31,7 +32,8 @@ const relevantEvents = new Set([
   'checkout.session.completed',
   'customer.subscription.created',
   'customer.subscription.updated',
-  'customer.subscription.deleted'
+  'customer.subscription.deleted',
+  'invoice.paid'
 ]);
 
 const webhookHandler = async (req, res) => {
@@ -60,6 +62,9 @@ const webhookHandler = async (req, res) => {
           case 'price.created':
           case 'price.updated':
             await upsertPriceRecord(event.data.object);
+            break;
+          case 'invoice.paid':
+            await invoicePaidCheck(event.data.object);
             break;
           case 'customer.subscription.created':
           case 'customer.subscription.updated':

@@ -81,7 +81,8 @@ export const UserContextProvider = (props) => {
     userFinderLoaded,
     planDetails,
     signIn: (options) => supabase.auth.signIn({email: options.email}, {shouldCreateUser: options.shouldCreateUser, redirectTo: options.redirectTo}),
-    signUp: (options) => supabase.auth.signUp(options, {redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`}),
+    signInWithPassword: (options) => supabase.auth.signIn({email: options.email, password: options.password}, {shouldCreateUser: options.shouldCreateUser, redirectTo: options.redirectTo}),
+    signUp: (options) => supabase.auth.signUp({email: options.email, password: options.password}, {redirectTo: options.redirectTo}),
     forgotPassword: (email) => supabase.auth.api.resetPasswordForEmail(email),
     signOut: () => {
       setUserDetails(null);
@@ -434,7 +435,7 @@ export const newCampaign = async (user, form, companyId) => {
     formFields.minimum_days_payout = 30;
   }
 
-  if(formFields.default_campaign){
+  if(formFields.default_campaign && formFields.default_campaign === true){
     formFields.default_campaign = true;
   }
 
@@ -505,13 +506,19 @@ export const editCampaign = async (user, campaignId, formFields) => {
     formFields.team_id = user?.team_id;
   }
 
+  if(formFields?.campaign_public){
+    formFields.campaign_public = true;
+  } else {
+    formFields.campaign_public = false;
+  }
+
   if(formFields.discount_code?.length === 0 || formFields.discount_code === null){
     formFields.discount_code = null;
     formFields.discount_type = null;
     formFields.discount_value = null;
   }
 
-  if(formFields.default_campaign){
+  if(formFields.default_campaign && formFields.default_campaign === true){
     formFields.default_campaign = true;
 
     await supabase
@@ -519,6 +526,7 @@ export const editCampaign = async (user, campaignId, formFields) => {
       .update({
         default_campaign: false
       })
+      .eq('campaign_id', campaignId)
       .eq('default_campaign', true);
     
     const { error } = await supabase
@@ -541,6 +549,21 @@ export const editCampaign = async (user, campaignId, formFields) => {
     return "success";
   }
 };
+
+export const editCampaignMeta = async (campaignId, metaData) => { 
+  if(!campaignId || !metaData) return "error";
+  
+  const { error } = await supabase
+    .from('campaigns')
+    .update({
+      custom_campaign_data: metaData,
+    }).
+    eq('campaign_id', campaignId);
+    
+  if (error) return "error";
+
+  return "success";
+}
 
 //New Stripe Account
 export const newStripeAccount = async (userId, stripeId, companyId) => {
@@ -568,7 +591,7 @@ export const newStripeAccount = async (userId, stripeId, companyId) => {
     return "error";
   } else {
 
-    await LogSnagPost('stripe-connect', `New Stripe account connected for company ${companyId}`);
+    await LogSnagPost('stripe-connected', `New Stripe account connected for company ${companyId}`);
 
     return "success";
   }
@@ -700,7 +723,7 @@ export const uploadLogoImage = async (companyId, file) => {
   const modifiedId = companyId?.replace('_', '-');
   const { data, error } = await supabase.storage
   .from('company-assets')
-  .upload(`${modifiedId}.png`, file, {
+  .upload(`${modifiedId}.${file.name}`, file, {
     cacheControl: '0',
     upsert: true
   })

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useUser } from '../utils/useUser';
+import { useUser } from '@/utils/useUser';
 
 function Layout({ children }) {
   const { user, userFinderLoaded } = useUser();

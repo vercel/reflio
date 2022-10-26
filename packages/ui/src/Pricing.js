@@ -64,7 +64,7 @@ export const Pricing = ({ products }) => {
                 </Button>
               </div>
               <div className="pt-6 pb-8 px-6">
-                <PricingFeatures productName="Indie"/>
+                <PricingFeatures productName="free"/>
               </div>
             </div>
             {productsSorted?.map((product) => {
