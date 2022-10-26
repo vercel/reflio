@@ -152,6 +152,7 @@ create table campaigns (
   discount_code text default null,
   discount_value integer default null,
   discount_type commission_types,
+  custom_campaign_data jsonb default null,
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table campaigns enable row level security;

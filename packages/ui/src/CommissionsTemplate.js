@@ -232,7 +232,7 @@ export const CommissionsTemplate = ({ page }) => {
                               </th>
                               {
                                 planDetails === 'free' &&
-                                <th data-tip="This is a 9% commission due to Reflio, since you are on the Pay-as-you-go plan. Upgrade your plan today to remove commission fees." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                <th data-tip="This is a 9% commission due to Reflio, since you are on the Pay As You Go plan. Upgrade your plan today to remove commission fees." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                   Reflio Fee (9%)
                                 </th>
                               }

@@ -7,14 +7,17 @@ import Button from '@/components/Button';
 import Card from '@/components/Card'; 
 import { PricingParams, PricingFeatures } from '@/components/PricingFeatures'; 
 import LoadingDots from '@/components/LoadingDots';
+import toast from 'react-hot-toast';
 
 export default function BillingPage() {
   const { session, planDetails, user, team, subscription } = useUser();
   const { activeCompany } = useCompany();
   const [loading, setLoading] = useState(false);
+  const [invoiceLoading, setInvoiceLoading] = useState(false);
   const [usageData, setUsageData] = useState(null);
   const [loadingUsageData, setLoadingUsageData] = useState(false);
   const [commissions, setCommissions] = useState([]);
+  const [receivedInvoiceUrl, setReceivedInvoiceUrl] = useState(null);
 
   const getUsageData = async () => {    
     try {
@@ -44,6 +47,40 @@ export default function BillingPage() {
     if (error) return alert(error.message);
     window.location.assign(url);
     setLoading(false);
+  };
+
+  const generateInvoice = async () => {
+    if(invoiceLoading === true) return false;
+    setInvoiceLoading(true);
+    
+    try {
+      const { response } = await postData({
+        url: '/api/team/invoice',
+        data: { 
+          commissions: commissions,
+          currency: activeCompany?.company_currency
+        },
+        token: session.access_token
+      });
+
+      if(response !== "error"){
+        console.log(response);
+      }
+
+      if(response === "above_50"){
+        toast.error("You are trying to pay for more than 50 commissions, please contact support, or upgrade your plan to remove all outstanding fees.")
+      }
+
+      if(response?.invoice_url){
+        window.open(response?.invoice_url, '_blank');
+        setReceivedInvoiceUrl(response?.invoice_url);
+      }
+
+      setInvoiceLoading(false);
+      
+    } catch (error) {
+      console.log(error)
+    }
   };
   
   if(commissions?.length === 0 && planDetails === "free"){
@@ -93,9 +130,6 @@ export default function BillingPage() {
     }
   });
 
-  console.log("commissions:")
-  console.log(commissions)
-
   return (
     <>
       <SEOMeta title="Billing"/>
@@ -105,8 +139,7 @@ export default function BillingPage() {
         </div>
       </div>
       <div className="wrapper">
-        {/* WIP!!! */}
-        {/* {
+        {
           planDetails === 'free' &&
             <div className="mb-6">
               <Card className="w-full max-w-full">
@@ -123,7 +156,7 @@ export default function BillingPage() {
                               <th data-tip="The total amount received, after any deductions for refunds and discounts." scope="col" className="px-3 py-3.5 text-sm text-left font-semibold">
                                 Sale Amount
                               </th>      
-                              <th data-tip="This is a 9% commission due to Reflio, since you are on the Pay-as-you-go plan. Upgrade your plan today to remove commission fees." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                              <th data-tip="This is a 9% commission due to Reflio, since you are on the Pay As You Go plan. Upgrade your plan today to remove commission fees." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                 Reflio Fee (9%)
                               </th>             
                               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
@@ -160,14 +193,31 @@ export default function BillingPage() {
                           </tbody>
                         </table>
                         <div className="mt-6">
-                          <Button
-                            small
-                            mobileFull
-                            red
-                            href="/pricing"
-                          >
-                            Pay due fees
-                          </Button>
+                          {
+                            receivedInvoiceUrl ?
+                              <Button
+                                medium
+                                mobileFull
+                                red
+                                className="mb-2"
+                                href={receivedInvoiceUrl}
+                                target="_blank"
+                              >
+                                Pay invoice
+                              </Button>
+                            :
+                              <Button
+                                loading={invoiceLoading}
+                                medium
+                                mobileFull
+                                red
+                                className="mb-2"
+                                onClick={e=>{generateInvoice()}}
+                              >
+                                {invoiceLoading ? 'Generating invoice...' : 'Pay day fees'}
+                              </Button>
+                          }
+                          <p>Or, <a className="underline font-bold" href="/pricing">Upgrade your plan</a> to remove all existing and future commission fees.</p>
                         </div>
                       </div>
                     : 
@@ -182,11 +232,11 @@ export default function BillingPage() {
                 </div>
               </Card>
             </div>
-        } */}
+        }
         <div className="grid grid-cols-1 space-y-6 md:space-y-0 md:grid-cols-2 md:space-x-6">
           <Card>
             <div className="flex items-center mb-4">
-              <h2 className="text-xl leading-6 font-semibold text-gray-900">Current Plan: <span className="capitalize font-medium">{planDetails === 'free' ? 'Pay-as-you-go (9% fee)' : planDetails}</span></h2>
+              <h2 className="text-xl leading-6 font-semibold text-gray-900">Current Plan: <span className="capitalize font-medium">{planDetails === 'free' ? 'Pay As You Go (9% fee)' : planDetails}</span></h2>
             </div>
             <div className="bg-gray-100 rounded-xl p-6">
               <PricingFeatures normal productName={planDetails}/>
@@ -200,18 +250,15 @@ export default function BillingPage() {
               >
                 Upgrade Plan
               </Button>
-              {
-                planDetails !== 'free' &&
-                <Button
-                  className="mt-3 ml-0 sm:ml-3 sm:mt-0"
-                  mobileFull
-                  medium
-                  gray
-                  onClick={e=>{redirectToCustomerPortal()}}
-                >
-                  {loading ? 'Loading...' : 'Manage Plan'}
-                </Button>
-              }
+              <Button
+                className="mt-3 ml-0 sm:ml-3 sm:mt-0"
+                mobileFull
+                medium
+                gray
+                onClick={e=>{redirectToCustomerPortal()}}
+              >
+                {loading ? 'Loading...' : 'Manage Billing'}
+              </Button>
             </div>
           </Card>
           <Card>

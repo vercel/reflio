@@ -5,12 +5,12 @@ export const PricingParams = () => {
     "free": {
       "companies": 1,
       "campaigns": 1,
-      "affiliates": 100
+      "affiliates": 50
     },
     "indie": {
-      "companies": 2,
-      "campaigns": 4,
-      "affiliates": 100
+      "companies": 1,
+      "campaigns": 2,
+      "affiliates": 150
     },
     "pro": {
       "companies": 3,
@@ -60,6 +60,14 @@ export const PricingFeatures = ({ productName, normal }) => {
         type: 'eligible'
       },
       {
+        text: 'Campaign page customizer',
+        type: 'ineligible'
+      },    
+      {
+        text: 'Campaign and affiliate analytics',
+        type: 'ineligible'
+      },    
+      {
         text: 'Invite team members',
         type: 'ineligible'
       }
@@ -82,6 +90,10 @@ export const PricingFeatures = ({ productName, normal }) => {
         type: 'eligible'
       },
       {
+        text: 'Campaign page customizer',
+        type: 'eligible'
+      },
+      {
         text: 'PayPal Mass Payouts',
         type: 'eligible'
       },
@@ -89,6 +101,10 @@ export const PricingFeatures = ({ productName, normal }) => {
         text: 'Live chat & email support',
         type: 'eligible'
       },
+      {
+        text: 'Campaign and affiliate analytics',
+        type: 'eligible'
+      },    
       {
         text: 'Invite team members',
         type: 'ineligible'
@@ -115,6 +131,14 @@ export const PricingFeatures = ({ productName, normal }) => {
         text: 'Stripe auto sync',
         type: 'eligible'
       },
+      {
+        text: 'Campaign page customizer',
+        type: 'eligible'
+      },
+      {
+        text: 'Campaign and affiliate analytics',
+        type: 'eligible'
+      },    
       {
         text: 'PayPal Mass Payouts',
         type: 'eligible'
@@ -145,6 +169,14 @@ export const PricingFeatures = ({ productName, normal }) => {
         text: 'Stripe auto sync',
         type: 'eligible'
       },
+      {
+        text: 'Campaign page customizer',
+        type: 'eligible'
+      },
+      {
+        text: 'Campaign and affiliate analytics',
+        type: 'eligible'
+      },    
       {
         text: 'PayPal Mass Payouts',
         type: 'eligible'

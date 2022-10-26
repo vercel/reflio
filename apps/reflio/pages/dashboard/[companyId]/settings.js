@@ -8,6 +8,7 @@ import { Switch } from '@headlessui/react';
 import { classNames, checkValidUrl, slugifyString } from '@/utils/helpers';
 import Button from '@/components/Button'; 
 import Card from '@/components/Card'; 
+import CompanyLogoUpload from '@/components/CompanyLogoUpload'; 
 import toast from 'react-hot-toast';
 
 export default function CompanySettingsPage() {
@@ -133,42 +134,7 @@ export default function CompanySettingsPage() {
       </div>
       <div className="wrapper space-y-6">
         <Card>
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Company logo</h3>
-          <div className="mt-2 max-w-2xl text-gray-500">
-            <p>This will be shown when inviting new affiliates, as well as inside your affiliates dashboard.</p>
-          </div>
-          <div>
-            <div className="mt-3 flex items-center">
-              {
-                activeCompany?.company_image !== null &&
-                <img alt="Logo" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL+activeCompany?.company_image} className="w-24 h-auto mr-4"/>
-              }
-              <input
-                onChange={handleFileUpload}
-                type="file"
-                accept="image/png"
-                style={{display: 'none'}}
-                multiple={false}
-                ref={fileInput}
-              />
-              <button 
-                type="button"
-                className="bg-white py-3 px-5 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
-                onClick={() => fileInput.current.click()}
-              >
-                Upload File
-              </button>
-            </div>
-            <p className="mt-2 text-gray-500">
-              Must be a .PNG file and less than 2mb.
-            </p>
-            {
-              logoError &&
-              <div className="mt-4 bg-red p-4 rounded-lg text-md text-white text-center">
-                There was an error when uploading your file.
-              </div>
-            }
-          </div>
+          <CompanyLogoUpload/>
         </Card>
         <Card>          
           <form action="#" method="POST" onSubmit={handleWebsiteUpdate}>
@@ -289,6 +255,25 @@ export default function CompanySettingsPage() {
                 )}
               />
             </Switch>
+          </div>
+        </Card>
+        <Card>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">API Key</h3>
+          <div className="mt-2 max-w-2xl text-gray-500">
+            <p>This is your API key for accessing <a className="font-bold underline text-gray-900" href="https://reflio.com/resources/api-documentation" target="_blank" rel="noreferrer">Reflio&apos;s API</a>.</p>
+          </div>
+          <div className="mt-5">
+            <div className="flex items-center h-14">
+              <input
+                value={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}
+                placeholder="api_key"
+                type="text"
+                name="api_key"
+                id="api_key"
+                autoComplete="api_key"
+                className="flex-1 block w-full min-w-0 h-full focus:outline-none sm:text-md rounded-lg border-2 border-gray-300 p-2 px-3"
+              />
+            </div>
           </div>
         </Card>
         <Card>

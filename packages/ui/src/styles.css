@@ -34,7 +34,7 @@
 }
 
 .wrapper-max {
-  @apply max-w-screen-xl;
+  @apply max-w-screen-2xl;
 }
 
 .wrapper-sm {
@@ -132,6 +132,11 @@ body {
 /* p, a, span {
   letter-spacing: -0.025em;
 } */
+
+.dotted-background {
+  background-image: radial-gradient(rgb(195, 202, 215) 1px, transparent 1px); 
+  background-size: 10px 10px;
+}
 
 a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

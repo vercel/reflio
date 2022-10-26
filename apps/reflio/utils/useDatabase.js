@@ -48,13 +48,9 @@ export const upsertPriceRecord = async (price) => {
 };
 
 export const createOrRetrieveCustomer = async ({ id, teamId, email }) => {
-  const { data, error } = await supabaseAdmin
-    .from('customers')
-    .select('stripe_customer_id')
-    .eq('team_id', teamId)
-    .single();
-  if (error) {
-    // No customer record found, let's create one.
+  console.log("Running...")
+  const createCustomer = async () => {
+    console.log("Running create func...")
     const customerData = {
       metadata: {
         supabaseTeamId: teamId
@@ -65,11 +61,32 @@ export const createOrRetrieveCustomer = async ({ id, teamId, email }) => {
     // Now insert the customer ID into our Supabase mapping table.
     const { error: supabaseError } = await supabaseAdmin
       .from('customers')
-      .insert([{ user_id: id, team_id: teamId, stripe_customer_id: customer.id }]);
+      .upsert([{ user_id: id, team_id: teamId, stripe_customer_id: customer.id }]);
     if (supabaseError) throw supabaseError;
     console.log(`New customer created and inserted for ${teamId}.`);
     return customer.id;
   }
+
+  const { data, error } = await supabaseAdmin
+    .from('customers')
+    .select('stripe_customer_id')
+    .eq('team_id', teamId)
+    .single();
+
+  if (error) {
+    await createCustomer();
+  }
+
+  if(data.stripe_customer_id){
+    const customer = await stripe.customers.retrieve(data.stripe_customer_id);
+    console.log("Found:")
+    console.log(customer)
+    if(!customer?.created){
+      console.log('Could not retrieve... creating!')
+      await createCustomer();
+    }
+  }
+
   if (data) return data.stripe_customer_id;
 };
 
@@ -318,7 +335,7 @@ export const createReferral = async (details) => {
     });
 
     if(referralData?.data){
-      await LogSnagPost('referral-created', `New referral created for campaign ${campaignData?.campaign_id}`);
+      await LogSnagPost('referral-created', `New referral created for campaign ${campaignData?.campaign_name}`);
 
       return {
         "campaign_id": campaignData?.campaign_id,
@@ -390,8 +407,6 @@ export const referralSignup = async (referralId, cookieDate, email) => {
         referral_reference_email: email,
       })
       .eq('referral_id', referralId);
-
-    await LogSnagPost('referral-registered', `New referral registered for campaign ${referralData?.data?.campaign_id}`);
     
     //Get stripe ID from company
     let companyData = await supabaseAdmin
@@ -400,9 +415,60 @@ export const referralSignup = async (referralId, cookieDate, email) => {
       .eq('company_id', referralData?.data?.company_id)
       .single();
 
-    if(companyData?.data?.stripe_id){  
+    if(companyData?.data?.stripe_id && companyData?.data?.stripe_id !== 'manual'){  
       const customer = await stripe.customers.list({
         email: email,
+        limit: 1,
+      }, {
+        stripeAccount: companyData?.data?.stripe_id
+      });
+
+      if(customer?.data?.length){
+        await stripe.customers.update(
+          customer?.data[0]?.id,
+          {metadata: {reflio_referral_id: referralData?.data?.referral_id}},
+          {stripeAccount: companyData?.data?.stripe_id}
+        );
+      }
+
+    }
+
+    return referralData?.data;
+  }
+
+  return "error";
+};
+
+export const manualReferralSignup = async (identifier, referralId) => {
+  console.log(identifier, referralId)
+  let referralData = await supabaseAdmin
+    .from('referrals')
+    .select('*')
+    .eq('referral_id', referralId)
+    .single();
+
+  if(referralData?.data){
+
+    console.log('referral has data')
+
+    //Add identifier to referral object
+    await supabaseAdmin
+      .from('referrals')
+      .update({
+        referral_reference_email: identifier,
+      })
+      .eq('referral_id', referralId);
+    
+    //Get stripe ID from company
+    let companyData = await supabaseAdmin
+      .from('companies')
+      .select('stripe_id')
+      .eq('company_id', referralData?.data?.company_id)
+      .single();
+
+    if(companyData?.data?.stripe_id && companyData?.data?.stripe_id !== 'manual' && identifier?.includes('@')){  
+      const customer = await stripe.customers.list({
+        email: identifier,
         limit: 1,
       }, {
         stripeAccount: companyData?.data?.stripe_id
@@ -525,4 +591,89 @@ export const billingUsageDetails = async (teamId) => {
     console.warn(error);
     return "error";
   }
+}
+
+export const billingGenerateInvoice = async (user, currency, commissions) => {
+  if(!user || !commissions) return "error";
+
+  if(commissions?.data?.length > 50){
+    return "above_50";
+  }
+  
+  const customer = await createOrRetrieveCustomer({
+    id: user?.id,
+    teamId: user?.team_id,
+    email: user?.email
+  });
+
+  let existingInvoicesList = [];
+  const existingInvoices = await stripe.invoices.list({
+    limit: 20,
+    status: 'open',
+    collection_method: 'send_invoice'
+  });
+
+  if(existingInvoices?.data?.length){
+    existingInvoices?.data?.map(invoice => {
+      if(invoice?.metadata?.invoice_type && invoice?.metadata?.invoice_type === "reflio_fees"){
+        existingInvoicesList.push(invoice?.id)
+      }
+    })
+  }
+
+  if(existingInvoicesList?.length){
+    await Promise.all(existingInvoicesList?.map(async (invoice) => {
+      await stripe.invoices.voidInvoice(invoice);
+    }));
+  }
+
+  const commissionItemsPromise = await Promise.all(commissions?.data?.map(async (commission, index) => {
+    let commissionAmount = (((9/100)*commission?.commission_sale_value)).toFixed(0);
+
+    await stripe.invoiceItems.create({
+      customer: customer,
+      amount: parseInt(commissionAmount),
+      description: `Reflio 9% commission payment for referral ID ${commission?.referral_id}.`,
+      currency: currency ?? 'USD',
+      metadata: {"commission_id": String(commission?.commission_id)}
+    });
+  }));
+
+  if(commissionItemsPromise?.length === commissions?.data?.length){
+    const createInvoice = await stripe.invoices.create({
+      customer: customer,
+      collection_method: 'send_invoice',
+      days_until_due: 0,
+      description: `Reflio fee invoice for ${commissions?.data?.length} commissions`,
+      metadata: {"timestamp": String(Date.now()), "invoice_type": "reflio_fees"}
+    });
+    if(!createInvoice?.id) return "error";
+    const finalizeInvoice = await stripe.invoices.finalizeInvoice(createInvoice?.id);
+    if(finalizeInvoice?.hosted_invoice_url){
+      return({
+        "invoice_url": finalizeInvoice?.hosted_invoice_url
+      })
+    }
+  }
+
+  return "error";
+}
+
+export const invoicePaidCheck = async (invoice) => {
+  if(!invoice?.metadata?.invoice_type && !invoice?.metadata?.invoice_type === "reflio_fees") return false;
+
+  if(invoice?.lines?.data?.length){
+    await Promise.all(invoice?.lines?.data?.map(async (item) => {
+      if(item?.metadata?.commission_id){
+        await supabaseAdmin
+          .from('commissions')
+          .update({
+            reflio_commission_paid: true
+          })
+          .eq('commission_id', item?.metadata?.commission_id);
+      }
+    }));
+  }
+
+  return true;
 }

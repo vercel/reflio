@@ -36,8 +36,8 @@ export const Features = () => {
       icon: GlobeIcon
     },
     {
-      name: "Automated GDPR & Privacy compliance",
-      description: 'All data processed through European-owned infrastructure, and our company is registered in the UK. With Reflio, referrals located in the EU are automatically required to confirm their consent before a cookie is set.',
+      name: "Automated GDPR & Privacy compliance mode",
+      description: 'All data is processed through European-owned infrastructure, and our company is registered in the UK. With Reflio, you can choose for referrals located in the EU to automatically be required to confirm their consent before a cookie is set.',
       active: true,
       icon: EyeOffIcon
     },

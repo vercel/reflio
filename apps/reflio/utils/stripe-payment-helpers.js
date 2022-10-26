@@ -1,5 +1,6 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
+import { LogSnagPost } from './helpers';
 
 export const invoicePayment = async(referralData, stripeId, referralId, paymentIntent, invoiceId) => {  
   const invoice = await stripe.invoices.retrieve(
@@ -65,6 +66,8 @@ export const invoicePayment = async(referralData, stripeId, referralId, paymentI
     });
 
     if(newCommissionValues?.data){
+      await LogSnagPost('commission-registered', `New commission registered for campaign ${referralData?.data?.campaign_name}`);
+
       //Add parameter to Stripe payment intent
       await stripe.paymentIntents.update(
         invoice?.payment_intent,

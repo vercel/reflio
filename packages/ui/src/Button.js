@@ -40,14 +40,11 @@ export const Button = (props) => {
       <Link
         passHref
         href={props.href}
+        className={`${styles} ${props.className ? props.className : ''}`}
+        onClick={props.onClick && props.onClick}
+        target={props.external ? '_blank' : ''}
       >
-        <a 
-          className={`${styles} ${props.className ? props.className : ''}`}
-          onClick={props.onClick && props.onClick}
-          target={props.external ? '_blank' : ''}
-        >
-          {props.children && props.children}
-        </a>    
+        {props.children && props.children}
       </Link>
     )
   } else {

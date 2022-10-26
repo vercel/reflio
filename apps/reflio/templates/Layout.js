@@ -20,23 +20,34 @@ export default function Layout({ children }) {
   let defaultPage = true;
   let dashboardPage = false;
   let simplePage = false;
+  let campaignCustomizer = false;
 
   if(router.pathname.indexOf('/dashboard') === -1 && router.pathname.indexOf('/dashboard/add-company') === -1 && router.pathname.indexOf('/dashboard/create-team') === -1){
-    defaultPage = true;
     dashboardPage = false;
     simplePage = false;
+    campaignCustomizer = false;
+    defaultPage = true;
   }
 
   if(router.pathname === '/dashboard/add-company' || router.pathname === '/dashboard/create-team'){
     defaultPage = false;
     dashboardPage = false;
+    campaignCustomizer = false;
     simplePage = true;
   }
 
   if(router.pathname.indexOf('/dashboard') > -1 && simplePage !== true){
     defaultPage = false;
-    dashboardPage = true;
     simplePage = false;
+    campaignCustomizer = false;
+    dashboardPage = true;
+  }
+  
+  if(router.pathname.indexOf('/dashboard') > -1 && router.pathname.indexOf('/campaigns') > -1 && router.pathname.indexOf('/customize') > -1){
+    defaultPage = false;
+    dashboardPage = false;
+    simplePage = false;
+    campaignCustomizer = true;
   }
 
   if(dashboardPage === true){
@@ -96,6 +107,16 @@ export default function Layout({ children }) {
                 <StripeDisconnectNotice/>
                 <AdminMobileNav/>
                 <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
+                  <>
+                    {children}
+                  </>
+                </main>
+              </div>
+            </div>
+          : campaignCustomizer === true ?
+            <div className="h-screen flex overflow-hidden">
+              <div className="flex-1 overflow-auto focus:outline-none">
+                <main className="flex-1 relative z-0 overflow-y-auto">
                   <>
                     {children}
                   </>

@@ -39,11 +39,11 @@ const sigupReferral = async (req, res) => {
       return res.status(200).json({ conversion_details: signup }); 
     }
 
-    return res.status(500).json({ statusCode: 500, verified: false, donkey: true });
+    return res.status(500).json({ statusCode: 500 });
 
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: { statusCode: 500, verified: false, donkey: false } });
+    return res.status(500).json({ error: { statusCode: 500 } });
 
   }
 };

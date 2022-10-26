@@ -4,7 +4,7 @@ import { withSentry } from '@sentry/nextjs';
 
 // Initializing the cors middleware
 const cors = Cors({
-  methods: ['GET', 'POST', 'HEAD'],
+  methods: ['POST'],
 });
 
 // Helper method to wait for a middleware to execute before continuing
@@ -28,29 +28,20 @@ const recordImpression = async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
 
-  const headers = req.headers;
   let body = req.body;
   try {
     body = JSON.parse(body);
   } catch (error) {
     console.log("Could not parse body")
   }
-  let filteredReferer = null;
-  if(headers?.origin) {
-    filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
-
-  } else {
-    return res.status(500).json({ statusCode: 500, referer: false });
-  }
 
   try {
     console.log('Trying...')
 
-    if(filteredReferer !== null && body?.referralCode && body?.companyId){
+    if(body?.referralCode && body?.companyId){
+      console.log("Has items");
+      
       const referralVerify = await verifyReferral(body?.referralCode, body?.companyId);
-
-      console.log('referralVerify:')
-      console.log(referralVerify)
       
       if(referralVerify !== "error" && referralVerify?.affiliate_id && referralVerify?.campaign_id){
         console.log('Referral verified...')
@@ -71,7 +62,7 @@ const recordImpression = async (req, res) => {
     }
 
     
-    return res.status(500).json({ statusCode: 500, verified: false, referrer: filteredReferer });
+    return res.status(500).json({ statusCode: 500, verified: false });
 
   } catch (error) {
     console.log(error);

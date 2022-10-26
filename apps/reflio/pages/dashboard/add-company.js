@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useUser, newCompany } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 export default function AddCompany() {
   const router = useRouter();
-  const { user, userDetails, userFinderLoaded } = useUser();
+  const { userDetails } = useUser();
   const [errorMessage, setErrorMessage] = useState(false);
   const [loading, setLoading] = useState(false);
   const [websiteUrlInput, setWebsiteUrlInput] = useState(null);

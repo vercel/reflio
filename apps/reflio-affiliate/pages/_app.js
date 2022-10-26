@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import "@/dist/styles.css";
-import Layout from '../templates/Layout';
+import Layout from '@/templates/Layout';
 import { useRouter } from 'next/router';
 import SEOMeta from '@/templates/SEOMeta';
 import { UserContextProvider } from '@/utils/useUser';

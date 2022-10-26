@@ -66,16 +66,17 @@ export default function CampaignsPage() {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium sm:pl-6">
                                   {
                                     campaign?.default_campaign === true &&
-                                    <div className="inline-flex items-center px-4 py-1 rounded-full text-xs font-semibold bg-secondary text-white mb-2">
+                                    <div className="text-xs tracking-normal font-semibold mb-2 bg-gray-600 text-white inline-flex px-3 py-1.5 rounded-full">
                                       Default Campaign
                                     </div>
                                   }
                                   <p className="text-xl mb-2 font-semibold">
                                     <Link
                                       passHref
+                                      className="underline"
                                       href={`/dashboard/${router?.query?.companyId}/campaigns/${campaign?.campaign_id}`}
                                     >
-                                      <a className="underline">{campaign?.campaign_name}</a>
+                                      {campaign?.campaign_name}
                                     </Link>
                                   </p>
                                   <p className="text-md">{campaign?.commission_type === 'percentage' ? `${campaign?.commission_value}% commission on all paid referrals` : `${priceString(campaign?.commission_value, activeCompany?.company_currency)} commission on all paid referrals`}</p>

@@ -3,8 +3,8 @@ import { useUserAffiliate } from '@/utils/UserAffiliateContext';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import Button from '@/components/Button'; 
-import LoadingTile from '@/components/LoadingTile';
 import { priceString, priceStringDivided } from '@/utils/helpers';
+import LoadingDots from './LoadingDots';
 
 const CampaignsList = (props) => {
   const { userAffiliateDetails, referralDetails } = useUserAffiliate();
@@ -99,7 +99,7 @@ const CampaignsList = (props) => {
           :
           userAffiliateDetails === null ?
             <div>
-              <LoadingTile/>
+              <LoadingDots/>
             </div>
           : userAffiliateDetails?.length === 0 &&
             <div>

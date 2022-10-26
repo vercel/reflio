@@ -108,10 +108,8 @@ const ForgotPassword = () => {
                   <div className="mt-3 text-center text-sm">
                     <span className="text-accents-2">Don&apos;t have an account?</span>
                     {` `}
-                    <Link href="/signup">
-                      <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                        Sign up.
-                      </a>
+                    <Link href="/signup" className="text-accents-1 font-bold hover:underline cursor-pointer">
+                      Sign up.
                     </Link>
                   </div>
 
@@ -162,10 +160,8 @@ const ForgotPassword = () => {
                   <div className="mt-3 text-center text-sm">
                     <span className="text-accents-2">Don&apos;t have an account?</span>
                     {` `}
-                    <Link href="/signup">
-                      <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                        Sign up.
-                      </a>
+                    <Link href="/signup" className="text-accents-1 font-bold hover:underline cursor-pointer">
+                      Sign up.
                     </Link>
                   </div>
 

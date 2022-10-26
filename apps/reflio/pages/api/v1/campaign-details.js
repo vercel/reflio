@@ -26,7 +26,6 @@ const campaignDetails = async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
 
-  const headers = req.headers;
   let body = req.body;
   try {
     body = JSON.parse(body);
@@ -34,18 +33,8 @@ const campaignDetails = async (req, res) => {
     console.log("Could not parse body")
   }
 
-  console.log(body)
-  
-  let filteredReferer = null;
-  if(headers?.origin) {
-    filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
-
-  } else {
-    return res.status(500).json({ statusCode: 500, referer: false });
-  }
-
   try {
-    if(filteredReferer !== null && body?.referralCode && body?.companyId){
+    if(body?.referralCode && body?.companyId){
       const details = await campaignInfo(body?.referralCode, body?.companyId);
       return res.status(200).json({ campaign_details: details }); 
     }
