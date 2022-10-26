@@ -73,8 +73,8 @@ export const createOrRetrieveCustomer = async ({ id, teamId, email }) => {
     .eq('team_id', teamId)
     .single();
 
-  if (error) {
-    await createCustomer();
+  if (error || !data?.stripe_customer_id) {
+    return await createCustomer();
   }
 
   if(data.stripe_customer_id){
