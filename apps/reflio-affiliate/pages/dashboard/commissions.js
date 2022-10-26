@@ -28,9 +28,6 @@ const CommissionsPage = () => {
     }
   };
 
-  console.log("commissions:")
-  console.log(commissions)
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (userFinderLoaded && user && commissions === null && loadingCommissions === false) {
