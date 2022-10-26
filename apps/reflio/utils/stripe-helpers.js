@@ -257,9 +257,6 @@ export const updateCustomer = async (data) => {
     .order('created', { ascending: true })
     .limit(1)
 
-  console.log("FINDING CUSTOMER!!!!")
-  console.log(referralFromCustomerEmail);
-
   if(referralFromCustomerEmail?.data !== null){
     let foundReferral = referralFromCustomerEmail?.data[0];
 

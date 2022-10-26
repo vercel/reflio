@@ -112,7 +112,7 @@ export default function AddCompany() {
                               id="company_url"
                               autoComplete="company_url"
                               className="flex-1 block w-full min-w-0 h-full focus:outline-none sm:text-md rounded-lg rounded-tl-none rounded-bl-none border-2 border-l-0 border-gray-300"
-                              onChange={e=>{setWebsiteUrlInput(e.target.value), console.log(checkValidUrl(e.target.value))}}
+                              onChange={e=>{setWebsiteUrlInput(e.target.value)}}
                             />
                           </div>
                           <p className="text-gray-500">Please only include the base domain of your website (e.g. google.com). You do not need to include https:// or www. We will automatically do this on our end.</p>
