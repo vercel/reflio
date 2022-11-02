@@ -10,7 +10,6 @@ function Layout({ children }) {
   const Toaster = dynamic(() =>
     import("react-hot-toast").then((module) => module.Toaster)
   );
-  const Footer = dynamic(() => import('@/components/Footer'));
   const AdminMobileNav = dynamic(() => import('@/templates/AdminNavbar/AdminMobileNav'));
   const AdminDesktopNav = dynamic(() => import('@/templates/AdminNavbar/AdminDesktopNav'));
   const router = useRouter();
@@ -111,10 +110,6 @@ function Layout({ children }) {
             </div>
           </div>
         : <main id="skip">{children}</main>
-      }
-      {
-        defaultPage === true &&
-        <Footer />
       }
     </>
   );

@@ -66,7 +66,7 @@ export const invoicePayment = async(referralData, stripeId, referralId, paymentI
     });
 
     if(newCommissionValues?.data){
-      await LogSnagPost('commission-registered', `New commission registered for campaign ${referralData?.data?.campaign_name}`);
+      await LogSnagPost('commission-created', `New commission registered for campaign ${referralData?.data?.campaign_name}`);
 
       //Add parameter to Stripe payment intent
       await stripe.paymentIntents.update(
