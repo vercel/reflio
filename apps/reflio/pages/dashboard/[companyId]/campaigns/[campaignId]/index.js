@@ -46,7 +46,7 @@ export default function SingleCampaignPage() {
                         <div className="mb-3">
                           {
                             activeCampaign?.default_campaign === true &&
-                            <div className="text-xs tracking-normal font-semibold mb-2 bg-gray-600 text-white inline-flex px-3 py-1.5 rounded-full">
+                            <div className="text-xs font-semibold mb-2 bg-gray-600 text-white inline-flex px-3 py-1.5 rounded-full">
                               Default Campaign
                             </div>
                           }

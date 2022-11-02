@@ -55,7 +55,7 @@ export const UserContextProvider = (props) => {
           setSubscription(results[2].value.data);
 
           if(results[2].value.data !== null){
-            setPlanDetails(results[2].value.data.prices.products.name);
+            setPlanDetails(results[2].value.data.prices.products.name.toLowerCase());
           } else {
             setPlanDetails('free');
           }

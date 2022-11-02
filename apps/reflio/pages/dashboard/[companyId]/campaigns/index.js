@@ -66,7 +66,7 @@ export default function CampaignsPage() {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium sm:pl-6">
                                   {
                                     campaign?.default_campaign === true &&
-                                    <div className="text-xs tracking-normal font-semibold mb-2 bg-gray-600 text-white inline-flex px-3 py-1.5 rounded-full">
+                                    <div className="text-xs font-semibold mb-2 bg-gray-600 text-white inline-flex px-3 py-1.5 rounded-full">
                                       Default Campaign
                                     </div>
                                   }

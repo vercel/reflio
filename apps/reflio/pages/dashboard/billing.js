@@ -10,7 +10,7 @@ import LoadingDots from '@/components/LoadingDots';
 import toast from 'react-hot-toast';
 
 export default function BillingPage() {
-  const { session, planDetails, user, team, subscription } = useUser();
+  const { session, planDetails, user, team } = useUser();
   const { activeCompany } = useCompany();
   const [loading, setLoading] = useState(false);
   const [invoiceLoading, setInvoiceLoading] = useState(false);
@@ -18,6 +18,8 @@ export default function BillingPage() {
   const [loadingUsageData, setLoadingUsageData] = useState(false);
   const [commissions, setCommissions] = useState([]);
   const [receivedInvoiceUrl, setReceivedInvoiceUrl] = useState(null);
+
+  console.log(usageData)
 
   const getUsageData = async () => {    
     try {
@@ -101,7 +103,7 @@ export default function BillingPage() {
   
   const ProgressBar = ({ type, unlimited }) => {
     if(usageData === null) return false;
-
+    
     const plans = PricingParams();
     const usagePercentage = ((usageData[type] / plans[planDetails][type]) * 100).toFixed(0);
     
