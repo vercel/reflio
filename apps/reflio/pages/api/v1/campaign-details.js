@@ -36,7 +36,7 @@ const campaignDetails = async (req, res) => {
   try {
     if(body?.referralCode && body?.companyId){
       const details = await campaignInfo(body?.referralCode, body?.companyId);
-      return res.status(200).json({ campaign_details: details }); 
+      return res.status(200).json({ statusCode: 200, campaign_details: details }); 
     }
 
     return res.status(500).json({ statusCode: 500, verified: false });

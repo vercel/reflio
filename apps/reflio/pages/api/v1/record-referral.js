@@ -55,7 +55,7 @@ const recordImpression = async (req, res) => {
           const referral = await createReferral(referralVerify);
 
           if(referral !== "error"){
-            return res.status(200).json({ referral_details: referral }); 
+            return res.status(200).json({ statusCode: 200, referral_details: referral }); 
           }
         }
       }
