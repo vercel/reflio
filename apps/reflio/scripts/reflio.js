@@ -418,9 +418,8 @@ class rfl {
       return response.json();
     });
 
-    if(convertData?.conversion_details !== "error"){
-      console.log('Reflio: Running signup function successful');
-      Reflio.deleteCookie();
+    if(convertData?.signup_details !== "error"){
+      console.log('Reflio: Signup function successful');
     }
 
     return convertData;

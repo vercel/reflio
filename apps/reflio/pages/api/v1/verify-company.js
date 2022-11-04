@@ -46,10 +46,10 @@ const verifyCompany = async (req, res) => {
       const projectVerify = await getCompanyFromExternal(filteredReferer);
 
       if(projectVerify === "success"){
-        return res.status(200).json({ verified: true }); 
+        return res.status(200).json({ statusCode: 200, verified: true }); 
 
       } else {
-        return res.status(500).json({ error: projectVerify });
+        return res.status(500).json({ statusCode: 500, error: projectVerify });
 
       }
     }

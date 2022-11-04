@@ -36,7 +36,7 @@ const sigupReferral = async (req, res) => {
   try {
     if(body?.referralId && body?.cookieDate && body?.email){
       const signup = await referralSignup(body?.referralId, body?.cookieDate, body?.email);
-      return res.status(200).json({ conversion_details: signup }); 
+      return res.status(200).json({ statusCode: 200, signup_details: signup }); 
     }
 
     return res.status(500).json({ statusCode: 500 });

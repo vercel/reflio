@@ -52,7 +52,6 @@
     "swr": "0.4.0",
     "tailwind-config": "*",
     "tailwindcss": "^3.0.22",
-    "uglifyjs": "^2.4.11",
     "ui": "*",
     "yarn": "^1.22.11"
   },

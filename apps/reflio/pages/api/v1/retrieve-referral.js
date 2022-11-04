@@ -36,7 +36,7 @@ const retrieveReferral = async (req, res) => {
   try {
     if(body?.referralId && body?.companyId){
       const retrieve = await getReferralFromId(body?.referralId, body?.companyId);
-      return res.status(200).json({ referral_details: retrieve }); 
+      return res.status(200).json({ statusCode: 200, referral_details: retrieve }); 
     }
 
     return res.status(500).json({ statusCode: 500, verified: false });
