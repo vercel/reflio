@@ -205,7 +205,7 @@ export const getAffiliates = async (companyId) => {
 };
 
 //Get user referrals
-export const getReferrals = async (companyId, date) => {
+export const getReferrals = async (companyId, date, page) => {
   let query = supabase
     .from('referrals')
     .select(`
@@ -221,6 +221,22 @@ export const getReferrals = async (companyId, date) => {
 
   if(date !== null){
     query.lt('created', [date])
+  }
+
+  if(page === "visited-link"){
+    query.is('referral_converted', false).is('referral_reference_email', null).gt('referral_expiry', [((new Date()).toISOString())])
+  }
+
+  if(page === "expired"){
+    query.lt('referral_expiry', [((new Date()).toISOString())]).is('referral_reference_email', null).is('referral_converted', false)
+  }
+
+  if(page === "signed-up"){
+    query.not('referral_reference_email', 'is', null).is('referral_converted', false)
+  }
+
+  if(page === "converted"){
+    query.is('referral_converted', true)
   }
 
   const { data, count, error } = await query;

@@ -1,29 +1,36 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { getReferrals } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button'; 
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import {
-  EmojiSadIcon
+  EmojiSadIcon,
+  ChevronDownIcon
 } from '@heroicons/react/solid';
-import {
-  UserAddIcon
-} from '@heroicons/react/outline';
-import { UTCtoString, checkUTCDateExpired, priceString } from '@/utils/helpers';
+import { UTCtoString, checkUTCDateExpired, priceString, classNames } from '@/utils/helpers';
 import ReactTooltip from 'react-tooltip';
 import Modal from '@/components/Modal';
+import { Menu, Transition } from '@headlessui/react';
 
-export default function ReferralsPage() {
+export const ReferralsTemplate = ({ page }) => {
   const router = useRouter();
   const { activeCompany } = useCompany();
   const [referrals, setReferrals] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const sortOptions = [
+    { name: 'All Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals` },
+    { name: 'Expired', href: `/dashboard/${activeCompany?.company_id}/referrals/expired` },
+    { name: 'Visited Link', href: `/dashboard/${activeCompany?.company_id}/referrals/visited-link` },
+    { name: 'Signed Up', href: `/dashboard/${activeCompany?.company_id}/referrals/signed-up` },
+    { name: 'Converted', href: `/dashboard/${activeCompany?.company_id}/referrals/converted` },
+  ];
  
   if(referrals?.length === 0 && activeCompany?.company_id){
-    getReferrals(activeCompany?.company_id, null).then(results => {
+    getReferrals(activeCompany?.company_id, null, page).then(results => {
       if(results !== "error" && results?.data?.length){
         setReferrals(results);
       }
@@ -42,7 +49,7 @@ export default function ReferralsPage() {
     if(referrals?.count > referrals?.data?.length){
       setLoading(true);
 
-      getReferrals(activeCompany?.company_id, referrals?.data[referrals?.data?.length-1]?.created).then(results => {
+      getReferrals(activeCompany?.company_id, referrals?.data[referrals?.data?.length-1]?.created, page).then(results => {
         if(results !== "error" && results?.data?.length){
           let newReferralsData = [...referrals?.data, ...results?.data]
           setReferrals({"data": newReferralsData, "count": referrals?.count});
@@ -63,7 +70,7 @@ export default function ReferralsPage() {
       <div className="mb-8">
         <div className="pt-10 wrapper flex items-center justify-between">
           <div>
-            <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
+            <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3 capitalize">{page === "index" ? "All" : page.replace('-', ' ')} Referrals {referrals?.count > 0 && `(${referrals?.count})`}</h1>
             <p>Referrals are tracked when a cookie has been successfully placed on the users device.</p>
           </div>
           <Button
@@ -73,6 +80,49 @@ export default function ReferralsPage() {
           >
             <span>Create referral</span>
           </Button>
+        </div>
+      </div>
+      <div className="wrapper">
+        <div className="mb-5">
+          <Menu as="div" className="relative z-10 inline-block text-left">
+            <div>
+              <Menu.Button className="group inline-flex items-center justify-center text-sm bg-white rounded-xl py-3 px-5 border-2 border-gray-300">
+                <span className="font-semibold">Filter</span>
+                <ChevronDownIcon
+                  className="flex-shrink-0 ml-1 h-4 w-4"
+                  aria-hidden="true"
+                />
+              </Menu.Button>
+            </div>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-lg shadow-lg bg-white border-2 border-gray-300">
+                <div>
+                  {sortOptions.map((option) => (
+                    <Menu.Item key={option}>
+                      <a
+                        href={option.href}
+                        className={classNames(
+                          option.href === router.asPath ? 'bg-gray-200 font-semibold' : '',
+                          'block px-4 py-3 text-gray-900'
+                        )}
+                      >
+                        {option.name}
+                      </a>
+                    </Menu.Item>
+                  ))}
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
         </div>
       </div>
       <div className="wrapper">
