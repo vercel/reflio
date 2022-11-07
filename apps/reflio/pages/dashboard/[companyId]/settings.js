@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
-import { useUser, deleteCompany, disableEmails, editCompanyWebsite, uploadLogoImage, editCompanyHandle } from '@/utils/useUser';
+import { useState } from 'react';
+import { deleteCompany, disableEmails, editCompanyWebsite, uploadLogoImage, editCompanyHandle } from '@/utils/useUser';
 import { useCompany } from '@/utils/CompanyContext';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import { Switch } from '@headlessui/react';
@@ -19,8 +19,7 @@ export default function CompanySettingsPage() {
   const [websiteUrlInput, setWebsiteUrlInput] = useState(null);
   const [companyHandleInput, setCompanyHandleInput] = useState(null);
   const [urlValid, setUrlValid] = useState(null);
-  const [logoError, setLogoError] = useState(false);
-  const fileInput = useRef(null);
+  const [showApiKey, setShowApiKey] = useState(false);
   
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this company?')){
@@ -31,22 +30,6 @@ export default function CompanySettingsPage() {
           toast.error('There was an error saving your changes.');
         }
       });
-    }
-  };
-
-  const handleFileUpload = async (e) => {
-    if(e.target.files[0].name?.includes("png") && e.target.files[0].size < 2000000){
-      await uploadLogoImage(router?.query?.companyId, e.target.files[0]).then((result) => {
-        if(result !== "error"){
-          setLogoError(false);
-          router.replace(window.location.href);
-        } else {
-          toast.error('There was an error when uploading your image. Please make sure that it is a PNG file and is less than 2mb.');
-        }
-      });
-    } else {
-      setLogoError(true);
-      return false;
     }
   };
 
@@ -259,20 +242,31 @@ export default function CompanySettingsPage() {
         </Card>
         <Card>
           <h3 className="text-lg leading-6 font-medium text-gray-900">API Key</h3>
-          <div className="mt-2 max-w-2xl text-gray-500">
-            <p>This is your API key for accessing <a className="font-bold underline text-gray-900" href="https://reflio.com/resources/api-documentation" target="_blank" rel="noreferrer">Reflio&apos;s API</a>.</p>
+          <div className="mt-2 max-w-2xl">
+            <p>Your API key is used for accessing <a className="font-bold underline text-gray-900" href="https://reflio.com/resources/api-documentation" target="_blank" rel="noreferrer">Reflio&apos;s API</a>.</p>
           </div>
-          <div className="mt-5">
+          <div className="mt-3">
             <div className="flex items-center h-14">
-              <input
-                value={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}
-                placeholder="api_key"
-                type="text"
-                name="api_key"
-                id="api_key"
-                autoComplete="api_key"
-                className="flex-1 block w-full min-w-0 h-full focus:outline-none sm:text-md rounded-lg border-2 border-gray-300 p-2 px-3"
-              />
+              {
+                showApiKey ?
+                  <input
+                    value={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}
+                    placeholder="api_key"
+                    type="text"
+                    name="api_key"
+                    id="api_key"
+                    autoComplete="api_key"
+                    className="flex-1 block w-full min-w-0 h-full focus:outline-none sm:text-md rounded-lg border-2 border-gray-300 p-2 px-3"
+                  />
+                :
+                  <Button
+                    onClick={e=>{setShowApiKey(true)}}
+                    small
+                    gray
+                  >
+                    Reveal API Key
+                  </Button>
+              }
             </div>
           </div>
         </Card>

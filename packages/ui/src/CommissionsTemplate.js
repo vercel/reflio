@@ -136,21 +136,19 @@ export const CommissionsTemplate = ({ page }) => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
+              <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-lg shadow-lg bg-white border-2 border-gray-300">
+                <div>
                   {sortOptions.map((option) => (
                     <Menu.Item key={option}>
-                      {({ active }) => (
-                        <a
-                          href={option.href}
-                          className={classNames(
-                            active ? 'bg-gray-100' : '',
-                            'block px-4 py-3 text-gray-900'
-                          )}
-                        >
-                          {option.name}
-                        </a>
-                      )}
+                      <a
+                        href={option.href}
+                        className={classNames(
+                          option.href === router.asPath ? 'bg-gray-200 font-semibold' : '',
+                          'block px-4 py-3 text-gray-900'
+                        )}
+                      >
+                        {option.name}
+                      </a>
                     </Menu.Item>
                   ))}
                 </div>
@@ -387,7 +385,7 @@ export const CommissionsTemplate = ({ page }) => {
                   className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <EmojiSadIcon className="w-10 h-auto mx-auto text-gray-600"/>
-                  <span className="mt-2 block text-sm font-medium text-gray-600">You have no commissions yet.</span>
+                  <span className="mt-2 block text-sm font-medium text-gray-600">You have no {page !== "index" && page} commissions yet.</span>
                 </div>
               </div>
           :
