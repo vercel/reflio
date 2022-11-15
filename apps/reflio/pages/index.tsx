@@ -83,7 +83,7 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div id="why-reflio">
+      <div id="features">
         <div className="py-14 md:pt-44 md:py-24 bg-gradient-to-b from-gray-200 via-gray-50 to-primary border-t-8 border-gray-300">
           <div className="wrapper">
             <div className="text-center mb-16">
@@ -95,11 +95,11 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="py-14 md:pt-24 md:pb-14 bg-gradient-to-b from-primary to-gray-50">
+      <div className="py-14 md:pt-12 md:pb-16 bg-gradient-to-b from-primary to-gray-50">
         <div className="wrapper wrapper-sm">
           <div className="text-center">
             <div className="order-1 lg:order-0">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-5 font-semibold">We&apos;re proudly open-source</h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-5 font-semibold">Also... we&apos;re proudly open-source!</h2>
               <p className="text-2xl">Reflio is proudly OSS (Open source software). Our source code is available and accessible on GitHub so that anyone can read it, inspect it, review it and even contribute to make Reflio as great as possible.</p>
               <div className="mt-12">
                 <Button

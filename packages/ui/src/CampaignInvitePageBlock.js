@@ -75,7 +75,7 @@ export const CampaignInvitePageBlock = ({ publicCampaignData, campaignAlreadyJoi
                       publicCampaignData?.campaign_public === true &&
                       <div>
                         {
-                          customCampaignData?.campaign_welcome_message !== null ?
+                          customCampaignData !== null && customCampaignData?.campaign_welcome_message !== null ?
                             <p className="text-lg mb-5 text-gray-500">{customCampaignData?.campaign_welcome_message}</p>
                           :
                             <p className="text-lg mb-5 text-gray-500">
