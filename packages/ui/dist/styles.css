@@ -3084,16 +3084,20 @@ a {
     padding-top: 11rem;
   }
 
-  .md\:pt-24 {
-    padding-top: 6rem;
+  .md\:pt-12 {
+    padding-top: 3rem;
   }
 
-  .md\:pb-14 {
-    padding-bottom: 3.5rem;
+  .md\:pb-16 {
+    padding-bottom: 4rem;
   }
 
   .md\:pb-32 {
     padding-bottom: 8rem;
+  }
+
+  .md\:pt-24 {
+    padding-top: 6rem;
   }
 
   .md\:pb-36 {
