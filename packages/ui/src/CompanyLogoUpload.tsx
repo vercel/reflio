@@ -59,7 +59,7 @@ export const CompanyLogoUpload = () => {
             Upload File
           </button>
         </div>
-        <p className="mt-2 text-sm">
+        <p className="mt-2 text-sm text-gray-500">
           Must be a PNG or JPEG file and less than 2mb.
         </p>
         {

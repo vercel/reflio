@@ -341,7 +341,13 @@ export const payCommissions = async (companyId, checkedCommissions, eligibleComm
 export const newTeam = async (user, form) => {
   if(!form?.team_name) return "error";
 
-  const { data, error } = await supabase.from('teams').insert({
+  const getTeam = await supabase.from('teams').select('*');
+
+  if(getTeam?.data?.length > 0){
+    return "error";
+  }
+
+  const { data } = await supabase.from('teams').insert({
     id: user?.id,
     team_name: form?.team_name
   });
@@ -470,19 +476,25 @@ export const newCampaign = async (user, form, companyId) => {
     .select('*')
     .eq('default_campaign', true)
     .eq('company_id', companyId);
-
-  if(data?.length === 0){
-    formFields.default_campaign = true;
-  }
+    
+    
+    if(data?.length === 0){
+      formFields.default_campaign = true;
+    }
+    console.log("data:")
+    console.log(data)
+    console.log("formFields:")
+    console.log(formFields)
   
   if(formFields.default_campaign && formFields.default_campaign === true && data?.length > 0){
     data?.map(async campaign => {
-      await supabase
+      const campaignEdit = await supabase
         .from('campaigns')
         .update({
           default_campaign: false
         })
         .eq('campaign_id', campaign?.campaign_id);
+        console.log(campaignEdit)
     })
   }
 
@@ -542,7 +554,6 @@ export const editCampaign = async (user, campaignId, formFields) => {
       .update({
         default_campaign: false
       })
-      .eq('campaign_id', campaignId)
       .eq('default_campaign', true);
     
     const { error } = await supabase
