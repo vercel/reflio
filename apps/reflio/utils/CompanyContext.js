@@ -7,6 +7,7 @@ export const CompanyContext = createContext();
 export const CompanyContextProvider = (props) => {
   const { user, team, userFinderLoaded, signOut } = useUser();
   const [userCompanyDetails, setUserCompanyDetails] = useState(null);
+  const [creatingTeam, setCreatingTeam] = useState(false);
   const router = useRouter();
   let value;
 
@@ -17,15 +18,18 @@ export const CompanyContextProvider = (props) => {
       });
     }
   });
-  
-  if(team === 'none' && router?.pathname !== '/dashboard/create-team'){
-    newTeam(user, {"team_name": "My team"}).then((result) => {
-      console.log("Result:", result);
-    });
-  }
 
-  if(userCompanyDetails !== null && userCompanyDetails?.length === 0 && !router?.asPath?.includes('add-company') && router?.pathname !== '/dashboard/create-team' && team?.team_id){
-    router.replace('/dashboard/add-company');
+  if(userCompanyDetails !== null && userCompanyDetails?.length === 0 && !router?.asPath?.includes('add-company') && router?.pathname !== '/dashboard/create-team'){
+    if(team === 'none' && router?.pathname !== '/dashboard/create-team' && creatingTeam === false){
+      setCreatingTeam(true);
+      newTeam(user, {"team_name": "My team"}).then((result) => {
+        router.replace('/dashboard/add-company');
+      });
+    }
+
+    if(team?.team_id){
+      router.replace('/dashboard/add-company');
+    }
   }
   
   if(userCompanyDetails !== null && userCompanyDetails?.length > 0 && router?.asPath === '/dashboard'){

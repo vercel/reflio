@@ -344,6 +344,7 @@ export const newTeam = async (user, form) => {
   const getTeam = await supabase.from('teams').select('*');
 
   if(getTeam?.data?.length > 0){
+    console.log("Team already exists");
     return "error";
   }
 
