@@ -30,6 +30,12 @@ export const CampaignForm = ({ edit, setupMode }) => {
       data[entry[0]] = entry[1];
     }
 
+    if(data?.default_campaign === "on"){
+      data.default_campaign = true;
+    } else {
+      data.default_campaign = false;
+    }
+
     setLoading(true);
 
     if(edit){
