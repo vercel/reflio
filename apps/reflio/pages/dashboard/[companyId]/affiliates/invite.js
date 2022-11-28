@@ -171,18 +171,18 @@ export default function AffiliateInvitePage() {
                   <div>
                     <label
                       htmlFor="invite_emails"
-                      className="block text-xl font-semibold text-gray-900"
+                      className="mb-3 block text-xl font-semibold text-gray-900"
                     >
                       Email
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
-                      <textarea
-                        required
+                      <input
                         placeholder="natalie.ziemba@vercel.com"
                         name="invite_emails"
                         id="invite_emails"
+                        type="text"
                         className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
-                      ></textarea>
+                      />
                     </div>
                   </div>
                   <div>

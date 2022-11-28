@@ -147,7 +147,7 @@ export default function InnerDashboardPage() {
                                 <p>{affiliate?.name ?? '-'}</p>
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                <p>{affiliate?.vercelUsername ?? '-'}</p>
+                                <p>{affiliate?.vercel_username ?? '-'}</p>
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm">
                                 <p>{affiliate?.affiliate_id}</p>
