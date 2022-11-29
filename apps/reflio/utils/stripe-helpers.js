@@ -152,7 +152,7 @@ export const editCommission = async(data) => {
           }
           //----END CALCULATE REUNDS----
   
-          let commissionAmount = paymentIntentTotal > 0 ? referralFromId?.data?.commission_type === "fixed" ? referralFromId?.data?.commission_value : (parseInt((((parseFloat(paymentIntentTotal/100)*parseFloat(referralFromId?.data?.commission_value))/100)*100))) : 0;
+          let commissionAmount = paymentIntentTotal > 0 ? referralFromId?.data?.commission_type === "fixed" ? (referralFromId?.data?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(paymentIntentTotal/100)*parseFloat(referralFromId?.data?.commission_value))/100)*100))) : 0;
 
           const { error } = await supabaseAdmin
             .from('commissions')

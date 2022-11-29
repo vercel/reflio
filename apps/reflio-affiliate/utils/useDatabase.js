@@ -190,6 +190,8 @@ export const handleCampaignJoin = async (user, companyId, campaignId) => {
       invite_email: 'manual',
       invited_user_id: user?.id,
       accepted: true,
+      name: 'manual_campaign_join',
+      vercel_username: 'manual_campaign_join'
     });
   
     if (error) {

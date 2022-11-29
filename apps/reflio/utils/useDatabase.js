@@ -1,13 +1,8 @@
 import { supabaseAdmin } from './supabase-admin';
 import { stripe } from './stripe';
-import { toDateTime, LogSnagPost } from './helpers';
+import { toDateTime, LogSnagPost, monthsBetweenDates } from './helpers';
 import { createCommission } from '@/utils/stripe-helpers';
-import { PutCommand } from '@aws-sdk/lib-dynamodb';
-import ddbDocClient from '@/utils/analytics/ddbDocClient';
 
-// This entire file should be removed and moved to supabase-admin
-// It's not a react hook, so it shouldn't have useDatabase format
-// It should also properly catch and throw errors
 export const upsertProductRecord = async (product) => {
   const productData = {
     product_id: product.id,
@@ -279,24 +274,6 @@ export const verifyReferral = async (referralCode, companyId) => {
 };
 
 export const fireRecordImpression = async (id) => {
-  // AWS IMPRESSION WIP -----
-  // const params = {
-  //   TableName: "reflio-analytics-v1",
-  //   Item: {
-  //     campaign_id: campaignId,
-  //     affiliate_id: affiliateId,
-  //     date: new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
-  //     created: ((new Date()).toISOString())
-  //   },
-  // };
-  // try {
-  //   await ddbDocClient.send(new PutCommand(params));
-  //   console.log("Impression fired!!!")
-  //   return "success";
-  // } catch (err) {
-  //   console.log("Error", err.stack);
-  //   return "error";
-  // }
   const { error } = await supabaseAdmin.rpc('referralimpression', {
     x: 1,
     affiliateid: id
@@ -362,7 +339,8 @@ export const createReferral = async (details) => {
         cookie_date: dateToday,
         campaign_name: campaignData?.campaign_name,
         affiliate_id: details?.affiliate_id,
-        referral_id: referralData?.data[0].referral_id
+        referral_id: referralData?.data[0].referral_id,
+        commission_period: referralData?.data[0].commission_period
       };
     } else {
       return 'error';
@@ -739,3 +717,135 @@ export const invoicePaidCheck = async (invoice) => {
 
   return true;
 };
+
+export const manualCommissionCreate = async (referralId, commissionInfo, stripeId) => {
+  if (!referralId){
+    return "param_not_found_error";
+  }
+
+  //Check if referral is valid in DB
+  let referralFromId = await supabaseAdmin
+    .from('referrals')
+    .select('*')
+    .eq('referral_id', referralId)
+    .single();
+  
+  //If referral is not found, return error
+  if(referralFromId?.data === null){
+    return "referral_not_found_error";
+  }
+
+  let continueProcess = true;
+
+  //Check if there is an earlier commission with the same referral ID... if so, check if payment limit has been reached
+  let earliestCommission = await supabaseAdmin
+    .from('commissions')
+    .select('created')
+    .eq('referral_id', referralId)
+    .order('created', { ascending: true })
+    .limit(1)
+
+  if(earliestCommission?.data !== null){
+    let commissionFound = earliestCommission?.data[0];
+
+    //Checks if commission period has passed (months)
+    if(commissionFound?.created){
+      let dateToday = new Date();
+      let earliestCommissionDate = new Date(commissionFound?.created);
+      let monthsBetween = monthsBetweenDates(dateToday, earliestCommissionDate);
+
+      if(referralFromId?.data?.commission_period < monthsBetween){
+        continueProcess = false;
+      }
+    }
+  }
+
+  //If commission period is not over, continue
+  if(continueProcess === true){
+    if(commissionInfo?.commission_sale_value){
+
+      let invoiceTotal = commissionInfo?.commission_sale_value;
+      let dueDate = new Date();
+      if(referralFromId?.data?.minimum_days_payout){
+        dueDate.setDate(dueDate.getDate() + referralFromId?.data?.minimum_days_payout);
+      } else {
+        dueDate.setDate(dueDate.getDate() + 30)
+      }
+      let dueDateIso = dueDate.toISOString();
+      let commissionAmount = invoiceTotal > 0 ? referralFromId?.data?.commission_type === "fixed" ? (referralFromId?.data?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralFromId?.data?.commission_value))/100)*100))) : 0;
+
+      let newCommissionValues = await supabaseAdmin.from('commissions').insert({
+        id: referralFromId?.data?.id,
+        team_id: referralFromId?.data?.team_id,
+        company_id: referralFromId?.data?.company_id,
+        campaign_id: referralFromId?.data?.campaign_id,
+        affiliate_id: referralFromId?.data?.affiliate_id,
+        referral_id: referralFromId?.data?.referral_id,
+        payment_intent_id: null,
+        commission_sale_value: invoiceTotal,
+        commission_total: commissionAmount,
+        commission_due_date: dueDateIso,
+        commission_description: commissionInfo?.line_items ?? null
+      });
+
+      if(newCommissionValues?.data){
+        await supabaseAdmin
+          .from('referrals')
+          .update({
+            referral_converted: true
+          })
+          .eq('referral_id', referralId);
+
+        return {
+          commission_id: newCommissionValues?.data[0]?.commission_id,
+          referral_id: newCommissionValues?.data[0]?.referral_id,
+          affiliate_id: newCommissionValues?.data[0]?.affiliate_id,
+          commission_sale_value: newCommissionValues?.data[0]?.commission_sale_value,
+          commission_total: newCommissionValues?.data[0]?.commission_total,
+          commission_due_date: newCommissionValues?.data[0]?.commission_due_date
+        }
+      } else {
+        return "commission_create_error";
+      }
+    } else {
+      
+      //If not manually creating a commission, create commission with Stripe payment ID and attach commission data
+      if(!stripeId){
+        return "stripe_id_missing_error";
+      }
+      
+      let paymentIntent = await stripe.paymentIntents.retrieve(stripeId);
+      
+      //Check if company is valid in DB
+      let companyFromId = await supabaseAdmin
+        .from('companies')
+        .select('stripe_id')
+        .eq('company_id', referralFromId?.data?.comapny_id)
+        .eq('team_id', teamId)
+        .single();
+        
+      //If company is not found, return error
+      if(companyFromId?.data === null){
+        return "company_not_found_error";
+      }
+
+      //Check if Stripe ID is not null
+      if(companyFromId?.data?.stripe_id === null){
+        return "company_stripe_id_missing_error";
+      }
+
+      if(paymentIntent?.id){
+        const createCommissionViaStripe = await createCommission(paymentIntent, companyFromId?.data?.stripe_id, referralId);
+        
+        if(createCommissionViaStripe === "success"){
+          return "commission_created";
+        } else {
+          return "commission_create_error";
+        }
+
+      } else {
+        return "payment_intent_not_found_error";
+      }
+    }
+  }
+}
