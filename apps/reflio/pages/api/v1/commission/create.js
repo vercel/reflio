@@ -3,17 +3,18 @@ import { withSentry } from '@sentry/nextjs';
 
 const createCommission = async (req, res) => {
   if (req.method === 'POST') {
-    const { referralReference, commissionInfo } = req.body;
-    
-    try {
-      const commission = await manualCommissionCreate(referralReference, commissionInfo);
+    const { referralReference } = req.body;
 
-      if(commission !== "error"){
+    try {
+      const commission = await manualCommissionCreate(referralReference, {
+        commission_sale_value: '10'
+      });
+
+      if (commission !== 'error') {
         return res.status(200).json({ response: commission });
       }
 
-      return res.status(500).json({ response: "error" });
-      
+      return res.status(500).json({ response: 'error' });
     } catch (err) {
       console.log(err);
       res
@@ -26,4 +27,6 @@ const createCommission = async (req, res) => {
   }
 };
 
-export default process.env.SENTRY_AUTH_TOKEN ? withSentry(createCommission) : createCommission;
+export default process.env.SENTRY_AUTH_TOKEN
+  ? withSentry(createCommission)
+  : createCommission;

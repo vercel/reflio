@@ -718,9 +718,12 @@ export const invoicePaidCheck = async (invoice) => {
   return true;
 };
 
-export const manualCommissionCreate = async (referralReference, commissionInfo) => {
-  if (!referralReference){
-    return "param_not_found_error";
+export const manualCommissionCreate = async (
+  referralReference,
+  commissionInfo
+) => {
+  if (!referralReference) {
+    return 'param_not_found_error';
   }
 
   //Check if referral is valid in DB
@@ -728,15 +731,15 @@ export const manualCommissionCreate = async (referralReference, commissionInfo) 
     .from('referrals')
     .select('*')
     .eq('referral_reference_email', referralReference)
-    .order('created', { ascending: false })
-  
+    .order('created', { ascending: false });
+
   //If referral is not found, return error
-  if(referralFromId?.data === null){
-    return "referral_not_found_error";
+  if (referralFromId?.data === null) {
+    return 'referral_not_found_error';
   }
 
   //Only use first item in array
-  if(referralFromId?.data?.length){
+  if (referralFromId?.data?.length) {
     referralFromId = referralFromId?.data[0];
   }
 
@@ -748,35 +751,47 @@ export const manualCommissionCreate = async (referralReference, commissionInfo) 
     .select('created')
     .eq('referral_id', referralFromId?.referral_id)
     .order('created', { ascending: true })
-    .limit(1)
+    .limit(1);
 
-  if(earliestCommission?.data !== null){
+  if (earliestCommission?.data !== null) {
     let commissionFound = earliestCommission?.data[0];
 
     //Checks if commission period has passed (months)
-    if(commissionFound?.created){
+    if (commissionFound?.created) {
       let dateToday = new Date();
       let earliestCommissionDate = new Date(commissionFound?.created);
       let monthsBetween = monthsBetweenDates(dateToday, earliestCommissionDate);
 
-      if(referralFromId?.commission_period < monthsBetween){
+      if (referralFromId?.commission_period < monthsBetween) {
         continueProcess = false;
       }
     }
   }
 
   //If commission period is not over, continue
-  if(continueProcess === true){
-    if(commissionInfo?.commission_sale_value){
+  if (continueProcess === true) {
+    if (commissionInfo?.commission_sale_value) {
       let invoiceTotal = commissionInfo?.commission_sale_value;
       let dueDate = new Date();
-      if(referralFromId?.minimum_days_payout){
-        dueDate.setDate(dueDate.getDate() + referralFromId?.minimum_days_payout);
+      if (referralFromId?.minimum_days_payout) {
+        dueDate.setDate(
+          dueDate.getDate() + referralFromId?.minimum_days_payout
+        );
       } else {
-        dueDate.setDate(dueDate.getDate() + 30)
+        dueDate.setDate(dueDate.getDate() + 30);
       }
       let dueDateIso = dueDate.toISOString();
-      let commissionAmount = invoiceTotal > 0 ? referralFromId?.commission_type === "fixed" ? (referralFromId?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralFromId?.commission_value))/100)*100))) : 0;
+      let commissionAmount =
+        invoiceTotal > 0
+          ? referralFromId?.commission_type === 'fixed'
+            ? (referralFromId?.commission_value * 100).toFixed(0)
+            : parseInt(
+                ((parseFloat(invoiceTotal / 100) *
+                  parseFloat(referralFromId?.commission_value)) /
+                  100) *
+                  100
+              )
+          : 0;
 
       let newCommissionValues = await supabaseAdmin.from('commissions').insert({
         id: referralFromId?.id,
@@ -792,7 +807,7 @@ export const manualCommissionCreate = async (referralReference, commissionInfo) 
         commission_description: commissionInfo?.line_items ?? null
       });
 
-      if(newCommissionValues?.data){
+      if (newCommissionValues?.data) {
         await supabaseAdmin
           .from('referrals')
           .update({
@@ -804,15 +819,16 @@ export const manualCommissionCreate = async (referralReference, commissionInfo) 
           commission_id: newCommissionValues?.data[0]?.commission_id,
           referral_id: newCommissionValues?.data[0]?.referral_id,
           affiliate_id: newCommissionValues?.data[0]?.affiliate_id,
-          commission_sale_value: newCommissionValues?.data[0]?.commission_sale_value,
+          commission_sale_value:
+            newCommissionValues?.data[0]?.commission_sale_value,
           commission_total: newCommissionValues?.data[0]?.commission_total,
           commission_due_date: newCommissionValues?.data[0]?.commission_due_date
-        }
+        };
       } else {
-        return "commission_create_error";
+        return 'commission_create_error';
       }
     }
 
-    return "error";
+    return 'error';
   }
-}
+};

@@ -49,7 +49,7 @@ export default function InnerDashboardPage() {
             medium
             primary
           >
-            <span>Invite affiliate</span>
+            <span>Add affiliate</span>
           </Button>
         </div>
       </div>
@@ -61,10 +61,6 @@ export default function InnerDashboardPage() {
               <div className="flex flex-col">
                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    <p className="py-4">
-                      NOTE: Any affiliate without a name and Vercel Username
-                      will not have an active affiliate landing page.
-                    </p>
                     <div className="overflow-hidden rounded-lg border-4 border-gray-300 shadow-md">
                       <table className="min-w-full divide-y divide-gray-300">
                         <thead className="bg-gray-200">
