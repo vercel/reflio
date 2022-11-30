@@ -40,6 +40,11 @@ export const CampaignInvitePageBlock = ({ publicCampaignData, campaignAlreadyJoi
         setLoading(false);
         toast.error('This campaign is private. Please contact the campaign owner for an invite.')
       }
+
+      if(status === "error"){
+        setLoading(false);
+        toast.error('There was an error when joining the campaign. Please try again later, or contact support.')
+      }
   
     } catch (error) {
       setLoading(false);

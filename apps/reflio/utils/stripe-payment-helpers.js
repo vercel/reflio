@@ -34,7 +34,7 @@ export const invoicePayment = async(referralData, stripeId, referralId, paymentI
     dueDate.setDate(dueDate.getDate() + 30)
   }
   let dueDateIso = dueDate.toISOString();
-  let commissionAmount = invoiceTotal > 0 ? referralData?.data?.commission_type === "fixed" ? referralData?.data?.commission_value : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralData?.data?.commission_value))/100)*100))) : 0;
+  let commissionAmount = invoiceTotal > 0 ? referralData?.data?.commission_type === "fixed" ? (referralData?.data?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralData?.data?.commission_value))/100)*100))) : 0;
   let invoiceLineItems = [];
   
   if(invoice?.paid === true){
@@ -133,7 +133,7 @@ export const chargePayment = async(referralData, stripeId, referralId, paymentIn
     dueDate.setDate(dueDate.getDate() + 30)
   }
   let dueDateIso = dueDate.toISOString();
-  let commissionAmount = chargeTotal > 0 ? referralData?.data?.commission_type === "fixed" ? referralData?.data?.commission_value : (parseInt((((parseFloat(chargeTotal/100)*parseFloat(referralData?.data?.commission_value))/100)*100))) : 0;
+  let commissionAmount = chargeTotal > 0 ? referralData?.data?.commission_type === "fixed" ? (referralData?.data?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(chargeTotal/100)*parseFloat(referralData?.data?.commission_value))/100)*100))) : 0;
 
   let referralUpdate = await supabaseAdmin
     .from('referrals')
