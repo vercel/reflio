@@ -728,6 +728,7 @@ export const manualCommissionCreate = async (referralReference, commissionInfo) 
     .from('referrals')
     .select('*')
     .eq('referral_reference_email', referralReference)
+    .order('created', { ascending: false })
   
   //If referral is not found, return error
   if(referralFromId?.data === null){
