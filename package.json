@@ -5,11 +5,10 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "clean": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "dev": "npm run dev -w reflio",
+    "build": "npm run build -w reflio",
+    "start": "npm run start -w reflio",
+    "lint": "npm run lint -w reflio"
   },
   "devDependencies": {
     "eslint": "^8.19.0",
