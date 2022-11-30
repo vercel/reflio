@@ -718,8 +718,8 @@ export const invoicePaidCheck = async (invoice) => {
   return true;
 };
 
-export const manualCommissionCreate = async (referralId, commissionInfo, stripeId) => {
-  if (!referralId){
+export const manualCommissionCreate = async (referralReference, commissionInfo) => {
+  if (!referralReference){
     return "param_not_found_error";
   }
 
@@ -727,12 +727,16 @@ export const manualCommissionCreate = async (referralId, commissionInfo, stripeI
   let referralFromId = await supabaseAdmin
     .from('referrals')
     .select('*')
-    .eq('referral_id', referralId)
-    .single();
+    .eq('referral_reference_email', referralReference)
   
   //If referral is not found, return error
   if(referralFromId?.data === null){
     return "referral_not_found_error";
+  }
+
+  //Only use first item in array
+  if(referralFromId?.data?.length){
+    referralFromId = referralFromId?.data[0];
   }
 
   let continueProcess = true;
@@ -741,7 +745,7 @@ export const manualCommissionCreate = async (referralId, commissionInfo, stripeI
   let earliestCommission = await supabaseAdmin
     .from('commissions')
     .select('created')
-    .eq('referral_id', referralId)
+    .eq('referral_id', referralFromId?.referral_id)
     .order('created', { ascending: true })
     .limit(1)
 
@@ -754,7 +758,7 @@ export const manualCommissionCreate = async (referralId, commissionInfo, stripeI
       let earliestCommissionDate = new Date(commissionFound?.created);
       let monthsBetween = monthsBetweenDates(dateToday, earliestCommissionDate);
 
-      if(referralFromId?.data?.commission_period < monthsBetween){
+      if(referralFromId?.commission_period < monthsBetween){
         continueProcess = false;
       }
     }
@@ -763,24 +767,23 @@ export const manualCommissionCreate = async (referralId, commissionInfo, stripeI
   //If commission period is not over, continue
   if(continueProcess === true){
     if(commissionInfo?.commission_sale_value){
-
       let invoiceTotal = commissionInfo?.commission_sale_value;
       let dueDate = new Date();
-      if(referralFromId?.data?.minimum_days_payout){
-        dueDate.setDate(dueDate.getDate() + referralFromId?.data?.minimum_days_payout);
+      if(referralFromId?.minimum_days_payout){
+        dueDate.setDate(dueDate.getDate() + referralFromId?.minimum_days_payout);
       } else {
         dueDate.setDate(dueDate.getDate() + 30)
       }
       let dueDateIso = dueDate.toISOString();
-      let commissionAmount = invoiceTotal > 0 ? referralFromId?.data?.commission_type === "fixed" ? (referralFromId?.data?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralFromId?.data?.commission_value))/100)*100))) : 0;
+      let commissionAmount = invoiceTotal > 0 ? referralFromId?.commission_type === "fixed" ? (referralFromId?.commission_value * 100).toFixed(0) : (parseInt((((parseFloat(invoiceTotal/100)*parseFloat(referralFromId?.commission_value))/100)*100))) : 0;
 
       let newCommissionValues = await supabaseAdmin.from('commissions').insert({
-        id: referralFromId?.data?.id,
-        team_id: referralFromId?.data?.team_id,
-        company_id: referralFromId?.data?.company_id,
-        campaign_id: referralFromId?.data?.campaign_id,
-        affiliate_id: referralFromId?.data?.affiliate_id,
-        referral_id: referralFromId?.data?.referral_id,
+        id: referralFromId?.id,
+        team_id: referralFromId?.team_id,
+        company_id: referralFromId?.company_id,
+        campaign_id: referralFromId?.campaign_id,
+        affiliate_id: referralFromId?.affiliate_id,
+        referral_id: referralFromId?.referral_id,
         payment_intent_id: null,
         commission_sale_value: invoiceTotal,
         commission_total: commissionAmount,
@@ -794,7 +797,7 @@ export const manualCommissionCreate = async (referralId, commissionInfo, stripeI
           .update({
             referral_converted: true
           })
-          .eq('referral_id', referralId);
+          .eq('referral_id', referralFromId?.referral_id);
 
         return {
           commission_id: newCommissionValues?.data[0]?.commission_id,
@@ -807,45 +810,8 @@ export const manualCommissionCreate = async (referralId, commissionInfo, stripeI
       } else {
         return "commission_create_error";
       }
-    } else {
-      
-      //If not manually creating a commission, create commission with Stripe payment ID and attach commission data
-      if(!stripeId){
-        return "stripe_id_missing_error";
-      }
-      
-      let paymentIntent = await stripe.paymentIntents.retrieve(stripeId);
-      
-      //Check if company is valid in DB
-      let companyFromId = await supabaseAdmin
-        .from('companies')
-        .select('stripe_id')
-        .eq('company_id', referralFromId?.data?.comapny_id)
-        .eq('team_id', teamId)
-        .single();
-        
-      //If company is not found, return error
-      if(companyFromId?.data === null){
-        return "company_not_found_error";
-      }
-
-      //Check if Stripe ID is not null
-      if(companyFromId?.data?.stripe_id === null){
-        return "company_stripe_id_missing_error";
-      }
-
-      if(paymentIntent?.id){
-        const createCommissionViaStripe = await createCommission(paymentIntent, companyFromId?.data?.stripe_id, referralId);
-        
-        if(createCommissionViaStripe === "success"){
-          return "commission_created";
-        } else {
-          return "commission_create_error";
-        }
-
-      } else {
-        return "payment_intent_not_found_error";
-      }
     }
+
+    return "error";
   }
 }

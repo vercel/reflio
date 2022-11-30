@@ -3,10 +3,10 @@ import { withSentry } from '@sentry/nextjs';
 
 const createCommission = async (req, res) => {
   if (req.method === 'POST') {
-    const { referralId, commissionInfo, stripeId } = req.body;
+    const { referralReference, commissionInfo } = req.body;
     
     try {
-      const commission = await manualCommissionCreate(referralId, commissionInfo, stripeId);
+      const commission = await manualCommissionCreate(referralReference, commissionInfo);
 
       if(commission !== "error"){
         return res.status(200).json({ response: commission });
