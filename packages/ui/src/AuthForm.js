@@ -15,7 +15,7 @@ export const AuthForm = ({
   hideDetails,
   editor,
 }) => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("affiliates@vercel.com");
   const [password, setPassword] = useState("");
   const [showPasswordInput, setShowPasswordInput] = useState(true);
   const [loading, setLoading] = useState(false);
