@@ -26,7 +26,7 @@ function runMiddleware(req, res, fn) {
   });
 }
 
-const COMPANY_ID = '5mha33r7ploqt29';
+const COMPANY_ID = '19cpdhnsxl2nwc0';
 
 const recordImpression = async (req, res) => {
   console.log('Impression API Call');

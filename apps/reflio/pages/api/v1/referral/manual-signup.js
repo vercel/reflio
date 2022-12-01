@@ -1,4 +1,3 @@
-import { getUser } from '@/utils/supabase-admin';
 import { manualReferralSignup } from '@/utils/useDatabase';
 import { withSentry } from '@sentry/nextjs';
 
@@ -13,9 +12,6 @@ const manualSignupReferral = async (req, res) => {
     }
 
     try {
-      // const user = await getUser(token);
-
-      // if (user) {
       const signup = await manualReferralSignup(
         body.referralIdentifier,
         body.referralId
@@ -24,7 +20,6 @@ const manualSignupReferral = async (req, res) => {
       if (signup !== 'error') {
         return res.status(200).json({ response: signup });
       }
-      // }
 
       return res.status(500).json({ response: 'error' });
     } catch (err) {
