@@ -170,6 +170,36 @@ export const AuthForm = ({
             </div>
           )}
 
+          {type === "signup" ? (
+            <div className="flex items-center gap-2">
+              <label htmlFor="tos" className="sr-only">
+                I agree to terms of service.
+              </label>
+              <input
+                id="tos"
+                name="tos"
+                type="checkbox"
+                required
+                className=""
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <p>
+                I agree to the{" "}
+                <a
+                  href={"https://vercel.com/legal/terms"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-secondary"
+                >
+                  Terms of Service
+                </a>
+                .
+              </p>
+            </div>
+          ) : null}
+
           <div>
             <Button
               disabled={loading}

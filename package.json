@@ -5,10 +5,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w reflio",
-    "build": "npm run build -w reflio",
-    "start": "npm run start -w reflio",
-    "lint": "npm run lint -w reflio"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "start": "turbo start",
+    "lint": "turbo lint"
   },
   "devDependencies": {
     "eslint": "^8.19.0",

@@ -83,21 +83,24 @@ const inviteUser = async (req, res) => {
           );
         }
 
-        return res.status(200).json({ response: 'success' });
+        const invite = await editTeam(teamId, 'invite', formData, user);
 
-        // const invite = await editTeam(teamId, 'invite', formData, user);
+        if (invite === 'success') {
+          const email = await sendEmail(
+            `You have been invited to team ${teamData?.team_name} on SEOCopy 🤖`,
+            formData?.invite_email,
+            'invite',
+            teamData
+          );
 
-        // if(invite === 'success'){
-        //   const email = await sendEmail(`You have been invited to team ${teamData?.team_name} on SEOCopy 🤖`, formData?.invite_email, 'invite', teamData);
+          if (email === 'success') {
+            console.log('email success');
 
-        //   if(email === 'success'){
-        //     console.log('email success');
+            return res.status(200).json({ response: 'success' });
+          }
+        }
 
-        //     return res.status(200).json({ response: 'success' });
-        //   }
-        // }
-
-        // return res.status(500).json({ response: 'error' });
+        return res.status(500).json({ response: 'error' });
       } else {
         return res.status(500).json({ response: 'error' });
       }

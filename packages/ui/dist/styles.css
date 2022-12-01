@@ -1254,6 +1254,10 @@ video {
   justify-content: space-between;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .gap-y-10 {
   row-gap: 2.5rem;
 }
@@ -1997,14 +2001,14 @@ video {
   line-height: 2.25rem;
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .text-lg {
@@ -2059,10 +2063,6 @@ video {
 
 .uppercase {
   text-transform: uppercase;
-}
-
-.lowercase {
-  text-transform: lowercase;
 }
 
 .capitalize {
