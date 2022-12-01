@@ -240,7 +240,7 @@ ${activeCompany?.company_name}`}
               </div>
               <div className="flex items-center justify-start border-t-4 bg-white p-6">
                 <Button large primary disabled={loading}>
-                  <span>{loading ? 'Sending invite...' : 'Send invite'}</span>
+                  <span>{loading ? 'Adding user...' : 'Add user'}</span>
                 </Button>
               </div>
             </form>
