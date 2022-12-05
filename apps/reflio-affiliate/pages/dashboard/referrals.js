@@ -77,13 +77,13 @@ const ReferralsPage = () => {
                             scope="col"
                             className="px-3 py-3.5 text-left text-sm font-semibold"
                           >
-                            Status
+                            Date Created
                           </th>
                           <th
                             scope="col"
                             className="px-3 py-3.5 text-left text-sm font-semibold"
                           >
-                            Date Created
+                            Status
                           </th>
                         </tr>
                       </thead>
@@ -92,6 +92,11 @@ const ReferralsPage = () => {
                           <tr key={referral?.referral_id}>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                               <span>{referral?.referral_id}</span>
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm">
+                              <div data-tip={referral?.created}>
+                                {UTCtoString(referral?.created)}
+                              </div>
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm">
                               {referral?.referral_converted === true ? (
@@ -131,11 +136,6 @@ const ReferralsPage = () => {
                                     : 'Visited link'}
                                 </div>
                               )}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm">
-                              <div data-tip={referral?.created}>
-                                {UTCtoString(referral?.created)}
-                              </div>
                             </td>
                           </tr>
                         ))}

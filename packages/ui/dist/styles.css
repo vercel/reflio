@@ -2103,6 +2103,10 @@ video {
   color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 
+.text-secondary {
+  color: var(--text-secondary);
+}
+
 .text-accents-2 {
   color: var(--accents-2);
 }
@@ -2133,10 +2137,6 @@ video {
 
 .text-secondary-2 {
   color: var(--secondary-2);
-}
-
-.text-secondary {
-  color: var(--text-secondary);
 }
 
 .text-red-500 {
