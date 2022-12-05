@@ -244,7 +244,7 @@ export const AuthForm = ({
             </div>
           )}
 
-          {/* <div className="text-center">
+          <div className="text-center">
             <button
               type="button"
               className="text-sm font-bold text-accents-1 hover:underline"
@@ -258,24 +258,24 @@ export const AuthForm = ({
                 showPasswordInput ? "magic link" : "password"
               }.`}
             </button>
-          </div> */}
+          </div>
           {/* 
           <div className="mb-6 space-y-2">
             <button
               type="button"
-              className="flex align-center justify-center h-full min-h-full w-full font-medium rounded-lg m-0 p-3 px-5 border-2 hover:bg-accents-9 bg-white"
+              className="align-center m-0 flex h-full min-h-full w-full justify-center rounded-lg border-2 bg-white p-3 px-5 font-medium hover:bg-accents-9"
               disabled={loading}
-              onClick={() => handleOAuthSignIn('twitter')}
+              onClick={() => handleOAuthSignIn("twitter")}
             >
               <Twitter />
               <span className="ml-2">{authState} with Twitter</span>
             </button>
-            
+
             <button
               type="button"
-              className="flex align-center justify-center h-full min-h-full w-full font-medium rounded-lg m-0 p-3 px-5 border-2 hover:bg-accents-9 bg-white"
+              className="align-center m-0 flex h-full min-h-full w-full justify-center rounded-lg border-2 bg-white p-3 px-5 font-medium hover:bg-accents-9"
               disabled={loading}
-              onClick={() => handleOAuthSignIn('google')}
+              onClick={() => handleOAuthSignIn("google")}
             >
               <Google />
               <span className="ml-2">{authState} with Google</span>
