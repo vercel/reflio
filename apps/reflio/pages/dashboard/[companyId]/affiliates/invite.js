@@ -185,7 +185,7 @@ export default function AffiliateInvitePage() {
                       />
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <label
                       htmlFor="email_subject"
                       className="mb-3 block text-xl font-semibold text-gray-900"
@@ -227,7 +227,7 @@ ${activeCompany?.company_name}`}
                         className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
                       ></textarea>
                     </div>
-                  </div>
+                  </div> */}
                   {errorMessage && (
                     <div className="mt-8 rounded-lg bg-red-500 p-4 text-center">
                       <p className="text-md font-medium text-white">
