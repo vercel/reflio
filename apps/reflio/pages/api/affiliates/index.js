@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/utils/supabase-admin';
+
 export default async function Endpoint(req, res) {
   const { data, error } = await supabaseAdmin
     .from('affiliates')
