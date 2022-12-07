@@ -40,6 +40,11 @@ export const CampaignInvitePageBlock = ({ publicCampaignData, campaignAlreadyJoi
         setLoading(false);
         toast.error('This campaign is private. Please contact the campaign owner for an invite.')
       }
+
+      if(status === "error"){
+        setLoading(false);
+        toast.error('There was an error when joining the campaign. Please try again later, or contact support.')
+      }
   
     } catch (error) {
       setLoading(false);
@@ -52,7 +57,7 @@ export const CampaignInvitePageBlock = ({ publicCampaignData, campaignAlreadyJoi
       <div>
         {
           editor &&
-          <div className="bg-red-400 text-white inline-flex py-1 px-3 text-sm font-bold rounded-full">
+          <div className="bg-red-400 text-white inline-flex py-1.5 px-4 text-lg font-bold rounded-full">
             PREVIEW MODE
           </div>
         }
@@ -75,7 +80,7 @@ export const CampaignInvitePageBlock = ({ publicCampaignData, campaignAlreadyJoi
                       publicCampaignData?.campaign_public === true &&
                       <div>
                         {
-                          customCampaignData?.campaign_welcome_message !== null ?
+                          customCampaignData !== null && customCampaignData?.campaign_welcome_message !== null ?
                             <p className="text-lg mb-5 text-gray-500">{customCampaignData?.campaign_welcome_message}</p>
                           :
                             <p className="text-lg mb-5 text-gray-500">

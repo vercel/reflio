@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useCampaign } from '@/utils/CampaignContext';
 import { useCompany } from '@/utils/CompanyContext';
-import { editCampaignMeta } from '@/utils/useUser';
+import { editCampaignMeta, useUser } from '@/utils/useUser';
 import { SEOMeta } from '@/templates/SEOMeta'; 
 import Button from '@/components/Button'; 
 import {
@@ -17,6 +17,7 @@ import { toast } from 'react-hot-toast';
 
 export default function CampaignCustomizerPage() {
   const router = useRouter();
+  const { planDetails } = useUser();
   const { activeCampaign } = useCampaign();
   const { activeCompany } = useCompany();
   const [campaignEditData, setCampaignEditData] = useState(null);
@@ -60,10 +61,17 @@ export default function CampaignCustomizerPage() {
 
     setCampaignEditData(data);
     setSaveRequired(true);
-  }
+  };
   
   const saveButton = async () => {
     if(campaignEditData === null) return false;
+    
+    if(planDetails === "free"){
+      toast.error(() => (
+        <span className="text-xl">Please <a class="font-bold" href="/pricing">upgrade your plan</a> to save customizations.</span>
+      ));
+      return false;
+    }
     
     await editCampaignMeta(activeCampaign?.campaign_id, campaignEditData).then((result) => {
       if(result === "success"){
@@ -112,9 +120,9 @@ export default function CampaignCustomizerPage() {
                   <button onClick={e=>{setTabType("details")}} className={`${tabType === "details" && "bg-white border-gray-300"} w-10 h-10 border-2 rounded-xl flex justify-center items-center`}>
                     <PencilIcon className="w-6 h-6"/>
                   </button>
-                  <button onClick={e=>{setTabType("settings")}} className={`${tabType === "settings" && "bg-white border-gray-300"} w-10 h-10 border-2 rounded-xl flex justify-center items-center`}>
+                  {/* <button onClick={e=>{setTabType("settings")}} className={`${tabType === "settings" && "bg-white border-gray-300"} w-10 h-10 border-2 rounded-xl flex justify-center items-center`}>
                     <AdjustmentsIcon className="w-6 h-6"/>
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className="flex flex-grow">

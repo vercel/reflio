@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect, createContext, useContext } from 'react';
-import { getCompanies, useUser } from './useUser';
+import { getCompanies, useUser, newTeam } from './useUser';
 
 export const CompanyContext = createContext();
 
 export const CompanyContextProvider = (props) => {
   const { user, team, userFinderLoaded, signOut } = useUser();
   const [userCompanyDetails, setUserCompanyDetails] = useState(null);
+  const [creatingTeam, setCreatingTeam] = useState(false);
   const router = useRouter();
   let value;
 
@@ -17,13 +18,18 @@ export const CompanyContextProvider = (props) => {
       });
     }
   });
-  
-  if(team === 'none' && router?.pathname !== '/dashboard/create-team'){
-    router.replace('/dashboard/create-team');
-  }
 
   if(userCompanyDetails !== null && userCompanyDetails?.length === 0 && !router?.asPath?.includes('add-company') && router?.pathname !== '/dashboard/create-team'){
-    router.replace('/dashboard/add-company');
+    if(team === 'none' && router?.pathname !== '/dashboard/create-team' && creatingTeam === false){
+      setCreatingTeam(true);
+      newTeam(user, {"team_name": "My team"}).then((result) => {
+        router.replace('/dashboard/add-company');
+      });
+    }
+
+    if(team?.team_id){
+      router.replace('/dashboard/add-company');
+    }
   }
   
   if(userCompanyDetails !== null && userCompanyDetails?.length > 0 && router?.asPath === '/dashboard'){

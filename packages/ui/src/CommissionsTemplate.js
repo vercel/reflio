@@ -229,12 +229,6 @@ export const CommissionsTemplate = ({ page }) => {
                                 {page !== 'due' ? 'Commission Due' : 'Total Due'}
                               </th>
                               {
-                                planDetails === 'free' &&
-                                <th data-tip="This is a 9% commission due to Reflio, since you are on the Pay As You Go plan. Upgrade your plan today to remove commission fees." scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                  Reflio Fee (9%)
-                                </th>
-                              }
-                              {
                                 page !== 'due' &&
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                   Products
@@ -309,12 +303,6 @@ export const CommissionsTemplate = ({ page }) => {
                                 <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
                                   <span>{priceStringDivided(sale?.commission_total, activeCompany?.company_currency)}</span>
                                 </td>
-                                {
-                                  planDetails === 'free' &&
-                                  <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
-                                    <span>{priceStringDivided(((9/100)*sale?.commission_sale_value).toFixed(2), activeCompany?.company_currency)}</span>
-                                  </td>
-                                }
                                 {
                                   page !== 'due' &&
                                   <td className="px-3 py-4 text-sm max-w-xs break-all">
