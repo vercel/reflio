@@ -11,6 +11,7 @@ class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
           <link rel="manifest" href="/site.webmanifest"/>
           <meta name="theme-color" content="#1d368b" />
+          <script async src='https://reflio.com/js/reflio.min.js' data-reflio='y22f304shvmhcqq'></script>
         </Head>
         <body className="loading bg-gray-50">
           <Main />
