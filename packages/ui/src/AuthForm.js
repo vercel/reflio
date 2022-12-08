@@ -188,7 +188,9 @@ export const AuthForm = ({
               <p>
                 I agree to the{" "}
                 <a
-                  href={"https://vercel.com/legal/terms"}
+                  href={
+                    "https://assets.ctfassets.net/e5382hct74si/5V1oeYqsTJVlpmQiBxmodA/79dd6ba6cdcd3358c4b68e2d3d4e14cc/Vercel_Affiliate_Payment_Agreement.pdf"
+                  }
                   target="_blank"
                   rel="noreferrer"
                   className="text-secondary"

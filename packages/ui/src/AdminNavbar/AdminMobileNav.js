@@ -1,22 +1,19 @@
-import { Fragment, useState } from 'react';
-import {
-  MenuAlt1Icon,
-  XIcon,
-} from '@heroicons/react/outline';
-import { Logo } from '@/components/Icons/Logo';
-import Link from 'next/link';
-import { Dialog, Transition } from '@headlessui/react';
-import { AdminNavItems } from './AdminNavItems';
+import { Fragment, useState } from "react";
+import { MenuAlt1Icon, XIcon } from "@heroicons/react/outline";
+import { Logo } from "@/components/Icons/Logo";
+import Link from "next/link";
+import { Dialog, Transition } from "@headlessui/react";
+import { AdminNavItems } from "./AdminNavItems";
 
 export const AdminMobileNav = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  return(
+  return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
           static
-          className="fixed inset-0 flex z-50 lg:hidden"
+          className="fixed inset-0 z-50 flex lg:hidden"
           open={sidebarOpen}
           onClose={setSidebarOpen}
         >
@@ -40,7 +37,7 @@ export const AdminMobileNav = () => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-200">
+            <div className="relative flex w-full max-w-xs flex-1 flex-col bg-gray-200 pt-5 pb-4">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -52,7 +49,7 @@ export const AdminMobileNav = () => {
               >
                 <div className="absolute top-0 right-0 -mr-12 pt-2">
                   <button
-                    className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="sr-only">Close sidebar</span>
@@ -60,39 +57,38 @@ export const AdminMobileNav = () => {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex-shrink-0 flex items-center px-4">
+              <div className="flex flex-shrink-0 items-center px-4">
                 <Link href="/dashboard">
-                  <Logo className="h-7 w-full"/>
+                  <Logo className="h-7 w-full" />
                 </Link>
               </div>
-              <AdminNavItems/>
+              <AdminNavItems />
             </div>
           </Transition.Child>
-          <div className="flex-shrink-0 w-14" aria-hidden="true">
+          <div className="w-14 flex-shrink-0" aria-hidden="true">
             {/* Dummy element to force sidebar to shrink to fit close icon */}
           </div>
         </Dialog>
       </Transition.Root>
 
-      <div className="relative z-10 flex-shrink-0 flex h-16 border-b-2 border-gray-200 lg:border-none lg:hidden">
+      <div className="relative z-10 flex h-16 flex-shrink-0 border-b-2 border-gray-200 lg:hidden lg:border-none">
         <button
-          className="px-4 border-r-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+          className="border-r-2 px-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
           onClick={() => setSidebarOpen(true)}
         >
           <span className="sr-only">Open sidebar</span>
           <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
         </button>
-        <div className="flex justify-center lg:justify-end w-full px-6">
-          <div className="flex-shrink-0 flex lg:hidden items-center px-4">
+        <div className="flex w-full justify-center px-6 lg:justify-end">
+          <div className="flex flex-shrink-0 items-center px-4 lg:hidden">
             <Link href="/dashboard">
-              <Logo className="h-8 w-full"/>
+              <Logo className="h-8 w-full" />
             </Link>
           </div>
-
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default AdminMobileNav;
