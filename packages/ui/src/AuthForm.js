@@ -181,9 +181,6 @@ export const AuthForm = ({
                 type="checkbox"
                 required
                 className=""
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
               />
               <p>
                 I agree to the{" "}
