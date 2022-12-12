@@ -71,6 +71,9 @@ export default function AffiliateInvitePage() {
         setLoading(false);
         setErrorMessage(true);
       }
+
+      setLoading(false);
+      setErrorMessage(true);
     } catch (error) {
       setLoading(false);
       setErrorMessage(true);

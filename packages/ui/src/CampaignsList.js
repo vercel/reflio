@@ -2,18 +2,17 @@
 import { useUserAffiliate } from "@/utils/UserAffiliateContext";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
-import Button from "@/components/Button";
 import { priceString, priceStringDivided } from "@/utils/helpers";
 import LoadingDots from "./LoadingDots";
 import { useMemo } from "react";
 
 const CampaignsList = (props) => {
-  const { userAffiliateDetails, referralDetails } = useUserAffiliate();
+  const { userAffiliateDetails } = useUserAffiliate();
 
   const inviteUrl = useMemo(() => {
     if (!userAffiliateDetails) return "";
     const first = userAffiliateDetails[0];
-    const username = first.vercel_username;
+    const username = first?.vercel_username;
     return `https://vercel.com/ambassadors/${username}`;
   }, [userAffiliateDetails]);
 

@@ -4,14 +4,14 @@ import { handleAffiliateInvite } from '@/utils/useDatabase';
 const handleInvite = async (req, res) => {
   if (req.method === 'POST') {
     const token = req.headers.token;
-    const { handleType, affiliateId } = req.body;
+    const { handleType, affiliateId, username } = req.body;
 
     try {
       const user = await getUser(token);
 
       if(user){
 
-        const status = await handleAffiliateInvite(user, handleType, affiliateId);
+        const status = await handleAffiliateInvite(user, handleType, affiliateId, username);
 
         return res.status(200).json({ status });
 

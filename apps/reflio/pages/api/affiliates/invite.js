@@ -42,23 +42,12 @@ const inviteUser = async (req, res) => {
           );
 
           if (invite === 'success') {
-            await sendEmail(
-              logoUrl,
-              emailSubject,
-              emailContent,
-              emailInvites,
-              'invite',
-              companyName,
-              campaignId,
-              companyHandle
-            );
-
             return res.status(200).json({ response: 'success' });
           }
         } else {
           await Promise.all(
             emailInvitesSplit?.map(async (inviteEmail) => {
-              const invite = await inviteAffiliate(
+              await inviteAffiliate(
                 user,
                 companyId,
                 campaignId,
@@ -66,38 +55,9 @@ const inviteUser = async (req, res) => {
                 name,
                 vercel_username
               );
-
-              if (invite === 'success') {
-                await sendEmail(
-                  logoUrl,
-                  emailSubject,
-                  emailContent,
-                  inviteEmail,
-                  'invite',
-                  companyName,
-                  campaignId,
-                  companyHandle
-                );
-              }
             })
           );
-        }
-
-        const invite = await editTeam(teamId, 'invite', formData, user);
-
-        if (invite === 'success') {
-          const email = await sendEmail(
-            `You have been invited to team ${teamData?.team_name} on SEOCopy 🤖`,
-            formData?.invite_email,
-            'invite',
-            teamData
-          );
-
-          if (email === 'success') {
-            console.log('email success');
-
-            return res.status(200).json({ response: 'success' });
-          }
+          return res.status(200).json({ response: 'success' });
         }
 
         return res.status(500).json({ response: 'error' });

@@ -145,14 +145,15 @@ export const getAffiliateProgramInvites = async (userEmail) => {
 };
 
 //Affiliate invite button click
-export const handleAffiliateInvite = async (user, handleType, affiliateId) => {
+export const handleAffiliateInvite = async (user, handleType, affiliateId, username) => {
   if(handleType === "accept"){
     const { error } = await supabaseAdmin
       .from('affiliates')
       .update({
         invited_user_id: user?.id,
         accepted: true,
-        invite_email: user?.email
+        invite_email: user?.email,
+        vercel_username: username
       })
       .match({ affiliate_id: affiliateId })
       
