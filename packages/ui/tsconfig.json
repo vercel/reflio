@@ -17,9 +17,10 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["./src/*"],
-      "@/utils/*": ["../../apps/reflio/utils/*"]
+      "@/utils/*": ["../../apps/reflio/utils/*"],
+      "@/affiliate-utils/*": ["../../apps/reflio-affiliate/utils/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "src/AffiliateInvites.js"],
   "exclude": ["node_modules"]
 }

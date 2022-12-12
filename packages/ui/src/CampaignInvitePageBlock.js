@@ -8,7 +8,6 @@ import { postData } from '@/utils/helpers';
 
 export const CampaignInvitePageBlock = ({ publicCampaignData, campaignAlreadyJoined, loading, setLoading, user, session, editor, editorData }) => {
   const router = useRouter();
-
   let customCampaignData = null;
 
   if(publicCampaignData?.custom_campaign_data !== null){

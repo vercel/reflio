@@ -20,9 +20,10 @@
       "@/components/*": ["../../packages/ui/src/*"],
       "@/templates/*": ["./templates/*"],
       "@/utils/*": ["utils/*"],
+      "@/affiliate-utils/*": ["utils/*"],
       "@/public/js/*": ["public/js/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "../../packages/ui/src/AffiliateInvites.js"],
   "exclude": ["node_modules"]
 }

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUser } from '@/utils/useUser';
-import { useUserAffiliate } from '@/utils/UserAffiliateContext';
+import { useUserAffiliate } from '@/affiliate-utils/UserAffiliateContext';
 import Button from '@/components/Button'; 
 import toast from 'react-hot-toast';
 import { postData } from '@/utils/helpers';
