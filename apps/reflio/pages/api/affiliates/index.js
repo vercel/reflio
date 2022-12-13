@@ -5,7 +5,9 @@ export default async function Endpoint(req, res) {
     .from('affiliates')
     .select('invite_email,name,vercel_username,affiliate_id')
     .not('name', 'is', null)
-    .not('vercel_username', 'is', null);
+    .not('vercel_username', 'is', null)
+    .eq('accepted', true)
+    .neq('vercel_username', '');
   if (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error.' });
