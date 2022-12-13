@@ -238,8 +238,8 @@ export const inviteAffiliate = async (
     company_id: companyId,
     campaign_id: campaignId,
     invite_email: emailInvites,
-    name,
-    vercel_username
+    name: name,
+    vercel_username: vercel_username
   });
 
   if (error) {

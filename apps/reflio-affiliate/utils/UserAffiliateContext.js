@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useRouter } from 'next/router';
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useUser } from '@/utils/useUser';
 import { postData } from '@/utils/helpers';
@@ -6,6 +7,7 @@ import { postData } from '@/utils/helpers';
 export const UserAffiliateContext = createContext();
 
 export const UserAffiliateContextProvider = (props) => {
+  const router = useRouter();
   const { user, userFinderLoaded, session } = useUser();
   const [userAffiliateDetails, setUserAffiliateDetails] = useState(null);
   const [userAffiliateInvites, setUserAffiliateInvites] = useState(null);
@@ -22,7 +24,8 @@ export const UserAffiliateContextProvider = (props) => {
       });
 
       setUserAffiliateDetails(affilateData);
-      setReferralDetails(referralsData)
+      setReferralDetails(referralsData);
+      
       
     } catch (error) {
       console.log(error)
@@ -54,6 +57,10 @@ export const UserAffiliateContextProvider = (props) => {
       affiliateInvites();
     }
   });
+
+  if(router?.asPath?.includes('inviteRefresh=true')){
+    window.location.href = process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL;
+  }
 
   value = {
     userAffiliateDetails,

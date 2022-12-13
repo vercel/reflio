@@ -21,6 +21,7 @@
       "@/templates/*": ["./templates/*"],
       "@/forms/*": ["./forms/*"],
       "@/utils/*": ["utils/*"],
+      "@/affiliate-utils/*": ["../reflio-affiliate/utils/*"],
       "@/public/js/*": ["public/js/*"]
     },
     "typeRoots": ["./types"]

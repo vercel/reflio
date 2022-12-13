@@ -10,7 +10,8 @@ export default async function Endpoint(req, res) {
     .from('affiliates')
     .select('invite_email,name,vercel_username,affiliate_id')
     .not('name', 'is', null)
-    .eq('vercel_username', id);
+    .eq('vercel_username', id)
+    .eq('accepted', true);
 
   if (error) {
     console.error(error);
