@@ -59,7 +59,7 @@ export const UserAffiliateContextProvider = (props) => {
   });
 
   if(router?.asPath?.includes('inviteRefresh=true')){
-    router.replace(process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL);
+    window.location.href = process.env.NEXT_PUBLIC_AFFILIATE_SITE_URL;
   }
 
   value = {
