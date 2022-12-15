@@ -234,12 +234,15 @@ export const CommissionsTemplate = ({ page }) => {
                                   Products
                                 </th>
                               }
-                              {
-                                page !== 'due' && page !== 'paid' &&
-                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                                  Referrer
-                                </th>
-                              }
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                Affiliate ID
+                              </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                Affiliate Username
+                              </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                                Referral Username
+                              </th>
                               {
                                 page !== 'index' && page !== 'pending' &&
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
@@ -309,12 +312,15 @@ export const CommissionsTemplate = ({ page }) => {
                                     {sale?.commission_description ?? 'N/A'}
                                   </td>
                                 }
-                                {
-                                  page !== 'due' && page !== 'paid' &&
-                                  <td className="whitespace-nowrap px-3 py-4">
-                                    <span>{sale?.affiliate?.details?.email}</span>
-                                  </td>
-                                }
+                                <td className="whitespace-nowrap px-3 py-4">
+                                  <span>{sale?.affiliate_details?.affiliate_id ?? '-'}</span>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4">
+                                  <span>{sale?.affiliate_details?.vercel_username ?? '-'}</span>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4">
+                                  <span>{sale?.referral_details?.referral_reference_email ?? '-'}</span>
+                                </td>
                                 {
                                   page !== 'index' && page !== 'pending' &&
                                   <td className="whitespace-nowrap px-3 py-4">

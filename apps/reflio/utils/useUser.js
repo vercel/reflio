@@ -211,7 +211,7 @@ export const getReferrals = async (companyId, date, page) => {
     .select(`
         *,
         campaign:campaign_id (campaign_name),
-        affiliate:affiliate_id (details:invited_user_id(email))
+        affiliate:affiliate_id (affiliate_id,vercel_username,name)
       `, 
       { count: "exact" }
     )
@@ -252,7 +252,9 @@ export const getSales = async (companyId, date, page) => {
     .select(`
         *,
         campaign:campaign_id (campaign_name),
-        affiliate:affiliate_id (details:invited_user_id(email,paypal_email))
+        affiliate:affiliate_id (details:invited_user_id(email,paypal_email)),
+        affiliate_details:affiliate_id (affiliate_id,vercel_username,name),
+        referral_details:referral_id (referral_reference_email)
       `, 
       { count: "exact" }
     )

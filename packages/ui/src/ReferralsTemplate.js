@@ -174,13 +174,19 @@ export const ReferralsTemplate = ({ page }) => {
                             scope="col"
                             className="px-3 py-3.5 text-left text-sm font-semibold"
                           >
-                            Referrer ID
+                            Affiliate ID
                           </th>
                           <th
                             scope="col"
                             className="px-3 py-3.5 text-left text-sm font-semibold"
                           >
-                            Vercel Username
+                            Affiliate Username
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-3 py-3.5 text-left text-sm font-semibold"
+                          >
+                            Referral Username
                           </th>
                           <th
                             scope="col"
@@ -192,7 +198,7 @@ export const ReferralsTemplate = ({ page }) => {
                             scope="col"
                             className="px-3 py-3.5 text-left text-sm font-semibold"
                           >
-                            Commission Amount
+                            Amount
                           </th>
                           <th
                             scope="col"
@@ -215,11 +221,14 @@ export const ReferralsTemplate = ({ page }) => {
                               <span>{referral?.referral_id}</span>
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm">
-                              <span>{referral.affiliate_id}</span>
+                              <span>{referral?.affiliate?.affiliate_id ?? '-'}</span>
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm">
+                              <span>{referral?.affiliate?.vercel_username ?? '-'}</span>
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm">
                               <span>
-                                {referral?.referral_reference_email ?? "-"}
+                                {referral?.referral_reference_email ?? '-'}
                               </span>
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm">
