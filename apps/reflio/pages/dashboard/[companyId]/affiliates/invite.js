@@ -188,49 +188,6 @@ export default function AffiliateInvitePage() {
                       />
                     </div>
                   </div>
-                  {/* <div>
-                    <label
-                      htmlFor="email_subject"
-                      className="mb-3 block text-xl font-semibold text-gray-900"
-                    >
-                      Email subject
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        defaultValue={`Join ${activeCompany?.company_name}'s affiliate program.`}
-                        name="email_subject"
-                        id="email_subject"
-                        type="text"
-                        className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email_content"
-                      className="block text-xl font-semibold text-gray-900"
-                    >
-                      Email content
-                    </label>
-                    <p className="mb-2">
-                      The invite link will automatically be included in the
-                      email.
-                    </p>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <textarea
-                        defaultValue={`Hey! I'd like to invite you to join our referral program. 
-
-Follow the link below to create your account and you'll be earning in no time. If you have any questions, please reply to this email. 
-
-Kind regards, 
-${activeCompany?.company_name}`}
-                        name="email_content"
-                        id="email_content"
-                        rows="8"
-                        className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
-                      ></textarea>
-                    </div>
-                  </div> */}
                   {errorMessage && (
                     <div className="mt-8 rounded-lg bg-red-500 p-4 text-center">
                       <p className="text-md font-medium text-white">

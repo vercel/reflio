@@ -1,22 +1,29 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useCompany } from '@/utils/CompanyContext';
-import { deleteAffiliate } from '@/utils/useUser';
+import { useUser, deleteAffiliate } from '@/utils/useUser';
 import { useAffiliate } from '@/utils/AffiliateContext';
 import LoadingTile from '@/components/LoadingTile';
 import Button from '@/components/Button';
+import Modal from '@/components/Modal';
 import { SEOMeta } from '@/templates/SEOMeta';
 import { UserGroupIcon } from '@heroicons/react/solid';
-import { TrashIcon } from '@heroicons/react/outline';
+import { TrashIcon, PencilAltIcon } from '@heroicons/react/outline';
 import ReactTooltip from 'react-tooltip';
-import { priceStringDivided } from 'utils/helpers';
+import { priceStringDivided, postData } from 'utils/helpers';
 import setupStepCheck from '@/utils/setupStepCheck';
+import toast from 'react-hot-toast';
 
 export default function InnerDashboardPage() {
   setupStepCheck('light');
 
   const router = useRouter();
   const { activeCompany } = useCompany();
+  const { session } = useUser();
   const { mergedAffiliateDetails } = useAffiliate();
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [activeAffiliateEdit, setActiveAffiliateEdit] = useState(false);
 
   const handleDelete = async (affiliateId) => {
     if (
@@ -33,6 +40,53 @@ export default function InnerDashboardPage() {
           );
         }
       });
+    }
+  };
+
+  const handleEditAffiliateModal = async (affiliate) => {
+    setShowModal(true);
+    setActiveAffiliateEdit(affiliate);
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (loading === true) {
+      return false;
+    }
+
+    const formData = new FormData(e.target);
+    const data = {};
+
+    for (let entry of formData.entries()) {
+      data[entry[0]] = entry[1];
+    }
+
+    setLoading(true);
+
+    try {
+      const { response } = await postData({
+        url: `/api/affiliates/${activeAffiliateEdit?.vercel_username}/edit`,
+        data: {
+          companyId: router?.query?.companyId,
+          campaignId: data?.campaign_id,
+          inviteEmail: data?.invite_email,
+          name: data?.name,
+          vercel_username: data?.vercel_username,
+        },
+        token: session.access_token
+      });
+
+      if (response === 'success') {
+        toast.success('Affiliate successfully edited');
+        router.replace(`/dashboard/${router?.query?.companyId}/affiliates`);
+      } else {
+        toast.error('There was an error when editing this affiliate.')
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
     }
   };
 
@@ -194,6 +248,14 @@ export default function InnerDashboardPage() {
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm">
                                 <button
+                                  className="mr-2"
+                                  onClick={(e) => {
+                                    handleEditAffiliateModal(affiliate);
+                                  }}
+                                >
+                                  <PencilAltIcon className="h-auto w-5" />
+                                </button>
+                                <button
                                   onClick={(e) => {
                                     handleDelete(affiliate?.affiliate_id);
                                   }}
@@ -228,6 +290,88 @@ export default function InnerDashboardPage() {
           <LoadingTile />
         )}
       </div>
+      {
+        showModal &&
+        <Modal modalOpen={showModal} setModalOpen={setShowModal}>
+          <div>
+            <div className="pb-4 border-b-4 mb-4">
+              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+                Edit affiliate
+              </h2>
+            </div>
+            <form
+              action="#"
+              method="POST"
+              onSubmit={handleSubmit}
+            >
+              <input type="hidden" value={activeAffiliateEdit?.campaign_id} name="campaign_id" id="campaign_id" />
+              <div>
+                <div className="space-y-5">
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="mb-3 block text-xl font-semibold text-gray-900"
+                    >
+                      Name
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        defaultValue={activeAffiliateEdit?.name}
+                        placeholder="Natalie Ziemba"
+                        name="name"
+                        id="name"
+                        type="text"
+                        className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="vercel_username"
+                      className="mb-3 block text-xl font-semibold text-gray-900"
+                    >
+                      Vercel Username
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        defaultValue={activeAffiliateEdit?.vercel_username}
+                        placeholder="natalie.ziemba"
+                        name="vercel_username"
+                        id="vercel_username"
+                        type="text"
+                        className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="invite_email"
+                      className="mb-3 block text-xl font-semibold text-gray-900"
+                    >
+                      Email
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        defaultValue={activeAffiliateEdit?.invite_email}
+                        placeholder="natalie.ziemba@vercel.com"
+                        name="invite_email"
+                        id="invite_email"
+                        type="text"
+                        className="sm:text-md block w-full min-w-0 flex-1 rounded-xl border-2 border-gray-300 p-3 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8">
+                <Button large primary disabled={loading}>
+                  <span>{loading ? 'Editing user...' : 'Edit user'}</span>
+                </Button>
+              </div>
+            </form>
+          </div>
+        </Modal>
+      }
     </>
   );
 }

@@ -6,6 +6,7 @@ export default async function Endpoint(req, res) {
     res.status(400).json({ error: 'Invalid id.' });
     return;
   }
+
   const { data, error } = await supabaseAdmin
     .from('affiliates')
     .select('invite_email,name,vercel_username,affiliate_id')
