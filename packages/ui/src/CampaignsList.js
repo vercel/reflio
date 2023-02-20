@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { priceString, priceStringDivided } from "@/utils/helpers";
 import LoadingDots from "./LoadingDots";
 import { useMemo } from "react";
+import Button from "@/components/Button";
 
 const CampaignsList = (props) => {
   const { userAffiliateDetails } = useUserAffiliate();
@@ -105,7 +106,7 @@ const CampaignsList = (props) => {
                                   </>
                                 </div>
                                 <div className="mt-3">
-                                  <p className="text-gray-500">
+                                  <p>
                                     <span>Your referral link:&nbsp;</span>
                                     <CopyToClipboard
                                       text={inviteUrl}
@@ -114,7 +115,7 @@ const CampaignsList = (props) => {
                                       }
                                     >
                                       <button
-                                        className="font-semibold text-gray-800 underline"
+                                        className="font-semibold text-secondary underline"
                                         href={inviteUrl}
                                       >
                                         {inviteUrl}
@@ -129,6 +130,15 @@ const CampaignsList = (props) => {
                                   >
                                     Edit referral code
                                   </Button> */}
+                                </div>
+                                <div className="mt-4">
+                                  <Button
+                                    gray
+                                    small
+                                    href={`/dashboard/campaigns/${campaign?.affiliate_id}/assets`}
+                                  >
+                                    View company assets
+                                  </Button>
                                 </div>
                                 {/* <p className="mt-4 break-all rounded-xl border-2 border-gray-200 bg-gray-100 p-3 text-sm text-gray-700">
                                   Tip: You can link to any page, just add{" "}

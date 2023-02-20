@@ -175,3 +175,11 @@ export const checkUTCDateExpired = (UTCDate) => {
     return false;
   }
 };
+
+export const urlImgChecker = (url) => {
+  const regex = /([a-z\-_0-9\/\:\.]*\.(jpg|jpeg|png|gif))/i;
+  if(regex.test(url)){
+    return true;
+  }
+  return false;
+}

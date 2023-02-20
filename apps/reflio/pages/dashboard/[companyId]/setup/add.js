@@ -78,13 +78,6 @@ export default function TrackingSetupPage() {
             <span className="text-sm font-semibold uppercase py-1 px-3 bg-white rounded-xl mb-2 inline-block">Free whilst in Beta</span>
             <h2 className="text-3xl font-semibold mb-4 flex items-center text-white">Concierge setup</h2>
             <p className="text-lg mb-5 text-white">We offer a free concierge setup option where we will manually help you add Reflio to your codebase. Please contact us via the button below to get started.</p>
-            <Button
-              onClick={e=>{$crisp.push(['do', 'chat:open']), $crisp.push(["set", "message:text", ["Hello, I'd like to get help setting up Reflio on my website."]]);}}
-              large
-              primary
-            >
-              Live Chat
-            </Button>
           </Card>
         </div>
       </div>

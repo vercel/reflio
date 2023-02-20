@@ -19,7 +19,10 @@ import {
   SupportIcon,
   CurrencyDollarIcon,
   BellIcon,
-  GiftIcon
+  GiftIcon,
+  CollectionIcon,
+  ChipIcon,
+  CloudDownloadIcon
 } from '@heroicons/react/outline';
 import Link from 'next/link';
 
@@ -29,20 +32,23 @@ export const AdminNavItems = () => {
   const router = useRouter();
 
   const manageNavigation = [
-    { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: TemplateIcon },
+    { name: 'Analytics', href: `/dashboard/${activeCompany?.company_id}/analytics`, icon: ChartBarIcon },
+    // { name: 'Home', href: `/dashboard/${activeCompany?.company_id}/home`, icon: TemplateIcon },
+    { name: 'Campaigns', href: `/dashboard/${activeCompany?.company_id}/campaigns`, icon: CollectionIcon },
     { name: 'Affiliates', href: `/dashboard/${activeCompany?.company_id}/affiliates`, icon: UserGroupIcon },
     { name: 'Referrals', href: `/dashboard/${activeCompany?.company_id}/referrals`, icon: SparklesIcon },
     { name: 'Sales & Commissions', href: `/dashboard/${activeCompany?.company_id}/commissions`, icon: CurrencyDollarIcon },
-    { name: 'Analytics', href: `/dashboard/${activeCompany?.company_id}/analytics`, icon: ChartBarIcon }
+    // { name: 'Apps', href: `/dashboard/${activeCompany?.company_id}/apps`, icon: ChipIcon },
+    { name: 'Assets', href: `/dashboard/${activeCompany?.company_id}/assets`, icon: CloudDownloadIcon },
+    { name: 'Company', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon }
   ];
 
   const settingsNavigation = [
     { name: 'Setup', href: `/dashboard/${activeCompany?.company_id}/setup`, icon: ClipboardCheckIcon },
-    { name: 'Company Settings', href: `/dashboard/${activeCompany?.company_id}/settings`, icon: CogIcon },
     { name: 'Billing / Plans', href: `/dashboard/billing`, icon: CreditCardIcon }
   ];
 
-  const navItemClass = 'flex items-center py-1.5 px-2 my-0.5 text-base font-semibold rounded-lg hover:bg-gray-300';
+  const navItemClass = 'flex items-center py-1 px-2 my-0.5 text-[15px] font-semibold rounded-lg hover:bg-gray-300';
 
   const handleCompanySwitch = async (companyId) => {
     if(!companyId) return false;
@@ -63,7 +69,6 @@ export const AdminNavItems = () => {
       });
     }
   }, [])
-  
   
   return(
     <>
@@ -148,7 +153,7 @@ export const AdminNavItems = () => {
           </Listbox>
         </div>
         <div className="px-5 py-2">
-          <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Manage</p>
+          <p className="px-2 uppercase text-sm font-semibold text-gray-500 tracking-wide mb-2">Manage</p>
           {manageNavigation.map((item) => (
             <Link
               passHref
@@ -166,7 +171,7 @@ export const AdminNavItems = () => {
           ))}
         </div>
         <div className="px-5 py-2">
-          <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Settings</p>
+          <p className="px-2 uppercase text-sm font-semibold text-gray-500 tracking-wide mb-2">Settings</p>
           {settingsNavigation.map((item) => (
             <Link
               passHref
@@ -184,20 +189,35 @@ export const AdminNavItems = () => {
           ))}
         </div>
         <div className="px-5 py-2">
-          <p className="px-2 uppercase text-xs font-semibold text-gray-500 tracking-wide mb-2">Resources</p>
+          <p className="px-2 uppercase text-sm font-semibold text-gray-500 tracking-wide mb-2">Resources</p>
+          {
+            planDetails === "free" &&
+            <Link
+              passHref
+              href="/pricing"
+              className={classNames(
+                navItemClass,
+                "text-secondary-2"
+              )} 
+            >
+              <GiftIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <span>Upgrade</span>
+            </Link>
+          }
           {
             typeof Canny !== 'undefined' &&
-            <div
+            <button
+              data-canny-changelog
               className={classNames(
                 navItemClass,
                 'w-full'
               )}
             >
-              <button className="flex items-center" data-canny-changelog>
+              <div className="flex items-center">
                 <BellIcon className="mr-2 flex-shrink-0 h-5 w-5" aria-hidden="true" />
                 <span>What's New</span>
-              </button>
-            </div>
+              </div>
+            </button>
           }
           <Link
             passHref

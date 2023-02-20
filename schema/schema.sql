@@ -244,6 +244,27 @@ create policy "Can update own user data." on commissions for update using (is_me
 create policy "Can insert own user data." on commissions for insert with check (is_member_of(auth.uid(), team_id));
 create policy "Can delete own user data." on commissions for delete using (is_member_of(auth.uid(), team_id));
 
+/** 
+* Assets
+* Note: This table contains user data. Users should only be able to view and update their own data.
+*/
+create table assets (
+  -- UUID from auth.users
+  id uuid references auth.users not null,
+  asset_id text primary key unique not null default generate_uid(15) unique,
+  team_id text references teams not null,
+  company_id text references companies not null,
+  file_name text default null,
+  file_custom_name text default null,
+  file_size integer default null,
+  created timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table assets enable row level security;
+create policy "Can view own user data." on assets for select using (is_member_of(auth.uid(), team_id));
+create policy "Can update own user data." on assets for update using (is_member_of(auth.uid(), team_id));
+create policy "Can insert own user data." on assets for insert with check (is_member_of(auth.uid(), team_id));
+create policy "Can delete own user data." on assets for delete using (is_member_of(auth.uid(), team_id));
+
 /**
 * This trigger automatically creates a user entry when a new user signs up via Supabase Auth.
 */ 

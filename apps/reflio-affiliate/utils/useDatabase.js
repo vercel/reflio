@@ -386,3 +386,42 @@ export const getAffiliateCommissions = async (userId) => {
 
   return { commissionsData };
 };
+
+//Get campaign assets
+export const getCompanyAssets = async (userId, affiliateId, companyId) => {
+  const { data, error } = await supabaseAdmin
+    .from('affiliates')
+    .select('*')
+    .eq('invited_user_id', userId)
+    .eq('company_id', companyId)
+    .eq('affiliate_id', affiliateId)
+    .eq('accepted', true)
+
+  if(error){
+    return [];
+  }
+
+  let affilateData = data[0];
+
+  console.log('affilateData:')
+  console.log(affilateData)
+
+  if(affilateData){
+    let companyAssets = await supabaseAdmin
+      .from('assets')
+      .select('*')
+      .eq('company_id', affilateData?.company_id)
+      
+    if(companyAssets?.data !== null && companyAssets?.data?.length > 0){
+      let updatedAssets = companyAssets?.data;
+      await Promise.all(updatedAssets?.map(async (file) => {
+        const signedUrl = await supabaseAdmin.storage.from(`/`).createSignedUrl(file?.file_name, 120);
+        file.signed_url = signedUrl?.signedURL;
+      }));
+      return updatedAssets;
+    }
+
+  }
+
+  return [];
+};

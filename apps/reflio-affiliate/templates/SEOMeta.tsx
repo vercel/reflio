@@ -1,6 +1,13 @@
 import Head from 'next/head';
 
-function SEOMeta({ title, description, keywords, img }) {
+type SEOMetaProps = {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  img?: string;
+}
+
+export const SEOMeta: React.FC<SEOMetaProps> = ({ title, description, keywords, img }) => {
   let setTitle = title ?? "Reflio: Create a privacy-friendly referral program for your SaaS.";
   let setDescription = description ?? "Create a privacy-friendly referral program for your SaaS. GDPR Friendly. Based in the UK. European-owned infrastructure.";
   let setKeywords = keywords ?? "Reflio, Referral software, create referral program, stripe referral program";
@@ -34,14 +41,12 @@ function SEOMeta({ title, description, keywords, img }) {
         rel="icon"
         type="image/png"
         sizes="16x16"
-        purpose="any maskable"
       />
       <link
         href="/favicon-32x32.png"
         rel="icon"
         type="image/png"
         sizes="32x32"
-        purpose="any maskable"
       />
       <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
       <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
