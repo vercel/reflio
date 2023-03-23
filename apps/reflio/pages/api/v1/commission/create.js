@@ -4,10 +4,12 @@ import { withSentry } from '@sentry/nextjs';
 const createCommission = async (req, res) => {
   if (req.method === 'POST') {
     const { referralReference } = req.body;
-
+    const trialPayment = req.body.trialPayment || false;
+  
     try {
       const commission = await manualCommissionCreate(referralReference, {
-        commission_sale_value: '10'
+        commission_sale_value: trialPayment === true ? '0' : '10',
+        line_items: trialPayment === true ? 'Trial' : null
       });
 
       if (commission !== 'error') {
