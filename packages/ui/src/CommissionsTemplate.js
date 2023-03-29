@@ -28,6 +28,7 @@ export const CommissionsTemplate = ({ page }) => {
     { name: 'Due', href: `/dashboard/${activeCompany?.company_id}/commissions/due` },
     { name: 'Pending', href: `/dashboard/${activeCompany?.company_id}/commissions/pending` },
     { name: 'Paid', href: `/dashboard/${activeCompany?.company_id}/commissions/paid` },
+    { name: 'Trials', href: `/dashboard/${activeCompany?.company_id}/commissions/trials` },
   ];
  
   if(commissions?.length === 0 && activeCompany?.company_id){
@@ -110,7 +111,7 @@ export const CommissionsTemplate = ({ page }) => {
     <>
       <div className="mb-8">
         <div className="pt-10 wrapper">
-          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">{page === 'index' ? 'All' : page === 'due' ? 'Due' : page === 'pending' ? 'Pending' : page === 'paid' && 'Paid'} Sales & Commissions {commissions?.count > 0 && `(${commissions?.count})`}</h1>
+          <h1 className="text-2xl sm:text-3xl tracking-tight font-extrabold mb-3">{page === 'index' ? 'All' : page === 'due' ? 'Due' : page === 'pending' ? 'Pending' : page === 'paid' ? 'Paid' : page === 'trial' && 'Trial' } Sales & Commissions {commissions?.count > 0 && `(${commissions?.count})`}</h1>
           <p>Commissions are generated when your affiliates send you a paying customer.</p>
         </div>
       </div>
@@ -192,7 +193,7 @@ export const CommissionsTemplate = ({ page }) => {
                       <div className="flex items-center">
                         <ExclamationIcon className="h-6 w-auto text-white" aria-hidden="true" />
                         <span className="font-semibold text-base text-white ml-2 mb-1">
-                          You have {commissions?.data?.filter(commission => commission?.paid_at === null && checkUTCDateExpired(commission?.commission_due_date) === true)?.length} sales with due commissions
+                          You have {commissions?.data?.filter(commission => commission?.paid_at === null && checkUTCDateExpired(commission?.commission_due_date) === true && commission?.commission_description !== "Trial")?.length} sales with due commissions
                         </span>
                       </div>
                     </a>
@@ -303,7 +304,7 @@ export const CommissionsTemplate = ({ page }) => {
                                     <span>{priceStringDivided(sale?.commission_sale_value, activeCompany?.company_currency)}</span>
                                   </td>
                                 }
-                                <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && 'text-red-500'}`}>
+                                <td className={`whitespace-nowrap px-3 py-4 font-semibold ${checkUTCDateExpired(sale?.commission_due_date) === true && sale?.commission_sale_value > 0 && 'text-red-500'}`}>
                                   <span>{priceStringDivided(sale?.commission_total, activeCompany?.company_currency)}</span>
                                 </td>
                                 {
@@ -342,8 +343,8 @@ export const CommissionsTemplate = ({ page }) => {
                                 {
                                   page !== 'due' && page !== 'paid' &&
                                   <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                    <div data-tip={`${sale?.paid_at !== null ? 'Paid at '+sale?.paid_at+'' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not valid to be paid out yet, due '+sale?.commission_due_date+''}`} className={`${sale?.paid_at !== null ? 'bg-secondary-2 text-white' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-900'} 'bg-gray-400 text-gray-900'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
-                                      {sale?.paid_at !== null ? 'Paid' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not payable yet'}
+                                    <div data-tip={`${sale?.paid_at !== null ? 'Paid at '+sale?.paid_at+'' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not valid to be paid out yet, due '+sale?.commission_due_date+''}`} className={`${sale?.paid_at !== null ? 'bg-secondary-2 text-white' : sale?.commission_description === "Trial" ? 'bg-primary' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-900'} 'bg-gray-400 text-gray-900'} inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5`}>
+                                      {sale?.paid_at !== null ? 'Paid' : sale?.commission_description === "Trial" ? 'Trial' : checkUTCDateExpired(sale?.commission_due_date) === true ? 'Unpaid' : 'Not payable yet'}
                                     </div>
                                   </td>
                                 }

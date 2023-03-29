@@ -278,6 +278,10 @@ export const getSales = async (companyId, date, page) => {
     query.gt('commission_due_date', [((new Date()).toISOString())]).is('paid_at', null)
   }
 
+  if(page === "trial"){
+    query.eq('commission_description', 'Trial')
+  }
+
   const { data, count, error } = await query;
 
   if(error) return "error"; 

@@ -73,6 +73,12 @@ export default function HomePage() {
         .eq('company_id', activeCompany?.company_id)
         .eq('accepted', true)
 
+      let trialsQuery = supabase
+        .from('commissions')
+        .select('campaign_id, created')
+        .eq('company_id', activeCompany?.company_id)
+        .eq('commission_description', 'Trial')
+
       let referralsQuery = supabase
         .from('referrals')
         .select('created, campaign_id, referral_reference_email, referral_converted')
@@ -85,18 +91,21 @@ export default function HomePage() {
 
       if(dateFrom) {
         affiliateQuery.gt('created', [dateFrom])
+        trialsQuery.gt('created', [dateFrom])
         referralsQuery.gt('created', [dateFrom])
         commissionsQuery.gt('created', [dateFrom])
       }
 
       if(dateTo){
         affiliateQuery.lt('created', [dateTo])
+        trialsQuery.lt('created', [dateTo])
         referralsQuery.lt('created', [dateTo])
         commissionsQuery.lt('created', [dateTo])
       }
 
       if(campaignId){
         affiliateQuery.eq('campaign_id', campaignId)
+        trialsQuery.eq('campaign_id', campaignId)
         referralsQuery.eq('campaign_id', campaignId)
         commissionsQuery.eq('campaign_id', campaignId)
       }
@@ -137,7 +146,44 @@ export default function HomePage() {
             }
           });
         }
+      }
 
+      let trialsData = await trialsQuery;
+      let trialsAnalyticsGroup: { date: string; Trials: any; }[] = [];
+      if(trialsData?.data){
+        const groups = trialsData?.data?.reduce((groups, trial) => {
+          let date = new Date(trial?.created).toLocaleDateString("en-US", {month: 'short', day: '2-digit', year: 'numeric'});
+
+          if (!groups[date]) {
+            groups[date] = [];
+          }
+          groups[date].push(trial);
+          return groups;
+        }, {});
+
+        if(daysArray.length > 90){
+          trialsAnalyticsGroup = Object.keys(groups).map((date) => {
+            return {
+              date,
+              Trials: groups[date]?.length
+            };
+          });
+        } else {
+          daysArray.forEach((day) => {
+            let date = new Date(day).toLocaleDateString("en-US", {month: 'short', day: '2-digit', year: 'numeric'});
+            if(groups[date]){
+              trialsAnalyticsGroup.push({
+                date: date,
+                Trials: groups[date]?.length
+              });
+            } else {
+              trialsAnalyticsGroup.push({
+                date: date,
+                Trials: 0
+              });
+            }
+          });
+        }
       }
 
       let referralsData = await referralsQuery;
@@ -228,6 +274,7 @@ export default function HomePage() {
       const analyticsData = {
         data: {
           affiliates: affiliateAnalyticsGroup,
+          trials: trialsAnalyticsGroup,
           referrals: referralsAnalyticsGroup,
           commissions: commissionsAnalyticsGroup,
           campaigns: campaignsData?.data
@@ -300,7 +347,7 @@ export default function HomePage() {
                     }
                   </div>
                   <div className="mb-6">
-                    <ColGrid numColsSm={1} numColsLg={3} gapX="gap-x-6" gapY="gap-y-6">
+                    <ColGrid numColsSm={1} numColsLg={4} gapX="gap-x-6" gapY="gap-y-6">
                       <Card key={"Revenue"} decoration="top" decorationColor={"amber"}>
                         <Flex justifyContent="justify-start" spaceX="space-x-4">
                           <Icon
@@ -312,6 +359,20 @@ export default function HomePage() {
                           <Block truncate={true}>
                             <Text>Revenue</Text>
                             <Metric truncate={true}>{priceString(analytics?.data?.commissions.reduce((acc: number, o: { Revenue: string; }) => acc + (parseInt(o.Revenue)), 0), activeCompany?.company_currency)}</Metric>
+                          </Block>
+                        </Flex>
+                      </Card>
+                      <Card key={"Trials"} decoration="top" decorationColor={"fuchsia"}>
+                        <Flex justifyContent="justify-start" spaceX="space-x-4">
+                          <Icon
+                            icon={CashIcon}
+                            variant="light"
+                            size="xl"
+                            color={"fuchsia"}
+                          />
+                          <Block truncate={true}>
+                            <Text>Trials</Text>
+                            <Metric truncate={true}>{analytics?.data?.trials.reduce((acc: number, o: { Trials: string; }) => acc + parseInt(o.Trials), 0)}</Metric>
                           </Block>
                         </Flex>
                       </Card>
@@ -396,6 +457,20 @@ export default function HomePage() {
                             marginTop="mt-8"
                             data={analytics?.data?.affiliates}
                             categories={ ['Affiliates'] }
+                            dataKey="date"
+                            colors={ ['purple'] }
+                            showYAxis={ false }
+                            showLegend={ false }
+                            height="h-56"
+                        />
+                      </div>
+                      <div className="p-4 border border-gray-300 rounded-lg tr-shadow-sm bg-white">
+                        <Text>Trials</Text>
+                        <Metric>{analytics?.data?.trials.reduce((acc: number, o: { Trials: string; }) => acc + parseInt(o.Trials), 0)}</Metric>
+                        <AreaChart
+                            marginTop="mt-8"
+                            data={analytics?.data?.trials}
+                            categories={ ['Trials'] }
                             dataKey="date"
                             colors={ ['purple'] }
                             showYAxis={ false }
