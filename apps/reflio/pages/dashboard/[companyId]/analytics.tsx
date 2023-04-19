@@ -55,6 +55,7 @@ export default function HomePage() {
 
   const getData = async () => {
     const campaignId = router.query.campaignId ?? null;
+    const affiliateId = router.query.affiliateId ?? null;
     const dateFrom = dateValue[0] ? new Date(dateValue[0]).toISOString() : new Date().toISOString();
     let dateTo = null as any;
     dateTo = dateValue[1] ? new Date(dateValue[1]).setUTCHours(23, 59, 59, 999) : new Date().setUTCHours(23, 59, 59, 999);
@@ -69,7 +70,13 @@ export default function HomePage() {
 
       let affiliateQuery = supabase
         .from('affiliates')
-        .select('campaign_id, created, accepted')
+        .select('campaign_id, affiliate_id, created, accepted')
+        .eq('company_id', activeCompany?.company_id)
+        .eq('accepted', true)
+
+      let allAffiliatesQuery = supabase
+        .from('affiliates')
+        .select('campaign_id, created, affiliate_id, vercel_username, accepted')
         .eq('company_id', activeCompany?.company_id)
         .eq('accepted', true)
 
@@ -110,7 +117,15 @@ export default function HomePage() {
         commissionsQuery.eq('campaign_id', campaignId)
       }
 
+      if(affiliateId){
+        affiliateQuery.eq('affiliate_id', affiliateId)
+        trialsQuery.eq('affiliate_id', affiliateId)
+        referralsQuery.eq('affiliate_id', affiliateId)
+        commissionsQuery.eq('affiliate_id', affiliateId)
+      }
+
       let affiliateData = await affiliateQuery;
+      let allAffiliatesData = await allAffiliatesQuery;
       let affiliateAnalyticsGroup: { date: string; Affiliates: any; }[] = [];
       if(affiliateData?.data){
         const groups = affiliateData?.data?.reduce((groups, affiliate) => {
@@ -274,6 +289,7 @@ export default function HomePage() {
       const analyticsData = {
         data: {
           affiliates: affiliateAnalyticsGroup,
+          allAffiliates: allAffiliatesData?.data,
           trials: trialsAnalyticsGroup,
           referrals: referralsAnalyticsGroup,
           commissions: commissionsAnalyticsGroup,
@@ -315,7 +331,7 @@ export default function HomePage() {
             {
               analytics?.data ?
                 <div>
-                  <div className="mb-6 grid grid-cols-1 space-y-4 md:grid-cols-2 md:items-center md:space-y-0 md:space-x-6">
+                  <div className="mb-6 grid grid-cols-1 space-y-4 md:grid-cols-3 md:items-center md:space-y-0 md:space-x-6">
                     <div>
                       <DateRangePicker
                         value={dateValue}
@@ -326,6 +342,25 @@ export default function HomePage() {
                         maxDate={datePlus1}
                       />
                     </div>
+                    {
+                      analytics?.data?.allAffiliates?.length > 0 &&
+                      <div className="md:flex md:justify-end">
+                        <SelectBox
+                          maxWidth="max-w-sm"
+                          handleSelect={(value) => {value === 1 ? router.push(`/dashboard/${activeCompany?.company_id}/analytics`) : router.push(`/dashboard/${activeCompany?.company_id}/analytics?affiliateId=${value}`)}}
+                          defaultValue={router.query.affiliateId ? router.query.affiliateId : 1}
+                        >
+                          <SelectBoxItem value={1} text="All Affiliates" />
+                          {
+                            analytics?.data?.allAffiliates?.map((affiliate: any) => {
+                              return(
+                                <SelectBoxItem value={affiliate?.affiliate_id} text={affiliate?.vercel_username} />
+                              )
+                            })
+                          }
+                        </SelectBox>
+                      </div>
+                    }
                     {
                       analytics?.data?.campaigns?.length > 0 &&
                       <div className="md:flex md:justify-end">
